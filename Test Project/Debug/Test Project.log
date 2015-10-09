@@ -1,0 +1,40 @@
+﻿Build started 10/9/2015 3:46:01 AM.
+     1>Project "C:\Users\Womb-Raider\Documents\GitHub\2D OpenGL Engine\Test Project\Test Project.vcxproj" on node 2 (Build target(s)).
+     1>ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\CL.exe /c /IC:\SDL\include /IC:\OpenGL\include /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"Debug\\" /Fd"Debug\vc140.pdb" /Gd /TP /analyze- /errorReport:prompt Graphics.cpp
+         Graphics.cpp
+     1>c:\users\womb-raider\documents\github\2d opengl engine\test project\graphics.cpp(29): warning C4018: '<': signed/unsigned mismatch
+     1>c:\users\womb-raider\documents\github\2d opengl engine\test project\graphics.cpp(91): warning C4018: '<': signed/unsigned mismatch
+     1>c:\users\womb-raider\documents\github\2d opengl engine\test project\graphics.cpp(197): warning C4018: '<': signed/unsigned mismatch
+     1>c:\users\womb-raider\documents\github\2d opengl engine\test project\graphics.cpp(250): warning C4018: '<': signed/unsigned mismatch
+     1>c:\users\womb-raider\documents\github\2d opengl engine\test project\graphics.cpp(145): warning C4244: 'argument': conversion from 'const int' to 'GLfloat', possible loss of data
+         c:\users\womb-raider\documents\github\2d opengl engine\test project\graphics.cpp(102): note: see reference to function template instantiation 'void Graphics::DrawSurface<int,int>(const Graphics::GLSurface<int> &,Graphics::Camera<int> &)' being compiled
+     1>c:\users\womb-raider\documents\github\2d opengl engine\test project\graphics.cpp(146): warning C4244: 'argument': conversion from 'int' to 'GLfloat', possible loss of data
+     1>c:\users\womb-raider\documents\github\2d opengl engine\test project\graphics.cpp(147): warning C4244: 'argument': conversion from 'const int' to 'GLfloat', possible loss of data
+     1>c:\users\womb-raider\documents\github\2d opengl engine\test project\graphics.cpp(150): warning C4244: 'argument': conversion from 'int' to 'GLfloat', possible loss of data
+     1>c:\users\womb-raider\documents\github\2d opengl engine\test project\graphics.cpp(161): warning C4244: 'argument': conversion from 'int' to 'GLfloat', possible loss of data
+     1>c:\users\womb-raider\documents\github\2d opengl engine\test project\graphics.cpp(164): warning C4244: 'argument': conversion from 'int' to 'GLfloat', possible loss of data
+     1>c:\users\womb-raider\documents\github\2d opengl engine\test project\graphics.cpp(169): warning C4244: 'argument': conversion from 'int' to 'GLfloat', possible loss of data
+     1>c:\users\womb-raider\documents\github\2d opengl engine\test project\graphics.cpp(172): warning C4244: 'argument': conversion from 'int' to 'GLfloat', possible loss of data
+     1>c:\users\womb-raider\documents\github\2d opengl engine\test project\graphics.cpp(177): warning C4244: 'argument': conversion from 'int' to 'GLfloat', possible loss of data
+     1>c:\users\womb-raider\documents\github\2d opengl engine\test project\graphics.cpp(180): warning C4244: 'argument': conversion from 'int' to 'GLfloat', possible loss of data
+     1>c:\users\womb-raider\documents\github\2d opengl engine\test project\graphics.cpp(185): warning C4244: 'argument': conversion from 'int' to 'GLfloat', possible loss of data
+     1>c:\users\womb-raider\documents\github\2d opengl engine\test project\graphics.cpp(188): warning C4244: 'argument': conversion from 'int' to 'GLfloat', possible loss of data
+     1>c:\users\womb-raider\documents\github\2d opengl engine\test project\graphics.cpp(140): warning C4244: '+=': conversion from 'float' to 'int', possible loss of data
+         c:\users\womb-raider\documents\github\2d opengl engine\test project\graphics.cpp(108): note: see reference to function template instantiation 'void Graphics::DrawSurface<int,float>(const Graphics::GLSurface<int> &,Graphics::Camera<float> &)' being compiled
+     1>c:\users\womb-raider\documents\github\2d opengl engine\test project\graphics.cpp(141): warning C4244: '+=': conversion from 'float' to 'int', possible loss of data
+     1>c:\users\womb-raider\documents\github\2d opengl engine\test project\graphics.cpp(156): warning C4244: 'argument': conversion from 'const float' to 'GLubyte', possible loss of data
+         c:\users\womb-raider\documents\github\2d opengl engine\test project\graphics.cpp(121): note: see reference to function template instantiation 'void Graphics::DrawSurface<float,int>(const Graphics::GLSurface<float> &,Graphics::Camera<int> &)' being compiled
+     1>c:\users\womb-raider\documents\github\2d opengl engine\test project\system.h(65): warning C4172: returning address of local variable or temporary: PointC
+     1>c:\users\womb-raider\documents\github\2d opengl engine\test project\system.h(65): warning C4172: returning address of local variable or temporary: PointC
+       Link:
+         C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\Womb-Raider\Documents\GitHub\2D OpenGL Engine\Debug\Test Project.exe" /INCREMENTAL /NOLOGO /LIBPATH:C:\SDL\lib /LIBPATH:C:\OpenGL\lib SDL2.lib SDL2main.lib SDL2_image.lib SDL2_mixer.lib SDL2_ttf.lib glew32.lib glew32s.lib freeglut.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /Debug /PDB:"C:\Users\Womb-Raider\Documents\GitHub\2D OpenGL Engine\Debug\Test Project.pdb" /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\Womb-Raider\Documents\GitHub\2D OpenGL Engine\Debug\Test Project.lib" /MACHINE:X86 Debug\Graphics.obj
+         Debug\Window.obj
+         Debug\Source.obj
+         Debug\System.obj
+         Test Project.vcxproj -> C:\Users\Womb-Raider\Documents\GitHub\2D OpenGL Engine\Debug\Test Project.exe
+     1>Done Building Project "C:\Users\Womb-Raider\Documents\GitHub\2D OpenGL Engine\Test Project\Test Project.vcxproj" (Build target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:00.78
