@@ -13,16 +13,16 @@ namespace Graphics
 		System::Point2D<T>		  m_WorldPos;
 		const System::Point2D<T>* m_RelativePos;
 
-		System::Dimensions<T> m_Dimensions;
+		System::Size2D<T> m_Dimensions;
 
 		bool m_bIsScrolling;
 
-		System::Velocity<T> m_Velocity;
+		System::AngularVel<T> m_Velocity;
 
 		unsigned int m_uiWindowIndex;
 
 	public:
-		void Resize(const System::Dimensions<T>&  ac_NewDimensions);
+		void Resize(const System::Size2D<T>&  ac_NewDimensions);
 		void RePosition(const System::Point2D<T>& ac_ScreenPos);
 		void ReBind(const System::Point2D<T>& ac_NewRelativePos);
 
@@ -30,22 +30,22 @@ namespace Graphics
 
 		const System::Point2D<T>& GetScreenPos();
 		const System::Point2D<T>& GetWorldPos();
-		const System::Dimensions<T>& GetDimensions();
+		const System::Size2D<T>& GetDimensions();
 
 		Camera(
 			const System::Point2D<T>&	 ac_ScreenPos,
 			const System::Point2D<T>&	 ac_WorldPos,
 			const System::Point2D<T>&	 ac_RelativePos,
-			const System::Dimensions<T>& ac_Dimension,
+			const System::Size2D<T>&	 ac_Dimension,
 			const bool					 ac_bIsScrolling,
-			const System::Velocity<T>&	 ac_Velocity,
+			const System::AngularVel<T>& ac_Velocity,
 			const unsigned int			 ac_uiWindowIndex);
 		Camera() = delete;
 		~Camera();
 	};
 
 	template <typename T>
-	void Camera<T>::Resize(const System::Dimensions<T>& ac_NewDimensions)
+	void Camera<T>::Resize(const System::Size2D<T>& ac_NewDimensions)
 	{
 		m_fDimensions = ac_fNewDimensions;
 	}
@@ -64,7 +64,8 @@ namespace Graphics
 	void Camera<T>::Update()
 	{
 		if (m_bIsScrolling)
-			m_fWorldPos += m_fVelocity;
+			m_WorldPos.X += 0.01;
+			//m_WorldPos += m_Velocity;
 	}
 
 	template <typename T>
@@ -78,7 +79,7 @@ namespace Graphics
 		return m_WorldPos + *m_RelativePos;
 	}
 	template <typename T>
-	const System::Dimensions<T>& Camera<T>::GetDimensions()
+	const System::Size2D<T>& Camera<T>::GetDimensions()
 	{
 		return m_Dimensions;
 	}
@@ -89,9 +90,9 @@ namespace Graphics
 		const System::Point2D<T>&	 ac_ScreenPos,
 		const System::Point2D<T>&	 ac_WorldPos,
 		const System::Point2D<T>&	 ac_RelativePos,
-		const System::Dimensions<T>& ac_Dimension,
+		const System::Size2D<T>&	 ac_Dimension,
 		const bool					 ac_bIsScrolling,
-		const System::Velocity<T>&	 ac_Velocity,
+		const System::AngularVel<T>& ac_Velocity,
 		const unsigned int			 ac_uiWindowIndex)
 	{
 		m_ScreenPos =	 ac_ScreenPos;

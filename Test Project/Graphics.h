@@ -30,16 +30,16 @@ namespace Graphics
 		System::Point2D<T> OffsetP;
 		System::Point2D<T> Center;
 
-		System::Dimensions<T> Dimensions;
-		System::Dimensions<T> OffsetD;
-		System::Dimensions<T> Scale;
+		System::Size2D<T> Dimensions;
+		System::Size2D<T> OffsetD;
+		System::Size2D<T> Scale;
 		T Rotation;
 
 		System::Color<T> Color;
 
 		LayerType Layer;
 
-		unsigned int uiCameraIndex;
+		std::vector<unsigned int> uiCameraIndex;
 
 		bool bIsActive;
 	};
@@ -67,9 +67,9 @@ namespace Graphics
 	bool Init();
 
 	void NewWindow(
-		const System::Dimensions<unsigned int> &ac_iResolution,		// The window's internal resolution
+		const System::Size2D<unsigned int> &ac_iResolution,		// The window's internal resolution
 		const bool ac_bFullscreen,									// Whether or not the window should be full screen on creation
-		const System::Dimensions<unsigned int> &ac_iDimensions,		// The window's width and height
+		const System::Size2D<unsigned int> &ac_iDimensions,		// The window's width and height
 		const char *ac_szTitle,										// The window's title
 		const unsigned int ac_uiMonitorIndex);						// Which monitor the window should be created on
 
@@ -77,26 +77,29 @@ namespace Graphics
 		const System::Point2D<int>&	   ac_iScreenPos,
 		const System::Point2D<int>&	   ac_iWorldPos,
 		const System::Point2D<int>&	   ac_iRelativePos,
-		const System::Dimensions<int>& ac_iDimensions,
+		const System::Size2D<int>&	   ac_iDimensions,
 		const bool					   ac_bIsScrolling,
-		const System::Velocity<int>&   ac_iVelocity,
+		const System::AngularVel<int>& ac_iVelocity,
 		const unsigned int			   ac_uiWindowIndex);
 	void NewCamera(
 		const System::Point2D<float>&	 ac_fScreenPos,
 		const System::Point2D<float>&	 ac_fWorldPos,
 		const System::Point2D<float>&	 ac_fRelativePos,
-		const System::Dimensions<float>& ac_fDimensions,
+		const System::Size2D<float>&	 ac_fDimensions,
 		const bool						 ac_bIsScrolling,
-		const System::Velocity<float>&	 ac_fVelocity,
+		const System::AngularVel<float>& ac_fVelocity,
 		const unsigned int				 ac_uiWindowIndex);
 
-	void Draw(); // Draws all surfaces currently in the 'vglSurfaces' vector
+	void UpdateCameras();
+
+	// - Draws all surfaces currently in the 'vglSurfaces' vector
+	void Draw(); 
 	template <typename T, typename U>
 	void DrawSurface(const GLSurface<T>& ac_glSurface, Camera<U>& a_Camera);
 
 	void ReOrder();
 	template <typename T, typename U>
-	void IsInCamera(const GLSurface<T>& ac_glSurface, const Camera<U>& ac_Camera);
+	void IsInCamera(GLSurface<T>& a_glSurface, Camera<U>& a_Camera, const unsigned int ac_uiCameraIndex);
 
 	template <typename T>
 	GLSurface<T>* LoadSurface(const char* ac_szFilename);
@@ -104,6 +107,11 @@ namespace Graphics
 	GLSurface<T>* LoadSurface(SDL_Surface& a_sdlSurface);
 	void PushSurface(GLSurface<int>* a_glSurface);
 	void PushSurface(GLSurface<float>* a_glSurface);
+
+	void Draw_Rect(
+		const float ac_fPosX, const float ac_fPosY,
+		const float ac_fWidth, const float ac_fHeight,
+		const int ac_iRed, const int ac_iGreen, const int ac_iBlue);
 
 	void Flip(); // Clears the buffer of all windows to allow all the new information to be displayed
 
@@ -160,8 +168,6 @@ namespace Graphics
 		glSurface->Color = { 255, 255, 255, 255 };		
 
 		glSurface->Layer = LayerType::BACKGROUND;
-
-		glSurface->uiCameraIndex = NULL;
 
 		glSurface->bIsActive = true;
 

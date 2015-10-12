@@ -3,7 +3,7 @@
 
 namespace System
 {
-	enum Direction
+	enum AngularDir
 	{
 		UP = 270,
 		DOWN = 90,
@@ -22,12 +22,12 @@ namespace System
 		T X, Y;
 	};
 	template <typename T>
-	struct Dimensions
+	struct Size2D
 	{
 		T W, H;
 	};
 	template <typename T>
-	struct Velocity
+	struct AngularVel
 	{
 		T Speed;
 		T Angle;
@@ -41,7 +41,7 @@ namespace System
 	template <typename T, typename U>
 	const Point2D<T>& operator+(const Point2D<T>& ac_PointA, const Point2D<U>& ac_PointB);
 	template <typename T, typename U>
-	const Point2D<T>& operator+(const Point2D<T>& ac_PointA, const Dimensions<U>& ac_Dimension);
+	const Point2D<T>& operator+(const Point2D<T>& ac_PointA, const Size2D<U>& ac_Dimension);
 
 	template <typename T, typename U>
 	const Point2D<T>& operator-(const Point2D<T>& ac_PointA, const Point2D<U>& ac_PointB);
@@ -49,7 +49,7 @@ namespace System
 	template <typename T, typename U>
 	const Point2D<T>& operator/(const Point2D<T>& ac_PointA, const Point2D<U>& ac_PointB);
 	template <typename T, typename U>
-	const Dimensions<T>& operator/(const Dimensions<T>& ac_Dimension, const int& ac_iNum);
+	const Size2D<T>& operator/(const Size2D<T>& ac_Dimension, const int& ac_iNum);
 	template <typename T>
 	const Point2D<T>& operator/(const Point2D<T>& ac_PointA, const int& ac_iNum);
 
@@ -65,7 +65,7 @@ namespace System
 		return PointC;
 	}
 	template <typename T, typename U>
-	const Point2D<T>& operator+(const Point2D<T>& ac_PointA, const Dimensions<U>& ac_Dimension)
+	const Point2D<T>& operator+(const Point2D<T>& ac_PointA, const Size2D<U>& ac_Dimension)
 	{
 		const Point2D<T> PointC = { ac_PointA.X + ac_Dimension.W, ac_PointA.Y + ac_Dimension.H };
 
@@ -88,7 +88,7 @@ namespace System
 		return PointC;
 	}	
 	template <typename T, typename U>
-	const Dimensions<T>& operator/(const Dimensions<T>& ac_Dimension, const int& ac_iNum)
+	const Size2D<T>& operator/(const Size2D<T>& ac_Dimension, const int& ac_iNum)
 	{
 		const Point2D<T> PointC = { ac_Dimension.W / ac_iNum, ac_Dimension.H / ac_iNum };
 

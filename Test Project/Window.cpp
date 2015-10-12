@@ -4,7 +4,7 @@
 
 namespace Graphics
 {
-	void Window::SetResolution(const System::Dimensions<unsigned int>& ac_uiNewResolution)
+	void Window::SetResolution(const System::Size2D<unsigned int>& ac_uiNewResolution)
 	{
 		m_uiResolution = ac_uiNewResolution;
 
@@ -17,7 +17,7 @@ namespace Graphics
 		m_uiViewOffset.X = (m_uiDimensions.W / 2) - (m_uiViewport.W / 2);
 		m_uiViewOffset.Y = 0;
 
-		glViewport(m_uiViewOffset.X, m_uiViewOffset.Y, m_uiViewport.W, m_uiViewport.H);
+		glViewport(m_uiViewOffset.X, m_uiViewOffset.Y, m_uiViewport.W - 100, m_uiViewport.H);
 		glMatrixMode(GL_PROJECTION);
 		glPushMatrix();
 		glLoadIdentity();
@@ -28,7 +28,7 @@ namespace Graphics
 		glLoadIdentity();
 	}
 
-	void Window::Resize(const System::Dimensions<unsigned int>& ac_uiNewDimensions, const unsigned int ac_uiNewMonitorIndex)
+	void Window::Resize(const System::Size2D<unsigned int>& ac_uiNewDimensions, const unsigned int ac_uiNewMonitorIndex)
 	{
 		m_uiMonitorIndex = ac_uiNewMonitorIndex;
 
@@ -40,7 +40,7 @@ namespace Graphics
 
 		SetResolution(m_uiResolution);
 	}
-	void Window::Rename(const char * ac_szNewTitle)
+	void Window::Rename(const char* ac_szNewTitle)
 	{
 		m_sTitle = ac_szNewTitle;
 		SDL_SetWindowTitle(m_sdlWindow, m_sTitle.c_str());
@@ -59,12 +59,12 @@ namespace Graphics
 	}
 
 	Window::Window(
-		const System::Dimensions<unsigned int>& ac_uiResolution,
-		const bool								ac_bFullscreen,
-		const System::Dimensions<unsigned int>& ac_uiDimensions,
-		const char*								ac_szTitle,
-		const unsigned int						ac_uiMonitorIndex,
-		const std::vector<SDL_DisplayMode>&		ac_sdlDisplayMode) : m_sdlDisplayMode(ac_sdlDisplayMode)
+		const System::Size2D<unsigned int>& ac_uiResolution,
+		const bool							ac_bFullscreen,
+		const System::Size2D<unsigned int>& ac_uiDimensions,
+		const char*							ac_szTitle,
+		const unsigned int					ac_uiMonitorIndex,
+		const std::vector<SDL_DisplayMode>&	ac_sdlDisplayMode) : m_sdlDisplayMode(ac_sdlDisplayMode)
 	{
 		m_uiMonitorIndex = ac_uiMonitorIndex;
 

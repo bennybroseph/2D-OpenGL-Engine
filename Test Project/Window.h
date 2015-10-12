@@ -17,11 +17,11 @@ namespace Graphics
 
 		const std::vector<SDL_DisplayMode>& m_sdlDisplayMode;
 
-		System::Dimensions<unsigned int> m_uiDimensions;
-		System::Dimensions<unsigned int> m_uiResolution;
+		System::Size2D<unsigned int> m_uiDimensions;
+		System::Size2D<unsigned int> m_uiResolution;
 
-		System::Dimensions<unsigned int> m_uiViewport;
-		System::Point2D<unsigned int>	 m_uiViewOffset;
+		System::Size2D<unsigned int>  m_uiViewport;
+		System::Point2D<unsigned int> m_uiViewOffset;
 
 		std::string m_sTitle;
 
@@ -30,9 +30,9 @@ namespace Graphics
 		unsigned int m_uiMonitorIndex;
 
 	public:
-		void SetResolution(const System::Dimensions<unsigned int> &ac_uiNewResolution);
+		void SetResolution(const System::Size2D<unsigned int> &ac_uiNewResolution);
 
-		void Resize(const System::Dimensions<unsigned int> &ac_uiNewDimensions, const unsigned int ac_uiMonitorIndex);
+		void Resize(const System::Size2D<unsigned int> &ac_uiNewDimensions, const unsigned int ac_uiMonitorIndex);
 		void Rename(const char *ac_szNewTitle);
 
 		void ToggleFullscreen();
@@ -41,12 +41,12 @@ namespace Graphics
 
 		// This is the only usable constructor
 		Window(
-			const System::Dimensions<unsigned int>& ac_iResolution,		// The window's internal resolution
-			const bool								ac_bFullscreen,		// Whether or not the window should be full screen on creation
-			const System::Dimensions<unsigned int>& ac_iDimensions,		// The window's width and height
-			const char*								ac_szTitle,			// The window's title
-			const unsigned int						ac_uiMonitorIndex,	// Which monitor the window should be created on
-			const std::vector<SDL_DisplayMode>&		ac_sdlDisplayMode); // A reference to all the current displays dimensions and specifications
+			const System::Size2D<unsigned int>& ac_iResolution,		// The window's internal resolution
+			const bool							ac_bFullscreen,		// Whether or not the window should be full screen on creation
+			const System::Size2D<unsigned int>& ac_iDimensions,		// The window's width and height
+			const char*							ac_szTitle,			// The window's title
+			const unsigned int					ac_uiMonitorIndex,	// Which monitor the window should be created on
+			const std::vector<SDL_DisplayMode>&	ac_sdlDisplayMode); // A reference to all the current displays dimensions and specifications
 		// The default constructor does not exist on purpose
 		Window() = delete; // Make sure the default constructor cannot be called
 		~Window();

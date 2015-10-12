@@ -14,7 +14,7 @@ namespace Graphics
 
 	bool Init()
 	{
-		if (SDL_Init(SDL_INIT_EVERYTHING) < 0)
+		if (SDL_Init(SDL_INIT_VIDEO) < 0)
 		{
 			printf("SDL_Error: %s\n", SDL_GetError());
 			return 1;
@@ -38,11 +38,11 @@ namespace Graphics
 	}
 
 	void NewWindow(
-		const System::Dimensions<unsigned int>& ac_iResolution,
-		const bool								ac_bFullscreen,
-		const System::Dimensions<unsigned int>& ac_iDimensions,
-		const char*								ac_szTitle,
-		const unsigned int						ac_uiMonitorIndex)
+		const System::Size2D<unsigned int>& ac_iResolution,
+		const bool							ac_bFullscreen,
+		const System::Size2D<unsigned int>& ac_iDimensions,
+		const char*							ac_szTitle,
+		const unsigned int					ac_uiMonitorIndex)
 	{
 		voWindows.push_back(new Window(
 			ac_iResolution,
@@ -57,9 +57,9 @@ namespace Graphics
 		const System::Point2D<int>&	   ac_iScreenPos,
 		const System::Point2D<int>&	   ac_iWorldPos,
 		const System::Point2D<int>&	   ac_iRelativePos,
-		const System::Dimensions<int>& ac_iDimensions,
+		const System::Size2D<int>&	   ac_iDimensions,
 		const bool					   ac_bIsScrolling,
-		const System::Velocity<int>&   ac_iVelocity,
+		const System::AngularVel<int>& ac_iVelocity,
 		const unsigned int			   ac_uiWindowIndex)
 	{
 		CameraUnion* newCamera = new CameraUnion;
@@ -72,9 +72,9 @@ namespace Graphics
 		const System::Point2D<float>&	 ac_fScreenPos,
 		const System::Point2D<float>&	 ac_fWorldPos,
 		const System::Point2D<float>&	 ac_fRelativePos,
-		const System::Dimensions<float>& ac_fDimensions,
+		const System::Size2D<float>&	 ac_fDimensions,
 		const bool						 ac_bIsScrolling,
-		const System::Velocity<float>&	 ac_fVelocity,
+		const System::AngularVel<float>& ac_fVelocity,
 		const unsigned int				 ac_uiWindowIndex)
 	{
 		CameraUnion* newCamera = new CameraUnion;
@@ -82,6 +82,18 @@ namespace Graphics
 		newCamera->Tag = CameraUnion::FLOAT;
 		newCamera->fCamera = new Camera<float>(ac_fScreenPos, ac_fWorldPos, ac_fRelativePos, ac_fDimensions, ac_bIsScrolling, ac_fVelocity, ac_uiWindowIndex);
 		voCameras.push_back(newCamera);
+	}
+
+	void UpdateCameras()
+	{
+		for (int i = 0; i < voCameras.size(); ++i)
+		{
+			switch (voCameras[i]->Tag)
+			{
+			case CameraUnion::INT:	 voCameras[i]->iCamera->Update();
+			case CameraUnion::FLOAT: voCameras[i]->fCamera->Update();
+			}
+		}
 	}
 
 	void Draw()
@@ -94,39 +106,50 @@ namespace Graphics
 			{
 			case SurfaceUnion::INT:
 			{
-				switch (voCameras[vglSurfaces[i]->iGLSurface->uiCameraIndex]->Tag)
+				for (int j = 0; j < vglSurfaces[i]->iGLSurface->uiCameraIndex.size(); ++j)
 				{
-				case CameraUnion::INT:
-				{
-					if (vglSurfaces[i]->iGLSurface->bIsActive)
-						DrawSurface(*vglSurfaces[i]->iGLSurface, *voCameras[vglSurfaces[i]->iGLSurface->uiCameraIndex]->iCamera);
-					break;
-				}
-				case CameraUnion::FLOAT:
-				{
-					if (vglSurfaces[i]->iGLSurface->bIsActive)
-						DrawSurface(*vglSurfaces[i]->iGLSurface, *voCameras[vglSurfaces[i]->iGLSurface->uiCameraIndex]->fCamera);
-					break;
-				}
+					switch (voCameras[vglSurfaces[i]->iGLSurface->uiCameraIndex[j]]->Tag)
+					{
+					case CameraUnion::INT:
+					{
+						Draw_Rect(voCameras[j]->iCamera->GetScreenPos().X, voCameras[j]->iCamera->GetScreenPos().Y, 5, voCameras[j]->iCamera->GetDimensions().H, 255, 255, 255);
+						Draw_Rect(voCameras[j]->iCamera->GetScreenPos().X, voCameras[j]->iCamera->GetScreenPos().Y, voCameras[j]->iCamera->GetDimensions().W, 5, 255, 255, 255);
+
+						Draw_Rect(voCameras[j]->iCamera->GetScreenPos().X + voCameras[j]->iCamera->GetDimensions().W, voCameras[j]->iCamera->GetScreenPos().Y, 5, voCameras[j]->iCamera->GetDimensions().H, 255, 255, 255);
+						Draw_Rect(voCameras[j]->iCamera->GetScreenPos().X, voCameras[j]->iCamera->GetScreenPos().Y + voCameras[j]->iCamera->GetDimensions().H, voCameras[j]->iCamera->GetDimensions().W, 5, 255, 255, 255);
+						if (vglSurfaces[i]->iGLSurface->bIsActive)
+							DrawSurface(*vglSurfaces[i]->iGLSurface, *voCameras[vglSurfaces[i]->iGLSurface->uiCameraIndex[j]]->iCamera);
+						break;
+					}
+					case CameraUnion::FLOAT:
+					{
+						if (vglSurfaces[i]->iGLSurface->bIsActive)
+							DrawSurface(*vglSurfaces[i]->iGLSurface, *voCameras[vglSurfaces[i]->iGLSurface->uiCameraIndex[j]]->fCamera);
+						break;
+					}
+					}
 				}
 				break;
 			}
 			case SurfaceUnion::FLOAT:
 			{
-				switch (voCameras[vglSurfaces[i]->fGLSurface->uiCameraIndex]->Tag)
+				for (int j = 0; j < vglSurfaces[i]->fGLSurface->uiCameraIndex.size(); ++j)
 				{
-				case CameraUnion::INT:
-				{
-					if (vglSurfaces[i]->fGLSurface->bIsActive)
-						DrawSurface(*vglSurfaces[i]->fGLSurface, *voCameras[vglSurfaces[i]->fGLSurface->uiCameraIndex]->iCamera);
-					break;
-				}
-				case CameraUnion::FLOAT:
-				{
-					if (vglSurfaces[i]->fGLSurface->bIsActive)
-						DrawSurface(*vglSurfaces[i]->fGLSurface, *voCameras[vglSurfaces[i]->fGLSurface->uiCameraIndex]->fCamera);
-					break;
-				}
+					switch (voCameras[vglSurfaces[i]->fGLSurface->uiCameraIndex[j]]->Tag)
+					{
+					case CameraUnion::INT:
+					{
+						if (vglSurfaces[i]->fGLSurface->bIsActive)
+							DrawSurface(*vglSurfaces[i]->fGLSurface, *voCameras[vglSurfaces[i]->fGLSurface->uiCameraIndex[j]]->iCamera);
+						break;
+					}
+					case CameraUnion::FLOAT:
+					{
+						if (vglSurfaces[i]->fGLSurface->bIsActive)
+							DrawSurface(*vglSurfaces[i]->fGLSurface, *voCameras[vglSurfaces[i]->fGLSurface->uiCameraIndex[j]]->fCamera);
+						break;
+					}
+					}
 				}
 				break;
 			}
@@ -136,18 +159,19 @@ namespace Graphics
 	template <typename T, typename U>
 	void DrawSurface(const GLSurface<T>& ac_glSurface, Camera<U>& a_Camera)
 	{
-		System::Point2D<T> Pos = ac_glSurface.Pos;// +a_Camera.GetScreenPos() - (a_Camera.GetWorldPos() - (a_Camera.GetDimensions() / 2));
+		System::Point2D<T> Pos = ac_glSurface.Pos;
 		Pos.X += a_Camera.GetScreenPos().X - (a_Camera.GetWorldPos().X - a_Camera.GetDimensions().W / 2);
 		Pos.Y += a_Camera.GetScreenPos().Y - (a_Camera.GetWorldPos().Y - a_Camera.GetDimensions().H / 2);
 
 		glPushMatrix(); // Save the current matrix.
 
-		glScalef(ac_glSurface.Scale.W, ac_glSurface.Scale.H, 0.0f);
+		
 		glTranslatef(Pos.X, Pos.Y, 0.0f);
-		glRotatef(ac_glSurface.Rotation, 0.0f, 0.0f, 1.0f);
+		glScalef(ac_glSurface.Scale.W, ac_glSurface.Scale.H, 0.0f);
+		glRotatef(ac_glSurface.Rotation, 0.0f, 0.0f, 1.0f);		
 		glTranslatef(
 			-Pos.X - (ac_glSurface.Center.X - ac_glSurface.OffsetD.W / 2),
-			-Pos.Y - (ac_glSurface.Center.Y - ac_glSurface.OffsetD.H / 2), 0.0f);
+			-Pos.Y - (ac_glSurface.Center.Y - ac_glSurface.OffsetD.H / 2), 0.0f);		
 
 		glBindTexture(GL_TEXTURE_2D, ac_glSurface.Surface);
 
@@ -200,19 +224,27 @@ namespace Graphics
 			{
 			case SurfaceUnion::INT:
 			{
-				switch (voCameras[vglSurfaces[i]->iGLSurface->uiCameraIndex]->Tag)
+				vglSurfaces[i]->iGLSurface->uiCameraIndex.clear();
+				for (int j = 0; j < voCameras.size(); ++j)
 				{
-				case CameraUnion::INT:   IsInCamera(*vglSurfaces[i]->iGLSurface, *voCameras[vglSurfaces[i]->iGLSurface->uiCameraIndex]->iCamera); break;
-				case CameraUnion::FLOAT: IsInCamera(*vglSurfaces[i]->iGLSurface, *voCameras[vglSurfaces[i]->iGLSurface->uiCameraIndex]->fCamera); break;
+					switch (voCameras[j]->Tag)
+					{
+					case CameraUnion::INT:   IsInCamera(*vglSurfaces[i]->iGLSurface, *voCameras[j]->iCamera, j); break;
+					case CameraUnion::FLOAT: IsInCamera(*vglSurfaces[i]->iGLSurface, *voCameras[j]->fCamera, j); break;
+					}
 				}
 				break;
 			}
 			case SurfaceUnion::FLOAT:
 			{
-				switch (voCameras[vglSurfaces[i]->fGLSurface->uiCameraIndex]->Tag)
+				vglSurfaces[i]->fGLSurface->uiCameraIndex.clear();
+				for (int j = 0; j < voCameras.size(); ++j)
 				{
-				case CameraUnion::INT:   IsInCamera(*vglSurfaces[i]->fGLSurface, *voCameras[vglSurfaces[i]->fGLSurface->uiCameraIndex]->iCamera); break;
-				case CameraUnion::FLOAT: IsInCamera(*vglSurfaces[i]->fGLSurface, *voCameras[vglSurfaces[i]->fGLSurface->uiCameraIndex]->fCamera); break;
+					switch (voCameras[j]->Tag)
+					{
+					case CameraUnion::INT:   IsInCamera(*vglSurfaces[i]->fGLSurface, *voCameras[j]->iCamera, j); break;
+					case CameraUnion::FLOAT: IsInCamera(*vglSurfaces[i]->fGLSurface, *voCameras[j]->fCamera, j); break;
+					}
 				}
 				break;
 			}
@@ -220,11 +252,31 @@ namespace Graphics
 		}
 	}
 	template <typename T, typename U>
-	void IsInCamera(const GLSurface<T>& ac_glSurface, const Camera<U>& ac_Camera)
+	void IsInCamera(GLSurface<T>& a_glSurface, Camera<U>& a_Camera, const unsigned int ac_uiCameraIndex)
 	{
-		/*if ((ac_glSurface.Pos.X - ac_glSurface.OffsetD.W / 2 <= ac_Camera.m_WorldPos->X - ac_Camera.m_Dimensions.W) &&
-			(ac_glSurface.Pos.X - ac_glSurface.))*/
+		a_glSurface.uiCameraIndex.push_back(ac_uiCameraIndex);
+		/*if (
+			(a_glSurface.Pos.X - a_glSurface.OffsetD.W / 2 <= a_Camera.GetWorldPos().X - a_Camera.GetDimensions().W / 2) &&
+			(a_glSurface.Pos.X + a_glSurface.OffsetD.W / 2 >= a_Camera.GetWorldPos().X + a_Camera.GetDimensions().W / 2) &&
+			(a_glSurface.Pos.Y - a_glSurface.OffsetD.H / 2 <= a_Camera.GetWorldPos().Y - a_Camera.GetDimensions().H / 2) &&
+			(a_glSurface.Pos.Y + a_glSurface.OffsetD.H / 2 >= a_Camera.GetWorldPos().Y + a_Camera.GetDimensions().H / 2))
+			a_glSurface.uiCameraIndex.push_back(ac_uiCameraIndex);
 
+		else if (
+			(a_glSurface.Pos.X + a_glSurface.OffsetD.W / 2 >= a_Camera.GetWorldPos().X - a_Camera.GetDimensions().W / 2) &&
+			(a_glSurface.Pos.X + a_glSurface.OffsetD.W / 2 <= a_Camera.GetWorldPos().X + a_Camera.GetDimensions().W / 2) &&
+			(a_glSurface.Pos.Y + a_glSurface.OffsetD.H / 2 >= a_Camera.GetWorldPos().Y - a_Camera.GetDimensions().H / 2) &&
+			(a_glSurface.Pos.Y + a_glSurface.OffsetD.H / 2 <= a_Camera.GetWorldPos().Y + a_Camera.GetDimensions().H / 2))
+			a_glSurface.uiCameraIndex.push_back(ac_uiCameraIndex);
+
+		else if (
+			(a_glSurface.Pos.X - a_glSurface.OffsetD.W / 2 >= a_Camera.GetWorldPos().X - a_Camera.GetDimensions().W / 2) &&
+			(a_glSurface.Pos.X - a_glSurface.OffsetD.W / 2 <= a_Camera.GetWorldPos().X + a_Camera.GetDimensions().W / 2) &&
+			(a_glSurface.Pos.Y - a_glSurface.OffsetD.H / 2 >= a_Camera.GetWorldPos().Y - a_Camera.GetDimensions().H / 2) &&
+			(a_glSurface.Pos.Y - a_glSurface.OffsetD.H / 2 <= a_Camera.GetWorldPos().Y + a_Camera.GetDimensions().H / 2))
+			a_glSurface.uiCameraIndex.push_back(ac_uiCameraIndex);
+
+		if (a_glSurface.Pos.Y - a_glSurface.OffsetD.W / 2 >= a_Camera.GetWorldPos().Y - a_Camera.GetDimensions().W / 2)*/
 	}
 
 	void PushSurface(GLSurface<int>* a_glSurface)
@@ -245,6 +297,31 @@ namespace Graphics
 
 		vglSurfaces.push_back(newSurface);
 	}
+
+	void Draw_Rect(
+		const float ac_fPosX, const float ac_fPosY,
+		const float ac_fWidth, const float ac_fHeight,
+		const int ac_iRed, const int ac_iGreen, const int ac_iBlue)
+	{
+		glBindTexture(GL_TEXTURE_2D, NULL);// boundTexture = NULL; }
+
+		glBegin(GL_QUADS);
+		glColor3ub(ac_iRed, ac_iGreen, ac_iBlue);
+		//Bottom-left vertex (corner)
+		glVertex3f(ac_fPosX, ac_fPosY, 0.0f); //Vertex Coords
+
+											  //Bottom-right vertex (corner)
+		glVertex3f(ac_fPosX + ac_fWidth, ac_fPosY, 0.f);
+
+		//Top-right vertex (corner)
+		glVertex3f(ac_fPosX + ac_fWidth, ac_fPosY + ac_fHeight, 0.f);
+
+		//Top-left vertex (corner)
+		glVertex3f(ac_fPosX, ac_fPosY + ac_fHeight, 0.f);
+
+		glEnd();
+	}
+
 	void Flip()
 	{
 		for (int i = 0; i < voWindows.size(); ++i)
