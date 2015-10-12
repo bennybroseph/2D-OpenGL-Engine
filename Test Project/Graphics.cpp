@@ -5,6 +5,7 @@
 namespace Graphics
 {
 	std::vector<SDL_DisplayMode> sdlDisplayMode;
+	SDL_GLContext glContext = nullptr;
 	unsigned int uiNumDisplays;
 
 	std::vector<Window*>		voWindows;
@@ -51,6 +52,17 @@ namespace Graphics
 			ac_szTitle,
 			ac_uiMonitorIndex,
 			sdlDisplayMode));
+
+		if (glContext == nullptr)
+		{
+			glContext = SDL_GL_CreateContext(voWindows[0]->GetWindow());
+			
+			glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+			
+			glEnable(GL_TEXTURE_2D);
+			glEnable(GL_BLEND);
+			glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+		}
 	}
 
 	void NewCamera(
@@ -60,12 +72,15 @@ namespace Graphics
 		const System::Size2D<int>&	   ac_iDimensions,
 		const bool					   ac_bIsScrolling,
 		const System::AngularVel<int>& ac_iVelocity,
-		const unsigned int			   ac_uiWindowIndex)
+		const unsigned int			   ac_uiWindowIndex,
+		const unsigned int			   ac_uiWorldSpace)
 	{
 		CameraUnion* newCamera = new CameraUnion;
 
+		System::Point2D<int> ScreenOffset = { ac_iScreenPos.X * (int(voWindows[ac_uiWindowIndex]->GetDimensions().W) / 2),  abs(ac_iScreenPos.Y - 1) * (int(voWindows[ac_uiWindowIndex]->GetDimensions().H) / 2) };
+
 		newCamera->Tag = CameraUnion::INT;
-		newCamera->iCamera = new Camera<int>(ac_iScreenPos, ac_iWorldPos, ac_iRelativePos, ac_iDimensions, ac_bIsScrolling, ac_iVelocity, ac_uiWindowIndex);
+		newCamera->iCamera = new Camera<int>(ScreenOffset, ac_iWorldPos, ac_iRelativePos, ac_iDimensions, ac_bIsScrolling, ac_iVelocity, ac_uiWindowIndex, ac_uiWorldSpace);
 		voCameras.push_back(newCamera);
 	}
 	void NewCamera(
@@ -75,12 +90,15 @@ namespace Graphics
 		const System::Size2D<float>&	 ac_fDimensions,
 		const bool						 ac_bIsScrolling,
 		const System::AngularVel<float>& ac_fVelocity,
-		const unsigned int				 ac_uiWindowIndex)
+		const unsigned int				 ac_uiWindowIndex,
+		const unsigned int			     ac_uiWorldSpace)
 	{
 		CameraUnion* newCamera = new CameraUnion;
 
+		System::Point2D<float> ScreenOffset = { ac_fScreenPos.X * (float(voWindows[ac_uiWindowIndex]->GetDimensions().W) / 2),  abs(ac_fScreenPos.Y - 1) * (float(voWindows[ac_uiWindowIndex]->GetDimensions().H) / 2) };
+
 		newCamera->Tag = CameraUnion::FLOAT;
-		newCamera->fCamera = new Camera<float>(ac_fScreenPos, ac_fWorldPos, ac_fRelativePos, ac_fDimensions, ac_bIsScrolling, ac_fVelocity, ac_uiWindowIndex);
+		newCamera->fCamera = new Camera<float>(ScreenOffset, ac_fWorldPos, ac_fRelativePos, ac_fDimensions, ac_bIsScrolling, ac_fVelocity, ac_uiWindowIndex, ac_uiWorldSpace);
 		voCameras.push_back(newCamera);
 	}
 
@@ -112,11 +130,6 @@ namespace Graphics
 					{
 					case CameraUnion::INT:
 					{
-						Draw_Rect(voCameras[j]->iCamera->GetScreenPos().X, voCameras[j]->iCamera->GetScreenPos().Y, 5, voCameras[j]->iCamera->GetDimensions().H, 255, 255, 255);
-						Draw_Rect(voCameras[j]->iCamera->GetScreenPos().X, voCameras[j]->iCamera->GetScreenPos().Y, voCameras[j]->iCamera->GetDimensions().W, 5, 255, 255, 255);
-
-						Draw_Rect(voCameras[j]->iCamera->GetScreenPos().X + voCameras[j]->iCamera->GetDimensions().W, voCameras[j]->iCamera->GetScreenPos().Y, 5, voCameras[j]->iCamera->GetDimensions().H, 255, 255, 255);
-						Draw_Rect(voCameras[j]->iCamera->GetScreenPos().X, voCameras[j]->iCamera->GetScreenPos().Y + voCameras[j]->iCamera->GetDimensions().H, voCameras[j]->iCamera->GetDimensions().W, 5, 255, 255, 255);
 						if (vglSurfaces[i]->iGLSurface->bIsActive)
 							DrawSurface(*vglSurfaces[i]->iGLSurface, *voCameras[vglSurfaces[i]->iGLSurface->uiCameraIndex[j]]->iCamera);
 						break;
@@ -159,19 +172,36 @@ namespace Graphics
 	template <typename T, typename U>
 	void DrawSurface(const GLSurface<T>& ac_glSurface, Camera<U>& a_Camera)
 	{
+		SDL_GL_MakeCurrent(voWindows[a_Camera.GetWindowIndex()]->GetWindow(), glContext);
+
+		glViewport(
+			a_Camera.GetScreenPos().X,
+			a_Camera.GetScreenPos().Y,
+			a_Camera.GetDimensions().W,
+			a_Camera.GetDimensions().H);
+		glMatrixMode(GL_PROJECTION);
+		glLoadIdentity();
+
+		glOrtho(
+			0.0f,
+			a_Camera.GetDimensions().W,
+			a_Camera.GetDimensions().H,
+			0.0f,
+			-1.0f,
+			1.0f);
+
 		System::Point2D<T> Pos = ac_glSurface.Pos;
-		Pos.X += a_Camera.GetScreenPos().X - (a_Camera.GetWorldPos().X - a_Camera.GetDimensions().W / 2);
-		Pos.Y += a_Camera.GetScreenPos().Y - (a_Camera.GetWorldPos().Y - a_Camera.GetDimensions().H / 2);
+		Pos.X -= (a_Camera.GetWorldPos().X - a_Camera.GetDimensions().W / 2);
+		Pos.Y -= (a_Camera.GetWorldPos().Y - a_Camera.GetDimensions().H / 2);
 
 		glPushMatrix(); // Save the current matrix.
 
-		
 		glTranslatef(Pos.X, Pos.Y, 0.0f);
 		glScalef(ac_glSurface.Scale.W, ac_glSurface.Scale.H, 0.0f);
-		glRotatef(ac_glSurface.Rotation, 0.0f, 0.0f, 1.0f);		
+		glRotatef(ac_glSurface.Rotation, 0.0f, 0.0f, 1.0f);
 		glTranslatef(
 			-Pos.X - (ac_glSurface.Center.X - ac_glSurface.OffsetD.W / 2),
-			-Pos.Y - (ac_glSurface.Center.Y - ac_glSurface.OffsetD.H / 2), 0.0f);		
+			-Pos.Y - (ac_glSurface.Center.Y - ac_glSurface.OffsetD.H / 2), 0.0f);
 
 		glBindTexture(GL_TEXTURE_2D, ac_glSurface.Surface);
 
@@ -251,32 +281,16 @@ namespace Graphics
 			}
 		}
 	}
+	template <typename T>
+	bool SurfaceWorldSpace(const GLSurface<T>* ac_pglLeft, const GLSurface<T>* ac_pglRight)
+	{
+		return ac_pglLeft->Layer > ac_pglRight->Layer;
+	}
 	template <typename T, typename U>
 	void IsInCamera(GLSurface<T>& a_glSurface, Camera<U>& a_Camera, const unsigned int ac_uiCameraIndex)
 	{
-		a_glSurface.uiCameraIndex.push_back(ac_uiCameraIndex);
-		/*if (
-			(a_glSurface.Pos.X - a_glSurface.OffsetD.W / 2 <= a_Camera.GetWorldPos().X - a_Camera.GetDimensions().W / 2) &&
-			(a_glSurface.Pos.X + a_glSurface.OffsetD.W / 2 >= a_Camera.GetWorldPos().X + a_Camera.GetDimensions().W / 2) &&
-			(a_glSurface.Pos.Y - a_glSurface.OffsetD.H / 2 <= a_Camera.GetWorldPos().Y - a_Camera.GetDimensions().H / 2) &&
-			(a_glSurface.Pos.Y + a_glSurface.OffsetD.H / 2 >= a_Camera.GetWorldPos().Y + a_Camera.GetDimensions().H / 2))
+		if (a_glSurface.uiWorldSpace == a_Camera.GetWorldSpace())
 			a_glSurface.uiCameraIndex.push_back(ac_uiCameraIndex);
-
-		else if (
-			(a_glSurface.Pos.X + a_glSurface.OffsetD.W / 2 >= a_Camera.GetWorldPos().X - a_Camera.GetDimensions().W / 2) &&
-			(a_glSurface.Pos.X + a_glSurface.OffsetD.W / 2 <= a_Camera.GetWorldPos().X + a_Camera.GetDimensions().W / 2) &&
-			(a_glSurface.Pos.Y + a_glSurface.OffsetD.H / 2 >= a_Camera.GetWorldPos().Y - a_Camera.GetDimensions().H / 2) &&
-			(a_glSurface.Pos.Y + a_glSurface.OffsetD.H / 2 <= a_Camera.GetWorldPos().Y + a_Camera.GetDimensions().H / 2))
-			a_glSurface.uiCameraIndex.push_back(ac_uiCameraIndex);
-
-		else if (
-			(a_glSurface.Pos.X - a_glSurface.OffsetD.W / 2 >= a_Camera.GetWorldPos().X - a_Camera.GetDimensions().W / 2) &&
-			(a_glSurface.Pos.X - a_glSurface.OffsetD.W / 2 <= a_Camera.GetWorldPos().X + a_Camera.GetDimensions().W / 2) &&
-			(a_glSurface.Pos.Y - a_glSurface.OffsetD.H / 2 >= a_Camera.GetWorldPos().Y - a_Camera.GetDimensions().H / 2) &&
-			(a_glSurface.Pos.Y - a_glSurface.OffsetD.H / 2 <= a_Camera.GetWorldPos().Y + a_Camera.GetDimensions().H / 2))
-			a_glSurface.uiCameraIndex.push_back(ac_uiCameraIndex);
-
-		if (a_glSurface.Pos.Y - a_glSurface.OffsetD.W / 2 >= a_Camera.GetWorldPos().Y - a_Camera.GetDimensions().W / 2)*/
 	}
 
 	void PushSurface(GLSurface<int>* a_glSurface)
@@ -325,7 +339,10 @@ namespace Graphics
 	void Flip()
 	{
 		for (int i = 0; i < voWindows.size(); ++i)
+		{
+			SDL_GL_MakeCurrent(voWindows[i]->GetWindow(), glContext);
 			voWindows[i]->Flip();
+		}
 	}
 
 	void Quit()

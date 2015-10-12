@@ -11,6 +11,7 @@ namespace Graphics
 	enum LayerType
 	{
 		BACKGROUND,
+		INLINEFORE,	// Layer is behind the Mid-ground, but acts as if it is in line with the Foreground
 		MIDGROUND,
 		FOREGROUND,
 
@@ -39,6 +40,7 @@ namespace Graphics
 
 		LayerType Layer;
 
+		unsigned int uiWorldSpace;
 		std::vector<unsigned int> uiCameraIndex;
 
 		bool bIsActive;
@@ -68,10 +70,10 @@ namespace Graphics
 
 	void NewWindow(
 		const System::Size2D<unsigned int> &ac_iResolution,		// The window's internal resolution
-		const bool ac_bFullscreen,									// Whether or not the window should be full screen on creation
+		const bool ac_bFullscreen,								// Whether or not the window should be full screen on creation
 		const System::Size2D<unsigned int> &ac_iDimensions,		// The window's width and height
-		const char *ac_szTitle,										// The window's title
-		const unsigned int ac_uiMonitorIndex);						// Which monitor the window should be created on
+		const char *ac_szTitle,									// The window's title
+		const unsigned int ac_uiMonitorIndex);					// Which monitor the window should be created on
 
 	void NewCamera(
 		const System::Point2D<int>&	   ac_iScreenPos,
@@ -80,7 +82,8 @@ namespace Graphics
 		const System::Size2D<int>&	   ac_iDimensions,
 		const bool					   ac_bIsScrolling,
 		const System::AngularVel<int>& ac_iVelocity,
-		const unsigned int			   ac_uiWindowIndex);
+		const unsigned int			   ac_uiWindowIndex,
+		const unsigned int			   ac_uiWorldSpace);
 	void NewCamera(
 		const System::Point2D<float>&	 ac_fScreenPos,
 		const System::Point2D<float>&	 ac_fWorldPos,
@@ -88,7 +91,8 @@ namespace Graphics
 		const System::Size2D<float>&	 ac_fDimensions,
 		const bool						 ac_bIsScrolling,
 		const System::AngularVel<float>& ac_fVelocity,
-		const unsigned int				 ac_uiWindowIndex);
+		const unsigned int				 ac_uiWindowIndex,
+		const unsigned int			     ac_uiWorldSpace);
 
 	void UpdateCameras();
 
@@ -98,6 +102,8 @@ namespace Graphics
 	void DrawSurface(const GLSurface<T>& ac_glSurface, Camera<U>& a_Camera);
 
 	void ReOrder();
+	template <typename T>
+	bool SurfaceWorldSpace(const GLSurface<T>* ac_pglLeft, const GLSurface<T>* ac_pglRight);
 	template <typename T, typename U>
 	void IsInCamera(GLSurface<T>& a_glSurface, Camera<U>& a_Camera, const unsigned int ac_uiCameraIndex);
 
@@ -105,6 +111,7 @@ namespace Graphics
 	GLSurface<T>* LoadSurface(const char* ac_szFilename);
 	template <typename T>
 	GLSurface<T>* LoadSurface(SDL_Surface& a_sdlSurface);
+
 	void PushSurface(GLSurface<int>* a_glSurface);
 	void PushSurface(GLSurface<float>* a_glSurface);
 
@@ -120,8 +127,6 @@ namespace Graphics
 
 namespace Graphics
 {
-	extern std::vector<SurfaceUnion*> vglSurfaces;
-
 	template <typename T>
 	GLSurface<T>* LoadSurface(const char* ac_szFilename)
 	{
@@ -168,6 +173,8 @@ namespace Graphics
 		glSurface->Color = { 255, 255, 255, 255 };		
 
 		glSurface->Layer = LayerType::BACKGROUND;
+
+		glSurface->uiWorldSpace = 0;
 
 		glSurface->bIsActive = true;
 

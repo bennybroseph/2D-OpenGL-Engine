@@ -20,6 +20,7 @@ namespace Graphics
 		System::AngularVel<T> m_Velocity;
 
 		unsigned int m_uiWindowIndex;
+		unsigned int m_uiWorldSpace;
 
 	public:
 		void Resize(const System::Size2D<T>&  ac_NewDimensions);
@@ -31,6 +32,8 @@ namespace Graphics
 		const System::Point2D<T>& GetScreenPos();
 		const System::Point2D<T>& GetWorldPos();
 		const System::Size2D<T>& GetDimensions();
+		const unsigned int GetWindowIndex();
+		const unsigned int GetWorldSpace();
 
 		Camera(
 			const System::Point2D<T>&	 ac_ScreenPos,
@@ -39,7 +42,8 @@ namespace Graphics
 			const System::Size2D<T>&	 ac_Dimension,
 			const bool					 ac_bIsScrolling,
 			const System::AngularVel<T>& ac_Velocity,
-			const unsigned int			 ac_uiWindowIndex);
+			const unsigned int			 ac_uiWindowIndex,
+			const unsigned int			 ac_uiWorldSpace);
 		Camera() = delete;
 		~Camera();
 	};
@@ -47,12 +51,12 @@ namespace Graphics
 	template <typename T>
 	void Camera<T>::Resize(const System::Size2D<T>& ac_NewDimensions)
 	{
-		m_fDimensions = ac_fNewDimensions;
+		m_Dimensions = ac_NewDimensions;
 	}
 	template <typename T>
 	void Camera<T>::RePosition(const System::Point2D<T>& ac_NewScreenPos)
 	{
-		m_fScreenPos = ac_NewScreenPos;
+		m_ScreenPos = ac_NewScreenPos;
 	}
 	template <typename T>
 	void Camera<T>::ReBind(const System::Point2D<T>& ac_NewRelativePos)
@@ -83,7 +87,16 @@ namespace Graphics
 	{
 		return m_Dimensions;
 	}
-
+	template <typename T>
+	const unsigned int Camera<T>::GetWindowIndex()
+	{
+		return m_uiWindowIndex;
+	}
+	template <typename T>
+	const unsigned int Camera<T>::GetWorldSpace()
+	{
+		return m_uiWorldSpace;
+	}
 
 	template <typename T>
 	Camera<T>::Camera(
@@ -93,7 +106,8 @@ namespace Graphics
 		const System::Size2D<T>&	 ac_Dimension,
 		const bool					 ac_bIsScrolling,
 		const System::AngularVel<T>& ac_Velocity,
-		const unsigned int			 ac_uiWindowIndex)
+		const unsigned int			 ac_uiWindowIndex,
+		const unsigned int			 ac_uiWorldSpace)
 	{
 		m_ScreenPos =	 ac_ScreenPos;
 		m_WorldPos =	 ac_WorldPos;
@@ -106,6 +120,7 @@ namespace Graphics
 		m_Velocity = ac_Velocity;
 
 		m_uiWindowIndex = ac_uiWindowIndex;
+		m_uiWorldSpace = ac_uiWorldSpace;
 	}
 	template <typename T>
 	Camera<T>::~Camera()

@@ -13,7 +13,6 @@ namespace Graphics
 	{
 	private:
 		SDL_Window* m_sdlWindow;
-		SDL_GLContext m_glContext;
 
 		const std::vector<SDL_DisplayMode>& m_sdlDisplayMode;
 
@@ -30,12 +29,14 @@ namespace Graphics
 		unsigned int m_uiMonitorIndex;
 
 	public:
-		void SetResolution(const System::Size2D<unsigned int> &ac_uiNewResolution);
-
 		void Resize(const System::Size2D<unsigned int> &ac_uiNewDimensions, const unsigned int ac_uiMonitorIndex);
 		void Rename(const char *ac_szNewTitle);
 
 		void ToggleFullscreen();
+
+		const System::Size2D<unsigned int>& GetDimensions();
+		SDL_Window* GetWindow();
+		const SDL_GLContext& GetContext();
 
 		void Flip();
 
