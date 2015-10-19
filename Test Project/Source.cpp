@@ -1,21 +1,15 @@
-#include "System.h"
-#include "Graphics.h"
-
-#include <iostream>
-#include <vector>
-
-#include <Windows.h>
-#include <time.h>
+#include "LoopHandle.h"
 
 int wmain()
 {
-	Graphics::Init();
-	Graphics::NewWindow({ 1280, 720 }, true, { 1280, 720 }, "New Window", 0);
-	//Graphics::NewWindow({ 1600, 900 }, false, { 1600, 900 }, "New Window", 1);
+	LoopHandle::Init();
+	LoopHandle::Handle();
+	LoopHandle::Quit();
+	
 
-	Graphics::GLSurface<int> *Test1 = Graphics::LoadSurface<int>("Images/treeSmall.png");
+	Graphics::GLSurface<int> *Test1 = Graphics::LoadSurface<int>("Images/treeLarge.png");
 	Test1->Scale = { 1, 1 };
-	Test1->Pos = { -100, 0 };
+	Test1->Pos = { 575, 360 };
 	Test1->Layer = Graphics::LayerType::ALWAYS_TOP;
 	//Graphics::GLSurface<int> *Test3 = Graphics::LoadSurface<int>("Images/treeLarge.png");
 	//Test3->Pos = { 100, 0 };
@@ -23,8 +17,8 @@ int wmain()
 	//Test3->uiWorldSpace = 1;
 
 	System::Point2D<int> Temp1 = { 0, 0 };
-	Graphics::NewCamera({ 0, 0 }, { 0, 0 }, Test1->Pos, { 100, 100 }, false, { 0, 0 }, 0, 0);
-	//Graphics::NewCamera({ 100, 100 }, { 0, 0 }, Temp1, { 50, 50 }, false, { 0, 0 }, 0, 0);
+	Graphics::NewCamera({ 0, 0 }, { 0, 0 }, Test1->Pos, { 100, 100 }, { 1, 1 }, 0, false, { 0, 0 }, 0, 0);
+	//Graphics::NewCamera({ 0, 0 }, { 0, 0 }, Temp1, { 100, 100 }, { 1, 1 }, 0, false, { 0, 0 }, 1, 0);
 
 	Graphics::TileMap<int> TestMap("Tilemap/OriginalMap.txt", "Images/environment.png", { 128, 128 }, { 10, 7 }, { 0, 0 });
 
@@ -74,7 +68,7 @@ int wmain()
 			Run = false;
 
 		++i;
-		
+
 		if (clock() - oldtime >= 1000)
 		{
 			printf("FPS:%d ", i);

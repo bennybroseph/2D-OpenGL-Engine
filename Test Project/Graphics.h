@@ -9,6 +9,8 @@
 
 #include <SDL_image.h>
 
+#define PI 3.1415926535897932384626433832795
+
 namespace Graphics
 {
 	struct SurfaceUnion
@@ -46,6 +48,8 @@ namespace Graphics
 		const System::Point2D<int>&	   ac_iWorldPos,
 		const System::Point2D<int>&	   ac_iRelativePos,
 		const System::Size2D<int>&	   ac_iDimensions,
+		const System::Size2D<int>&	   ac_iZoom,
+		const int					   ac_iRotation,
 		const bool					   ac_bIsScrolling,
 		const System::AngularVel<int>& ac_iVelocity,
 		const unsigned int			   ac_uiWindowIndex,
@@ -55,6 +59,8 @@ namespace Graphics
 		const System::Point2D<float>&	 ac_fWorldPos,
 		const System::Point2D<float>&	 ac_fRelativePos,
 		const System::Size2D<float>&	 ac_fDimensions,
+		const System::Size2D<float>&	 ac_fZoom,
+		const float						 ac_fRotation,
 		const bool						 ac_bIsScrolling,
 		const System::AngularVel<float>& ac_fVelocity,
 		const unsigned int				 ac_uiWindowIndex,

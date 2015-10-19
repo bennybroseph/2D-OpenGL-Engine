@@ -122,14 +122,19 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Camera.h" />
+    <ClInclude Include="EventHandler.h" />
     <ClInclude Include="Graphics.h" />
+    <ClInclude Include="Loop.h" />
+    <ClInclude Include="LoopHandle.h" />
     <ClInclude Include="TileMap.h" />
     <ClInclude Include="Window.h" />
     <ClInclude Include="System.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="EventHandler.cpp" />
     <ClCompile Include="Graphics.cpp" />
-    <ClCompile Include="TileMap.cpp" />
+    <ClCompile Include="Loop.cpp" />
+    <ClCompile Include="LoopHandle.cpp" />
     <ClCompile Include="Window.cpp" />
     <ClCompile Include="Source.cpp" />
     <ClCompile Include="System.cpp" />

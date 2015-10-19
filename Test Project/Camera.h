@@ -14,6 +14,10 @@ namespace Graphics
 		const System::Point2D<T>* m_RelativePos;
 
 		System::Size2D<T> m_Dimensions;
+		System::Size2D<T> m_Resolution;
+
+		System::Size2D<T> m_Zoom;
+		T m_Rotation;
 
 		bool m_bIsScrolling;
 
@@ -32,6 +36,9 @@ namespace Graphics
 		const System::Point2D<T>& GetScreenPos();
 		const System::Point2D<T>& GetWorldPos();
 		const System::Size2D<T>& GetDimensions();
+		const System::Size2D<T>& GetResolution();
+		const System::Size2D<T>& GetZoom();
+		const T GetRotation();
 		const unsigned int GetWindowIndex();
 		const unsigned int GetWorldSpace();
 
@@ -40,6 +47,9 @@ namespace Graphics
 			const System::Point2D<T>&	 ac_WorldPos,
 			const System::Point2D<T>&	 ac_RelativePos,
 			const System::Size2D<T>&	 ac_Dimension,
+			const System::Size2D<T>&	 ac_Resolution,
+			const System::Size2D<T>&	 ac_Zoom,
+			const T						 ac_Rotation,
 			const bool					 ac_bIsScrolling,
 			const System::AngularVel<T>& ac_Velocity,
 			const unsigned int			 ac_uiWindowIndex,
@@ -88,6 +98,21 @@ namespace Graphics
 		return m_Dimensions;
 	}
 	template <typename T>
+	const System::Size2D<T>& Camera<T>::GetResolution()
+	{
+		return m_Resolution;
+	}
+	template <typename T>
+	const System::Size2D<T>& Camera<T>::GetZoom()
+	{
+		return m_Zoom;
+	}
+	template <typename T>
+	const T Camera<T>::GetRotation()
+	{
+		return m_Rotation;
+	}
+	template <typename T>
 	const unsigned int Camera<T>::GetWindowIndex()
 	{
 		return m_uiWindowIndex;
@@ -104,6 +129,9 @@ namespace Graphics
 		const System::Point2D<T>&	 ac_WorldPos,
 		const System::Point2D<T>&	 ac_RelativePos,
 		const System::Size2D<T>&	 ac_Dimension,
+		const System::Size2D<T>&	 ac_Resolution,
+		const System::Size2D<T>&	 ac_Zoom,
+		const T						 ac_Rotation,
 		const bool					 ac_bIsScrolling,
 		const System::AngularVel<T>& ac_Velocity,
 		const unsigned int			 ac_uiWindowIndex,
@@ -114,13 +142,17 @@ namespace Graphics
 		m_RelativePos = &ac_RelativePos;
 
 		m_Dimensions = ac_Dimension;
+		m_Resolution = ac_Resolution;
+
+		m_Zoom =	 ac_Zoom;
+		m_Rotation = ac_Rotation;
 
 		m_bIsScrolling = ac_bIsScrolling;
 
 		m_Velocity = ac_Velocity;
 
 		m_uiWindowIndex = ac_uiWindowIndex;
-		m_uiWorldSpace = ac_uiWorldSpace;
+		m_uiWorldSpace =  ac_uiWorldSpace;
 	}
 	template <typename T>
 	Camera<T>::~Camera()

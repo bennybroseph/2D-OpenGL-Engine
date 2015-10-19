@@ -73,6 +73,8 @@ namespace Graphics
 		const System::Point2D<int>&	   ac_iWorldPos,
 		const System::Point2D<int>&	   ac_iRelativePos,
 		const System::Size2D<int>&	   ac_iDimensions,
+		const System::Size2D<int>&	   ac_iZoom,
+		const int					   ac_iRotation,
 		const bool					   ac_bIsScrolling,
 		const System::AngularVel<int>& ac_iVelocity,
 		const unsigned int			   ac_uiWindowIndex,
@@ -80,13 +82,17 @@ namespace Graphics
 	{
 		CameraUnion* newCamera = new CameraUnion;
 
-		System::Size2D<int> SizeOffset = { ac_iDimensions.W * int(voWindows[ac_uiWindowIndex]->GetDimensions().W) / 100, ac_iDimensions.H * int(voWindows[ac_uiWindowIndex]->GetDimensions().H) / 100 };
-		System::Point2D<int> ScreenOffset = {
-			ac_iScreenPos.X * (int(voWindows[ac_uiWindowIndex]->GetDimensions().W) - SizeOffset.W) / 100,
-			abs(ac_iScreenPos.Y - 100) * (int(voWindows[ac_uiWindowIndex]->GetDimensions().H) - SizeOffset.H) / 100 };
+		System::Size2D<int> iSizeOffset = { ac_iDimensions.W * (int)voWindows[ac_uiWindowIndex]->GetDimensions().W / 100, ac_iDimensions.H * (int)voWindows[ac_uiWindowIndex]->GetDimensions().H / 100 };
+		System::Point2D<int> iScreenOffset = {
+			ac_iScreenPos.X * (int(voWindows[ac_uiWindowIndex]->GetDimensions().W) - iSizeOffset.W) / 100,
+			abs(ac_iScreenPos.Y - 100) * (int(voWindows[ac_uiWindowIndex]->GetDimensions().H) - iSizeOffset.H) / 100 };
+
+		System::Size2D<int> iResolution = { 
+			(int)voWindows[ac_uiWindowIndex]->GetResolution().W * ((float)iSizeOffset.W / (float)voWindows[ac_uiWindowIndex]->GetDimensions().W),
+			(int)voWindows[ac_uiWindowIndex]->GetResolution().H * ((float)iSizeOffset.H / (float)voWindows[ac_uiWindowIndex]->GetDimensions().H) };
 
 		newCamera->Tag = CameraUnion::INT;
-		newCamera->iCamera = new Camera<int>(ScreenOffset, ac_iWorldPos, ac_iRelativePos, SizeOffset, ac_bIsScrolling, ac_iVelocity, ac_uiWindowIndex, ac_uiWorldSpace);
+		newCamera->iCamera = new Camera<int>(iScreenOffset, ac_iWorldPos, ac_iRelativePos, iSizeOffset, iResolution, ac_iZoom, ac_iRotation, ac_bIsScrolling, ac_iVelocity, ac_uiWindowIndex, ac_uiWorldSpace);
 		voCameras.push_back(newCamera);
 	}
 	void NewCamera(
@@ -94,6 +100,8 @@ namespace Graphics
 		const System::Point2D<float>&	 ac_fWorldPos,
 		const System::Point2D<float>&	 ac_fRelativePos,
 		const System::Size2D<float>&	 ac_fDimensions,
+		const System::Size2D<float>&	 ac_fZoom,
+		const float						 ac_fRotation,
 		const bool						 ac_bIsScrolling,
 		const System::AngularVel<float>& ac_fVelocity,
 		const unsigned int				 ac_uiWindowIndex,
@@ -101,13 +109,15 @@ namespace Graphics
 	{
 		CameraUnion* newCamera = new CameraUnion;
 
-		System::Size2D<float> SizeOffset = { ac_fDimensions.W * voWindows[ac_uiWindowIndex]->GetDimensions().W , ac_fDimensions.H * voWindows[ac_uiWindowIndex]->GetDimensions().H };
-		System::Point2D<float> ScreenOffset = {
-			ac_fScreenPos.X * (voWindows[ac_uiWindowIndex]->GetDimensions().W - SizeOffset.W),
-			abs(ac_fScreenPos.Y - 1) * (voWindows[ac_uiWindowIndex]->GetDimensions().H - SizeOffset.H) };
+		System::Size2D<float> fSizeOffset = { ac_fDimensions.W * voWindows[ac_uiWindowIndex]->GetDimensions().W , ac_fDimensions.H * voWindows[ac_uiWindowIndex]->GetDimensions().H };
+		System::Point2D<float> fScreenOffset = {
+			ac_fScreenPos.X * (voWindows[ac_uiWindowIndex]->GetDimensions().W - fSizeOffset.W),
+			abs(ac_fScreenPos.Y - 1) * (voWindows[ac_uiWindowIndex]->GetDimensions().H - fSizeOffset.H) };
+
+		System::Size2D<float> fResolution;
 
 		newCamera->Tag = CameraUnion::FLOAT;
-		newCamera->fCamera = new Camera<float>(ScreenOffset, ac_fWorldPos, ac_fRelativePos, SizeOffset, ac_bIsScrolling, ac_fVelocity, ac_uiWindowIndex, ac_uiWorldSpace);
+		newCamera->fCamera = new Camera<float>(fScreenOffset, ac_fWorldPos, ac_fRelativePos, fSizeOffset, fResolution, ac_fZoom, ac_fRotation, ac_bIsScrolling, ac_fVelocity, ac_uiWindowIndex, ac_uiWorldSpace);
 		voCameras.push_back(newCamera);
 	}
 
@@ -138,16 +148,10 @@ namespace Graphics
 		glMatrixMode(GL_PROJECTION);
 		glLoadIdentity();
 
-		System::Size2D<T> Ortho = 
-		{ 
-			voWindows[a_Camera.GetWindowIndex()]->GetResolution().W * ((float)voWindows[a_Camera.GetWindowIndex()]->GetDimensions().W / (float)a_Camera.GetDimensions().W) ,
-			voWindows[a_Camera.GetWindowIndex()]->GetResolution().H * ((float)voWindows[a_Camera.GetWindowIndex()]->GetDimensions().H / (float)a_Camera.GetDimensions().H)
-		};
-
 		glOrtho(
 			0.0f,
-			voWindows[a_Camera.GetWindowIndex()]->GetResolution().W,
-			voWindows[a_Camera.GetWindowIndex()]->GetResolution().H,
+			a_Camera.GetResolution().W,
+			a_Camera.GetResolution().H,
 			0.0f, -1.0f, 1.0f);
 
 		for (int i = 0; i < vglSurfaces.size(); ++i)
@@ -177,18 +181,24 @@ namespace Graphics
 	template <typename T, typename U>
 	void DrawSurface(const GLSurface<T>& ac_glSurface, Camera<U>& a_Camera)
 	{
-		System::Point2D<T> Pos = ac_glSurface.Pos;
-		//Pos.X -= (a_Camera.GetWorldPos().X - a_Camera.GetDimensions().W / 2);
-		//Pos.Y -= (a_Camera.GetWorldPos().Y - a_Camera.GetDimensions().H / 2);
-
 		glPushMatrix(); // Save the current matrix.
 
-		glTranslatef(Pos.X, Pos.Y, 0.0f);
+		glTranslatef(
+			ac_glSurface.Pos.X + (ac_glSurface.Center.X - ac_glSurface.OffsetD.W / 2),
+			ac_glSurface.Pos.Y + (ac_glSurface.Center.Y - ac_glSurface.OffsetD.H / 2),
+			0.0f);
 		glScalef(ac_glSurface.Scale.W, ac_glSurface.Scale.H, 0.0f);
 		glRotatef(ac_glSurface.Rotation, 0.0f, 0.0f, 1.0f);
 		glTranslatef(
-			-Pos.X - (ac_glSurface.Center.X - ac_glSurface.OffsetD.W / 2),
-			-Pos.Y - (ac_glSurface.Center.Y - ac_glSurface.OffsetD.H / 2), 0.0f);
+			-ac_glSurface.Pos.X - (ac_glSurface.Center.X - ac_glSurface.OffsetD.W / 2),
+			-ac_glSurface.Pos.Y - (ac_glSurface.Center.Y - ac_glSurface.OffsetD.H / 2), 0.0f);
+
+		glTranslatef(a_Camera.GetResolution().W / 2, a_Camera.GetResolution().H / 2, 0.0f);
+		glScalef(a_Camera.GetZoom().W, a_Camera.GetZoom().H, 0.0f);
+		glRotatef(a_Camera.GetRotation(), 0.0f, 0.0f, 1.0f);
+		glTranslatef(
+			-a_Camera.GetWorldPos().X,
+			-a_Camera.GetWorldPos().Y, 0.0f);
 
 		GLfloat glVertices[] = {
 			(float)ac_glSurface.OffsetP.X / (float)ac_glSurface.Dimensions.W,
@@ -205,17 +215,17 @@ namespace Graphics
 		};
 
 		GLfloat glPosition[] = {
-			Pos.X - (ac_glSurface.OffsetD.W / 2),
-			Pos.Y - (ac_glSurface.OffsetD.H / 2),
+			ac_glSurface.Pos.X - (ac_glSurface.OffsetD.W / 2),
+			ac_glSurface.Pos.Y - (ac_glSurface.OffsetD.H / 2),
 
-			Pos.X + (ac_glSurface.OffsetD.W / 2),
-			Pos.Y - (ac_glSurface.OffsetD.H / 2),
+			ac_glSurface.Pos.X + (ac_glSurface.OffsetD.W / 2),
+			ac_glSurface.Pos.Y - (ac_glSurface.OffsetD.H / 2),
 
-			Pos.X + (ac_glSurface.OffsetD.W / 2),
-			Pos.Y + (ac_glSurface.OffsetD.H / 2),
+			ac_glSurface.Pos.X + (ac_glSurface.OffsetD.W / 2),
+			ac_glSurface.Pos.Y + (ac_glSurface.OffsetD.H / 2),
 
-			Pos.X - (ac_glSurface.OffsetD.W / 2),
-			Pos.Y + (ac_glSurface.OffsetD.H / 2)
+			ac_glSurface.Pos.X - (ac_glSurface.OffsetD.W / 2),
+			ac_glSurface.Pos.Y + (ac_glSurface.OffsetD.H / 2)
 		};
 
 		glBindTexture(GL_TEXTURE_2D, ac_glSurface.Surface);

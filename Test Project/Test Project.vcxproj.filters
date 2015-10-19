@@ -25,6 +25,18 @@
     <Filter Include="Source Files\Graphics\Camera">
       <UniqueIdentifier>{9ed118ec-78d6-4f65-8b1b-fae272a9d07b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\LoopHandle">
+      <UniqueIdentifier>{f3c26a08-a7dd-4b7f-a8cc-ad5edb008839}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\LoopHandle\EventHandle">
+      <UniqueIdentifier>{2d6ab592-0f7c-429b-bed7-1817cff84eee}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Graphics\TileMap">
+      <UniqueIdentifier>{9383fdc2-ff52-42b0-9987-437ad113776b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\LoopHandle\Loop">
+      <UniqueIdentifier>{46ed4510-c31d-4351-bada-5b3217690b17}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Window.h">
@@ -39,8 +51,17 @@
     <ClInclude Include="Camera.h">
       <Filter>Source Files\Graphics\Camera</Filter>
     </ClInclude>
+    <ClInclude Include="LoopHandle.h">
+      <Filter>Source Files\LoopHandle</Filter>
+    </ClInclude>
+    <ClInclude Include="EventHandler.h">
+      <Filter>Source Files\LoopHandle\EventHandle</Filter>
+    </ClInclude>
     <ClInclude Include="TileMap.h">
-      <Filter>Header Files</Filter>
+      <Filter>Source Files\Graphics\TileMap</Filter>
+    </ClInclude>
+    <ClInclude Include="Loop.h">
+      <Filter>Source Files\LoopHandle\Loop</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -56,8 +77,14 @@
     <ClCompile Include="Graphics.cpp">
       <Filter>Source Files\Graphics</Filter>
     </ClCompile>
-    <ClCompile Include="TileMap.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="LoopHandle.cpp">
+      <Filter>Source Files\LoopHandle</Filter>
+    </ClCompile>
+    <ClCompile Include="EventHandler.cpp">
+      <Filter>Source Files\LoopHandle\EventHandle</Filter>
+    </ClCompile>
+    <ClCompile Include="Loop.cpp">
+      <Filter>Source Files\LoopHandle\Loop</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
