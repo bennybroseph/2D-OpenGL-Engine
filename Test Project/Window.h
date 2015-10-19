@@ -37,6 +37,7 @@ namespace Graphics
 		const System::Size2D<unsigned int>& GetDimensions();
 		SDL_Window* GetWindow();
 		const SDL_GLContext& GetContext();
+		const System::Size2D<unsigned int>& GetResolution();
 
 		void Flip();
 

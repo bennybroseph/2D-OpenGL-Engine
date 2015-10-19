@@ -123,11 +123,13 @@
   <ItemGroup>
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Graphics.h" />
+    <ClInclude Include="TileMap.h" />
     <ClInclude Include="Window.h" />
     <ClInclude Include="System.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Graphics.cpp" />
+    <ClCompile Include="TileMap.cpp" />
     <ClCompile Include="Window.cpp" />
     <ClCompile Include="Source.cpp" />
     <ClCompile Include="System.cpp" />

@@ -35,6 +35,11 @@ namespace Graphics
 		return m_sdlWindow;
 	}
 
+	const System::Size2D<unsigned int>& Window::GetResolution()
+	{
+		return m_uiResolution;
+	}
+
 	void Window::Flip()
 	{
 		SDL_GL_SwapWindow(m_sdlWindow);
@@ -51,8 +56,10 @@ namespace Graphics
 	{
 		m_uiMonitorIndex = ac_uiMonitorIndex;
 
-		m_uiDimensions.W = (m_bIsFullscreen) ? m_sdlDisplayMode[m_uiMonitorIndex].w : ac_uiDimensions.W;
-		m_uiDimensions.H = (m_bIsFullscreen) ? m_sdlDisplayMode[m_uiMonitorIndex].h : ac_uiDimensions.H;
+		m_uiDimensions.W = (ac_bFullscreen) ? m_sdlDisplayMode[m_uiMonitorIndex].w : ac_uiDimensions.W;
+		m_uiDimensions.H = (ac_bFullscreen) ? m_sdlDisplayMode[m_uiMonitorIndex].h : ac_uiDimensions.H;
+
+		m_uiResolution = ac_uiResolution;
 
 		m_sTitle = ac_szTitle;
 

@@ -3,48 +3,14 @@
 
 #include "Window.h"
 #include "Camera.h"
+#include "TileMap.h"
+
+#include <algorithm>
 
 #include <SDL_image.h>
 
 namespace Graphics
 {
-	enum LayerType
-	{
-		BACKGROUND,
-		INLINEFORE,	// Layer is behind the Mid-ground, but acts as if it is in line with the Foreground
-		MIDGROUND,
-		FOREGROUND,
-
-		FOUNDATION,
-		STRUCTURE,
-		OVERLAY,
-
-		ALWAYS_TOP
-	};
-
-	template <typename T>
-	struct GLSurface
-	{
-		GLuint Surface;
-
-		System::Point2D<T> Pos;
-		System::Point2D<T> OffsetP;
-		System::Point2D<T> Center;
-
-		System::Size2D<T> Dimensions;
-		System::Size2D<T> OffsetD;
-		System::Size2D<T> Scale;
-		T Rotation;
-
-		System::Color<T> Color;
-
-		LayerType Layer;
-
-		unsigned int uiWorldSpace;
-		std::vector<unsigned int> uiCameraIndex;
-
-		bool bIsActive;
-	};
 	struct SurfaceUnion
 	{
 		enum { INT, FLOAT }Tag;
@@ -58,7 +24,7 @@ namespace Graphics
 
 	struct CameraUnion
 	{
-		enum { INT, FLOAT}Tag;
+		enum { INT , FLOAT }Tag;
 		union
 		{
 			Camera<int>*   iCamera;
@@ -94,18 +60,17 @@ namespace Graphics
 		const unsigned int				 ac_uiWindowIndex,
 		const unsigned int			     ac_uiWorldSpace);
 
-	void UpdateCameras();
-
 	// - Draws all surfaces currently in the 'vglSurfaces' vector
-	void Draw(); 
+	void Draw();
+
+	template <typename T>
+	void UpdateCameras(Camera<T> a_Camera);
+
 	template <typename T, typename U>
 	void DrawSurface(const GLSurface<T>& ac_glSurface, Camera<U>& a_Camera);
 
-	void ReOrder();
-	template <typename T>
-	bool SurfaceWorldSpace(const GLSurface<T>* ac_pglLeft, const GLSurface<T>* ac_pglRight);
-	template <typename T, typename U>
-	void IsInCamera(GLSurface<T>& a_glSurface, Camera<U>& a_Camera, const unsigned int ac_uiCameraIndex);
+	bool SortLayer(SurfaceUnion* ac_pglLeft, SurfaceUnion* ac_pglRight);
+	bool SortCamera(SurfaceUnion* ac_pglLeft, SurfaceUnion* ac_pglRight);
 
 	template <typename T>
 	GLSurface<T>* LoadSurface(const char* ac_szFilename);
@@ -146,7 +111,6 @@ namespace Graphics
 	template <typename T>
 	GLSurface<T>* LoadSurface(SDL_Surface& a_sdlSurface)
 	{
-		
 		GLSurface<T>* glSurface = new GLSurface<T>;
 
 		glGenTextures(1, &glSurface->Surface);
@@ -155,14 +119,14 @@ namespace Graphics
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, a_sdlSurface.w, a_sdlSurface.h, 0, GL_RGBA, GL_UNSIGNED_BYTE, a_sdlSurface.pixels);
 
-		glSurface->Pos =	 { NULL, NULL };
+		glSurface->Pos = { NULL, NULL };
 		glSurface->OffsetP = { NULL, NULL };
 
 		glSurface->Dimensions.W = a_sdlSurface.w;
 		glSurface->Dimensions.H = a_sdlSurface.h;
 
 		glSurface->Center.X = glSurface->Dimensions.W / 2.0f;
-		glSurface->Center.Y = glSurface->Dimensions.H / 2.0f;		
+		glSurface->Center.Y = glSurface->Dimensions.H / 2.0f;
 
 		glSurface->OffsetD.W = glSurface->Dimensions.W;
 		glSurface->OffsetD.H = glSurface->Dimensions.H;
@@ -170,7 +134,7 @@ namespace Graphics
 		glSurface->Rotation = NULL;
 		glSurface->Scale = { 1, 1 };
 
-		glSurface->Color = { 255, 255, 255, 255 };		
+		glSurface->Color = { 255, 255, 255, 255 };
 
 		glSurface->Layer = LayerType::BACKGROUND;
 
@@ -179,8 +143,10 @@ namespace Graphics
 		glSurface->bIsActive = true;
 
 		SDL_FreeSurface(&a_sdlSurface);
-		
+
 		PushSurface(glSurface);
+		std::sort(vglSurfaces.begin(), vglSurfaces.end(), SortCamera);
+		std::sort(vglSurfaces.begin(), vglSurfaces.end(), SortLayer);
 
 		return glSurface;
 	}
