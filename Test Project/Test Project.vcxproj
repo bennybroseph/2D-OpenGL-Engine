@@ -121,6 +121,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Collision.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="EventHandler.h" />
     <ClInclude Include="GameLoop.h" />
@@ -140,6 +141,7 @@
     <ClCompile Include="Loop.cpp" />
     <ClCompile Include="LoopHandle.cpp" />
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="Collision.cpp" />
     <ClCompile Include="Window.cpp" />
     <ClCompile Include="Source.cpp" />
     <ClCompile Include="System.cpp" />

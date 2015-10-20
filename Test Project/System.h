@@ -1,6 +1,8 @@
 #ifndef _SYSTEM_H_
 #define _SYSTEM_H_
 
+#define PI 3.1415926535897932384626433832795
+
 namespace System
 {
 	enum AngularDir
@@ -12,8 +14,8 @@ namespace System
 
 		UP_RIGHT = 315,
 		UP_LEFT = 225,
-		DOWN_RIGHT = 135,
-		DOWN_LEFT = 45
+		DOWN_RIGHT = 45,
+		DOWN_LEFT = 135
 	};
 
 	template <typename T>
@@ -25,10 +27,12 @@ namespace System
 		friend const Point2D<T> operator+(const Point2D<T>& ac_PointA, const Point2D<U>& ac_PointB);
 		template <typename T, typename U>
 		friend const Point2D<T> operator-(const Point2D<T>& ac_PointA, const Point2D<U>& ac_PointB);
-		template <typename T, typename U>
-		friend const Point2D<T> operator/(const Point2D<T>& ac_PointA, const Point2D<U>& ac_PointB);
 		template <typename T>
 		friend const Point2D<T> operator-(const Point2D<T>& ac_PointA);
+
+		template <typename T, typename U>
+		friend const Point2D<T> operator/(const Point2D<T>& ac_PointA, const Point2D<U>& ac_PointB);
+		
 		template <typename T>
 		friend const Point2D<T> operator/(const Point2D<T>& ac_PointA, const int ac_iNum);
 	};
@@ -57,6 +61,8 @@ namespace System
 	template <typename T, typename U>
 	const Point2D<T> operator+(const Point2D<T>& ac_PointA, const Size2D<U>& ac_SizeA);
 
+	template <typename T, typename U>
+	void operator+=(Point2D<T>& ac_PointA, const AngularVel<U>& ac_VelocityA);
 }
 
 namespace System
@@ -109,6 +115,14 @@ namespace System
 		const Point2D<T> PointC = { ac_PointA.X + ac_SizeA.W, ac_PointA.Y + ac_SizeA.H };
 
 		return PointC;
+	}
+
+	template <typename T, typename U>
+	void operator+=(Point2D<T>& ac_PointA, const AngularVel<U>& ac_VelocityA)
+	{
+		ac_PointA = {
+			ac_PointA.X + ac_VelocityA.Speed * (T)cos(ac_VelocityA.Angle * (PI / 180)),
+			ac_PointA.Y + ac_VelocityA.Speed * (T)sin(ac_VelocityA.Angle * (PI / 180)) };
 	}
 }
 

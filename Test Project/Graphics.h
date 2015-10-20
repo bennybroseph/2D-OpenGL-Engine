@@ -9,7 +9,7 @@
 
 #include <SDL_image.h>
 
-#define PI 3.1415926535897932384626433832795
+
 
 namespace Graphics
 {
@@ -33,6 +33,8 @@ namespace Graphics
 			Camera<float>* fCamera;
 		};
 	};
+	extern std::vector<CameraUnion*>	voCameras;
+	extern std::vector<Window*>			voWindows;
 
 	bool Init();
 
@@ -43,28 +45,18 @@ namespace Graphics
 		const char *ac_szTitle,									// The window's title
 		const unsigned int ac_uiMonitorIndex);					// Which monitor the window should be created on
 
+	template <typename T>
 	void NewCamera(
-		const System::Point2D<int>&	   ac_iScreenPos,
-		const System::Point2D<int>&	   ac_iWorldPos,
-		const System::Point2D<int>&	   ac_iRelativePos,
-		const System::Size2D<int>&	   ac_iDimensions,
-		const System::Size2D<int>&	   ac_iZoom,
-		const int					   ac_iRotation,
+		const System::Point2D<T>&	   ac_ScreenPos,
+		const System::Point2D<T>&	   ac_WorldPos,
+		const System::Point2D<T>&	   ac_RelativePos,
+		const System::Size2D<T>&	   ac_Dimensions,
+		const System::Size2D<T>&	   ac_Zoom,
+		const T						   ac_Rotation,
 		const bool					   ac_bIsScrolling,
-		const System::AngularVel<int>& ac_iVelocity,
+		const System::AngularVel<T>&   ac_Velocity,
 		const unsigned int			   ac_uiWindowIndex,
 		const unsigned int			   ac_uiWorldSpace);
-	void NewCamera(
-		const System::Point2D<float>&	 ac_fScreenPos,
-		const System::Point2D<float>&	 ac_fWorldPos,
-		const System::Point2D<float>&	 ac_fRelativePos,
-		const System::Size2D<float>&	 ac_fDimensions,
-		const System::Size2D<float>&	 ac_fZoom,
-		const float						 ac_fRotation,
-		const bool						 ac_bIsScrolling,
-		const System::AngularVel<float>& ac_fVelocity,
-		const unsigned int				 ac_uiWindowIndex,
-		const unsigned int			     ac_uiWorldSpace);
 
 	// - Draws all surfaces currently in the 'vglSurfaces' vector
 	void Draw();
@@ -86,6 +78,9 @@ namespace Graphics
 	void PushSurface(GLSurface<int>* a_glSurface);
 	void PushSurface(GLSurface<float>* a_glSurface);
 
+	void PushCamera(Camera<int>* a_Camera);
+	void PushCamera(Camera<float>* a_Camera);
+
 	void Draw_Rect(
 		const float ac_fPosX, const float ac_fPosY,
 		const float ac_fWidth, const float ac_fHeight,
@@ -98,6 +93,32 @@ namespace Graphics
 
 namespace Graphics
 {
+	template <typename T>
+	void NewCamera(
+		const System::Point2D<T>&	   ac_ScreenPos,
+		const System::Point2D<T>&	   ac_WorldPos,
+		const System::Point2D<T>&	   ac_RelativePos,
+		const System::Size2D<T>&	   ac_Dimensions,
+		const System::Size2D<T>&	   ac_Zoom,
+		const T						   ac_Rotation,
+		const bool					   ac_bIsScrolling,
+		const System::AngularVel<T>&   ac_Velocity,
+		const unsigned int			   ac_uiWindowIndex,
+		const unsigned int			   ac_uiWorldSpace)
+	{
+		System::Size2D<T> SizeOffset = { ac_Dimensions.W * (T)voWindows[ac_uiWindowIndex]->GetDimensions().W / 100, ac_Dimensions.H * (T)voWindows[ac_uiWindowIndex]->GetDimensions().H / 100 };
+		System::Point2D<T> ScreenOffset = {
+			ac_ScreenPos.X * (T(voWindows[ac_uiWindowIndex]->GetDimensions().W) - SizeOffset.W) / 100,
+			abs(ac_ScreenPos.Y - 100) * (T(voWindows[ac_uiWindowIndex]->GetDimensions().H) - SizeOffset.H) / 100 };
+
+		System::Size2D<T> Resolution = {
+			(T)voWindows[ac_uiWindowIndex]->GetResolution().W * ((float)SizeOffset.W / (float)voWindows[ac_uiWindowIndex]->GetDimensions().W),
+			(T)voWindows[ac_uiWindowIndex]->GetResolution().H * ((float)SizeOffset.H / (float)voWindows[ac_uiWindowIndex]->GetDimensions().H) };
+
+		Camera<T>* newCamera = new Camera<T>(ScreenOffset, ac_WorldPos, ac_RelativePos, SizeOffset, Resolution, ac_Zoom, ac_Rotation, ac_bIsScrolling, ac_Velocity, ac_uiWindowIndex, ac_uiWorldSpace);
+		PushCamera(newCamera);
+	}
+
 	template <typename T>
 	GLSurface<T>* LoadSurface(const char* ac_szFilename)
 	{

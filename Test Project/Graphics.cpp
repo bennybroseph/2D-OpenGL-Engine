@@ -68,67 +68,14 @@ namespace Graphics
 		}
 	}
 
-	void NewCamera(
-		const System::Point2D<int>&	   ac_iScreenPos,
-		const System::Point2D<int>&	   ac_iWorldPos,
-		const System::Point2D<int>&	   ac_iRelativePos,
-		const System::Size2D<int>&	   ac_iDimensions,
-		const System::Size2D<int>&	   ac_iZoom,
-		const int					   ac_iRotation,
-		const bool					   ac_bIsScrolling,
-		const System::AngularVel<int>& ac_iVelocity,
-		const unsigned int			   ac_uiWindowIndex,
-		const unsigned int			   ac_uiWorldSpace)
-	{
-		CameraUnion* newCamera = new CameraUnion;
-
-		System::Size2D<int> iSizeOffset = { ac_iDimensions.W * (int)voWindows[ac_uiWindowIndex]->GetDimensions().W / 100, ac_iDimensions.H * (int)voWindows[ac_uiWindowIndex]->GetDimensions().H / 100 };
-		System::Point2D<int> iScreenOffset = {
-			ac_iScreenPos.X * (int(voWindows[ac_uiWindowIndex]->GetDimensions().W) - iSizeOffset.W) / 100,
-			abs(ac_iScreenPos.Y - 100) * (int(voWindows[ac_uiWindowIndex]->GetDimensions().H) - iSizeOffset.H) / 100 };
-
-		System::Size2D<int> iResolution = { 
-			(int)voWindows[ac_uiWindowIndex]->GetResolution().W * ((float)iSizeOffset.W / (float)voWindows[ac_uiWindowIndex]->GetDimensions().W),
-			(int)voWindows[ac_uiWindowIndex]->GetResolution().H * ((float)iSizeOffset.H / (float)voWindows[ac_uiWindowIndex]->GetDimensions().H) };
-
-		newCamera->Tag = CameraUnion::INT;
-		newCamera->iCamera = new Camera<int>(iScreenOffset, ac_iWorldPos, ac_iRelativePos, iSizeOffset, iResolution, ac_iZoom, ac_iRotation, ac_bIsScrolling, ac_iVelocity, ac_uiWindowIndex, ac_uiWorldSpace);
-		voCameras.push_back(newCamera);
-	}
-	void NewCamera(
-		const System::Point2D<float>&	 ac_fScreenPos,
-		const System::Point2D<float>&	 ac_fWorldPos,
-		const System::Point2D<float>&	 ac_fRelativePos,
-		const System::Size2D<float>&	 ac_fDimensions,
-		const System::Size2D<float>&	 ac_fZoom,
-		const float						 ac_fRotation,
-		const bool						 ac_bIsScrolling,
-		const System::AngularVel<float>& ac_fVelocity,
-		const unsigned int				 ac_uiWindowIndex,
-		const unsigned int			     ac_uiWorldSpace)
-	{
-		CameraUnion* newCamera = new CameraUnion;
-
-		System::Size2D<float> fSizeOffset = { ac_fDimensions.W * voWindows[ac_uiWindowIndex]->GetDimensions().W , ac_fDimensions.H * voWindows[ac_uiWindowIndex]->GetDimensions().H };
-		System::Point2D<float> fScreenOffset = {
-			ac_fScreenPos.X * (voWindows[ac_uiWindowIndex]->GetDimensions().W - fSizeOffset.W),
-			abs(ac_fScreenPos.Y - 1) * (voWindows[ac_uiWindowIndex]->GetDimensions().H - fSizeOffset.H) };
-
-		System::Size2D<float> fResolution;
-
-		newCamera->Tag = CameraUnion::FLOAT;
-		newCamera->fCamera = new Camera<float>(fScreenOffset, ac_fWorldPos, ac_fRelativePos, fSizeOffset, fResolution, ac_fZoom, ac_fRotation, ac_bIsScrolling, ac_fVelocity, ac_uiWindowIndex, ac_uiWorldSpace);
-		voCameras.push_back(newCamera);
-	}
-
 	void Draw()
 	{
 		for (int i = 0; i < voCameras.size(); ++i)
 		{
 			switch (voCameras[i]->Tag)
 			{
-			case CameraUnion::INT:	 UpdateCameras(*voCameras[i]->iCamera);
-			case CameraUnion::FLOAT: UpdateCameras(*voCameras[i]->fCamera);
+			case CameraUnion::INT:	 UpdateCameras(*voCameras[i]->iCamera); break;
+			case CameraUnion::FLOAT: UpdateCameras(*voCameras[i]->fCamera); break;
 			}
 		}
 	}
@@ -250,6 +197,7 @@ namespace Graphics
 		switch (ac_pglLeft->Tag)
 		{
 		case SurfaceUnion::INT:
+		{
 			switch (ac_pglRight->Tag)
 			{
 			case SurfaceUnion::INT:
@@ -265,7 +213,10 @@ namespace Graphics
 				break;
 			}
 			}
+			break;
+		}
 		case SurfaceUnion::FLOAT:
+		{
 			switch (ac_pglRight->Tag)
 			{
 			case SurfaceUnion::INT:
@@ -281,6 +232,8 @@ namespace Graphics
 				break;
 			}
 			}
+			break;
+		}
 		}
 
 		return false;
@@ -290,17 +243,23 @@ namespace Graphics
 		switch (ac_pglLeft->Tag)
 		{
 		case SurfaceUnion::INT:
+		{
 			switch (ac_pglRight->Tag)
 			{
 			case SurfaceUnion::INT:	  return ac_pglLeft->iGLSurface->uiWorldSpace < ac_pglRight->iGLSurface->uiWorldSpace; break;
 			case SurfaceUnion::FLOAT: return ac_pglLeft->iGLSurface->uiWorldSpace < ac_pglRight->fGLSurface->uiWorldSpace; break;
 			}
+			break;
+		}
 		case SurfaceUnion::FLOAT:
+		{
 			switch (ac_pglRight->Tag)
 			{
 			case SurfaceUnion::INT:	  return ac_pglLeft->fGLSurface->uiWorldSpace < ac_pglRight->iGLSurface->uiWorldSpace; break;
 			case SurfaceUnion::FLOAT: return ac_pglLeft->fGLSurface->uiWorldSpace < ac_pglRight->fGLSurface->uiWorldSpace; break;
 			}
+			break;
+		}
 		}
 	}
 
@@ -321,6 +280,25 @@ namespace Graphics
 		newSurface->fGLSurface = a_glSurface;
 
 		vglSurfaces.push_back(newSurface);
+	}
+
+	void PushCamera(Camera<int>* a_Camera)
+	{
+		CameraUnion* newCameraUnion = new CameraUnion;
+
+		newCameraUnion->Tag = CameraUnion::INT;
+		newCameraUnion->iCamera = a_Camera;
+
+		voCameras.push_back(newCameraUnion);
+	}
+	void PushCamera(Camera<float>* a_Camera)
+	{
+		CameraUnion* newCameraUnion = new CameraUnion;
+
+		newCameraUnion->Tag = CameraUnion::FLOAT;
+		newCameraUnion->fCamera = a_Camera;
+
+		voCameras.push_back(newCameraUnion);
 	}
 
 	void Draw_Rect(

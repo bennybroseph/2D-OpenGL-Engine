@@ -16,6 +16,7 @@ namespace LoopHandle
 		void LateUpdate();
 
 		void OnKeyDown(const SDL_Keycode ac_sdlSym, const Uint16 ac_uiMod, const SDL_Scancode ac_sdlScancode);
+		void OnKeyUp(const SDL_Keycode ac_sdlSym, const Uint16 ac_uiMod, const SDL_Scancode ac_sdlScancode);
 
 		GameLoop();
 		~GameLoop();
@@ -23,4 +24,3 @@ namespace LoopHandle
 }
 
 #endif // _GAMELOOP_H_
-

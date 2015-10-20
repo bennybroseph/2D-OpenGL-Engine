@@ -1,31 +1,52 @@
-﻿Build started 10/19/2015 10:23:10 PM.
-     1>Project "C:\Users\Womb-Raider\Documents\GitHub\2D OpenGL Engine\Test Project\Test Project.vcxproj" on node 2 (Build target(s)).
-     1>ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\CL.exe /c /IC:\SDL\include /IC:\OpenGL\include /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"Debug\\" /Fd"Debug\vc140.pdb" /Gd /TP /analyze- /errorReport:prompt GameLoop.cpp LoopHandle.cpp Player.cpp Source.cpp
-         Player.cpp
-         LoopHandle.cpp
-         GameLoop.cpp
-     1>c:\users\womb-raider\documents\github\2d opengl engine\test project\graphics.h(134): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
-         c:\users\womb-raider\documents\github\2d opengl engine\test project\graphics.h(115): note: see reference to function template instantiation 'Graphics::GLSurface<int> *Graphics::LoadSurface<int>(SDL_Surface &)' being compiled
-         c:\users\womb-raider\documents\github\2d opengl engine\test project\gameloop.cpp(25): note: see reference to function template instantiation 'Graphics::GLSurface<int> *Graphics::LoadSurface<int>(const char *)' being compiled
-     1>c:\users\womb-raider\documents\github\2d opengl engine\test project\graphics.h(135): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
-         Generating Code...
-         Compiling...
-         Source.cpp
-         Generating Code...
-       Link:
-         C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\Womb-Raider\Documents\GitHub\2D OpenGL Engine\Debug\Test Project.exe" /INCREMENTAL /NOLOGO /LIBPATH:C:\SDL\lib /LIBPATH:C:\OpenGL\lib SDL2.lib SDL2main.lib SDL2_image.lib SDL2_mixer.lib SDL2_ttf.lib glew32.lib glew32s.lib freeglut.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /Debug /PDB:"C:\Users\Womb-Raider\Documents\GitHub\2D OpenGL Engine\Debug\Test Project.pdb" /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\Womb-Raider\Documents\GitHub\2D OpenGL Engine\Debug\Test Project.lib" /MACHINE:X86 Debug\EventHandler.obj
-         Debug\GameLoop.obj
-         Debug\Graphics.obj
-         Debug\Loop.obj
-         Debug\LoopHandle.obj
-         Debug\Player.obj
-         Debug\Window.obj
-         Debug\Source.obj
-         Debug\System.obj
-         Test Project.vcxproj -> C:\Users\Womb-Raider\Documents\GitHub\2D OpenGL Engine\Debug\Test Project.exe
-     1>Done Building Project "C:\Users\Womb-Raider\Documents\GitHub\2D OpenGL Engine\Test Project\Test Project.vcxproj" (Build target(s)).
-
-Build succeeded.
-
-Time Elapsed 00:00:02.40
+﻿  Player.cpp
+c:\users\benjamin.odom\documents\github\2d-opengl-engine\test project\graphics.h(155): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+  c:\users\benjamin.odom\documents\github\2d-opengl-engine\test project\graphics.h(136): note: see reference to function template instantiation 'Graphics::GLSurface<int> *Graphics::LoadSurface<int>(SDL_Surface &)' being compiled
+  c:\users\benjamin.odom\documents\github\2d-opengl-engine\test project\player.cpp(62): note: see reference to function template instantiation 'Graphics::GLSurface<int> *Graphics::LoadSurface<int>(const char *)' being compiled
+c:\users\benjamin.odom\documents\github\2d-opengl-engine\test project\graphics.h(156): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+  Collision.cpp
+c:\users\benjamin.odom\documents\github\2d-opengl-engine\test project\collision.cpp(16): warning C4018: '<': signed/unsigned mismatch
+c:\users\benjamin.odom\documents\github\2d-opengl-engine\test project\collision.cpp(31): warning C4018: '<': signed/unsigned mismatch
+  c:\users\benjamin.odom\documents\github\2d-opengl-engine\test project\collision.cpp(20): note: see reference to function template instantiation 'void Collision::FindHost<int>(const Collision::BoundingBox<int> &,const unsigned int)' being compiled
+c:\users\benjamin.odom\documents\github\2d-opengl-engine\test project\collision.cpp(52): error C2027: use of undefined type 'Collision::Object<T>'
+          with
+          [
+              T=int
+          ]
+  c:\users\benjamin.odom\documents\github\2d-opengl-engine\test project\collision.cpp(37): note: see reference to function template instantiation 'void Collision::CheckCollisions<int,int>(const Collision::BoundingBox<int> &,Collision::BoundingBox<int> &)' being compiled
+  c:\users\benjamin.odom\documents\github\2d-opengl-engine\test project\collision.cpp(20): note: see reference to function template instantiation 'void Collision::FindHost<int>(const Collision::BoundingBox<int> &,const unsigned int)' being compiled
+c:\users\benjamin.odom\documents\github\2d-opengl-engine\test project\collision.cpp(52): error C2227: left of '->OnCollision' must point to class/struct/union/generic type
+c:\users\benjamin.odom\documents\github\2d-opengl-engine\test project\collision.cpp(52): error C2027: use of undefined type 'Collision::Object<T>'
+          with
+          [
+              T=float
+          ]
+  c:\users\benjamin.odom\documents\github\2d-opengl-engine\test project\collision.cpp(37): note: see reference to function template instantiation 'void Collision::CheckCollisions<float,int>(const Collision::BoundingBox<float> &,Collision::BoundingBox<int> &)' being compiled
+  c:\users\benjamin.odom\documents\github\2d-opengl-engine\test project\collision.cpp(21): note: see reference to function template instantiation 'void Collision::FindHost<float>(const Collision::BoundingBox<float> &,const unsigned int)' being compiled
+  Generating Code...
+  Compiling...
+  Source.cpp
+  LoopHandle.cpp
+  GameLoop.cpp
+c:\users\benjamin.odom\documents\github\2d-opengl-engine\test project\graphics.h(116): warning C4838: conversion from 'float' to 'int' requires a narrowing conversion
+  c:\users\benjamin.odom\documents\github\2d-opengl-engine\test project\gameloop.cpp(35): note: see reference to function template instantiation 'void Graphics::NewCamera<int>(const System::Point2D<T> &,const System::Point2D<T> &,const System::Point2D<T> &,const System::Size2D<T> &,const System::Size2D<T> &,const T,const bool,const System::AngularVel<T> &,const unsigned int,const unsigned int)' being compiled
+          with
+          [
+              T=int
+          ]
+c:\users\benjamin.odom\documents\github\2d-opengl-engine\test project\graphics.h(116): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+c:\users\benjamin.odom\documents\github\2d-opengl-engine\test project\graphics.h(155): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+  c:\users\benjamin.odom\documents\github\2d-opengl-engine\test project\graphics.h(136): note: see reference to function template instantiation 'Graphics::GLSurface<int> *Graphics::LoadSurface<int>(SDL_Surface &)' being compiled
+  c:\users\benjamin.odom\documents\github\2d-opengl-engine\test project\tilemap.h(86): note: see reference to function template instantiation 'Graphics::GLSurface<int> *Graphics::LoadSurface<int>(const char *)' being compiled
+  c:\users\benjamin.odom\documents\github\2d-opengl-engine\test project\tilemap.h(70): note: while compiling class template member function 'Graphics::TileMap<int>::TileMap(const char *,const char *,const System::Size2D<T>,const System::Size2D<T>,const System::Point2D<T>)'
+          with
+          [
+              T=int
+          ]
+  c:\users\benjamin.odom\documents\github\2d-opengl-engine\test project\gameloop.cpp(37): note: see reference to function template instantiation 'Graphics::TileMap<int>::TileMap(const char *,const char *,const System::Size2D<T>,const System::Size2D<T>,const System::Point2D<T>)' being compiled
+          with
+          [
+              T=int
+          ]
+  c:\users\benjamin.odom\documents\github\2d-opengl-engine\test project\gameloop.cpp(37): note: see reference to class template instantiation 'Graphics::TileMap<int>' being compiled
+c:\users\benjamin.odom\documents\github\2d-opengl-engine\test project\graphics.h(156): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+  Generating Code...

@@ -3,13 +3,16 @@
 
 #include "Object.h"
 
-class Player : protected Object<int>
+class Player : public Collision::Object<int>
 {
 private:
+	bool m_bUp, m_bDown, m_bLeft, m_bRight;
 
 public:
 	void Update();
-	void LateUpdate();
+
+	void OnKeyDown(const SDL_Keycode ac_sdlSym, const Uint16 ac_uiMod, const SDL_Scancode ac_sdlScancode);
+	void OnKeyUp(const SDL_Keycode ac_sdlSym, const Uint16 ac_uiMod, const SDL_Scancode ac_sdlScancode);
 
 	Player();
 	~Player();
