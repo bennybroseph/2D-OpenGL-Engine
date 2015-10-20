@@ -15,7 +15,7 @@
 
 class EventHandler
 {
-public:
+protected:
 	//////Constructor - Destructor//////
 
 	EventHandler();
@@ -32,7 +32,7 @@ public:
 	virtual void OnInputBlur();
 
 	//Takes in sym (The enum naming the key) the mod (if any, like shift), and unicode (in case of typing)
-	virtual void OnKeyDown(const SDL_Keycode ac_sdlSym, const Uint16 ac_uiMod, SDL_Scancode ac_sdlScancode);
+	virtual void OnKeyDown(const SDL_Keycode ac_sdlSym, const Uint16 ac_uiMod, const SDL_Scancode ac_sdlScancode);
 	virtual void OnKeyUp(const SDL_Keycode ac_sdlSym, const Uint16 ac_uiMod, const SDL_Scancode ac_sdlScancode);
 
 	//Deals with window focus (clicking in and out)

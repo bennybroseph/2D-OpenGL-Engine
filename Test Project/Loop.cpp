@@ -30,6 +30,7 @@ namespace LoopHandle
 
 			LateUpdate();
 
+			Graphics::Draw();
 			Graphics::Flip();
 		}
 	}

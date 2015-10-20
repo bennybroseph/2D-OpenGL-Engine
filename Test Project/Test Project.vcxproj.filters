@@ -13,55 +13,73 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="Source Files\Graphics">
-      <UniqueIdentifier>{edecb8f5-da66-409c-a764-981237f779a0}</UniqueIdentifier>
+    <Filter Include="Source Files\Engine">
+      <UniqueIdentifier>{b32e86c3-91ec-45ca-a021-2333f5962176}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Graphics\Window">
-      <UniqueIdentifier>{ad450d6c-f5ec-4ac1-a32b-ccc36845eca1}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\System">
+    <Filter Include="Source Files\Engine\System">
       <UniqueIdentifier>{c9b915a3-88d0-4b11-ab92-b495292baecf}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Graphics\Camera">
-      <UniqueIdentifier>{9ed118ec-78d6-4f65-8b1b-fae272a9d07b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\LoopHandle">
+    <Filter Include="Source Files\Engine\LoopHandle">
       <UniqueIdentifier>{f3c26a08-a7dd-4b7f-a8cc-ad5edb008839}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\LoopHandle\EventHandle">
+    <Filter Include="Source Files\Engine\LoopHandle\EventHandle">
       <UniqueIdentifier>{2d6ab592-0f7c-429b-bed7-1817cff84eee}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Graphics\TileMap">
+    <Filter Include="Source Files\Engine\LoopHandle\Loop">
+      <UniqueIdentifier>{46ed4510-c31d-4351-bada-5b3217690b17}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Engine\Graphics">
+      <UniqueIdentifier>{edecb8f5-da66-409c-a764-981237f779a0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Engine\Graphics\Window">
+      <UniqueIdentifier>{ad450d6c-f5ec-4ac1-a32b-ccc36845eca1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Engine\Graphics\Camera">
+      <UniqueIdentifier>{9ed118ec-78d6-4f65-8b1b-fae272a9d07b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Engine\Graphics\TileMap">
       <UniqueIdentifier>{9383fdc2-ff52-42b0-9987-437ad113776b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\LoopHandle\Loop">
-      <UniqueIdentifier>{46ed4510-c31d-4351-bada-5b3217690b17}</UniqueIdentifier>
+    <Filter Include="Source Files\TestFiles">
+      <UniqueIdentifier>{2b4216cb-b495-4225-9502-ab3895814277}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Engine\Object">
+      <UniqueIdentifier>{4871c799-b865-4d0e-9120-e4ddb27dc908}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Window.h">
-      <Filter>Source Files\Graphics\Window</Filter>
+      <Filter>Source Files\Engine\Graphics\Window</Filter>
     </ClInclude>
     <ClInclude Include="System.h">
-      <Filter>Source Files\System</Filter>
+      <Filter>Source Files\Engine\System</Filter>
     </ClInclude>
     <ClInclude Include="Graphics.h">
-      <Filter>Source Files\Graphics</Filter>
+      <Filter>Source Files\Engine\Graphics</Filter>
     </ClInclude>
     <ClInclude Include="Camera.h">
-      <Filter>Source Files\Graphics\Camera</Filter>
+      <Filter>Source Files\Engine\Graphics\Camera</Filter>
     </ClInclude>
     <ClInclude Include="LoopHandle.h">
-      <Filter>Source Files\LoopHandle</Filter>
+      <Filter>Source Files\Engine\LoopHandle</Filter>
     </ClInclude>
     <ClInclude Include="EventHandler.h">
-      <Filter>Source Files\LoopHandle\EventHandle</Filter>
+      <Filter>Source Files\Engine\LoopHandle\EventHandle</Filter>
     </ClInclude>
     <ClInclude Include="TileMap.h">
-      <Filter>Source Files\Graphics\TileMap</Filter>
+      <Filter>Source Files\Engine\Graphics\TileMap</Filter>
     </ClInclude>
     <ClInclude Include="Loop.h">
-      <Filter>Source Files\LoopHandle\Loop</Filter>
+      <Filter>Source Files\Engine\LoopHandle\Loop</Filter>
+    </ClInclude>
+    <ClInclude Include="GameLoop.h">
+      <Filter>Source Files\TestFiles</Filter>
+    </ClInclude>
+    <ClInclude Include="Object.h">
+      <Filter>Source Files\Engine\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="Player.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -69,22 +87,28 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Window.cpp">
-      <Filter>Source Files\Graphics\Window</Filter>
+      <Filter>Source Files\Engine\Graphics\Window</Filter>
     </ClCompile>
     <ClCompile Include="System.cpp">
-      <Filter>Source Files\System</Filter>
+      <Filter>Source Files\Engine\System</Filter>
     </ClCompile>
     <ClCompile Include="Graphics.cpp">
-      <Filter>Source Files\Graphics</Filter>
+      <Filter>Source Files\Engine\Graphics</Filter>
     </ClCompile>
     <ClCompile Include="LoopHandle.cpp">
-      <Filter>Source Files\LoopHandle</Filter>
+      <Filter>Source Files\Engine\LoopHandle</Filter>
     </ClCompile>
     <ClCompile Include="EventHandler.cpp">
-      <Filter>Source Files\LoopHandle\EventHandle</Filter>
+      <Filter>Source Files\Engine\LoopHandle\EventHandle</Filter>
     </ClCompile>
     <ClCompile Include="Loop.cpp">
-      <Filter>Source Files\LoopHandle\Loop</Filter>
+      <Filter>Source Files\Engine\LoopHandle\Loop</Filter>
+    </ClCompile>
+    <ClCompile Include="GameLoop.cpp">
+      <Filter>Source Files\TestFiles</Filter>
+    </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

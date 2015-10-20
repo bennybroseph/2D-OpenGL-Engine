@@ -16,6 +16,7 @@
 #define LOOPS_H_INCLUDED
 
 #include "Graphics.h"
+#include "GameLoop.h"
 
 namespace LoopHandle
 {

@@ -14,7 +14,7 @@
 
 namespace LoopHandle
 {
-	class Loop : public EH
+	class Loop : protected EH
 	{
 	public:
 		///////Constructor - Destructor//////
