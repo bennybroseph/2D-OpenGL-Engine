@@ -19,7 +19,8 @@ namespace Collision
 		bool bIsTrigger;
 		bool bCheckOthers; // Whether to check this bounding boxes against all other bounding boxes
 
-		Object<T>* Object;
+		Object<T>* oObject;
+		void(Object<T>::*CallBack)(void) CallBackFunc;
 	};
 
 	struct BoundingBoxUnion
@@ -57,7 +58,7 @@ namespace Collision
 	{
 		BoundingBox<T>* bbBoundingBox = new BoundingBox<T>;
 
-		bbBoundingBox->Object = ac_oObject;
+		bbBoundingBox->oObject = ac_oObject;
 
 		bbBoundingBox->Size = ac_Size;
 

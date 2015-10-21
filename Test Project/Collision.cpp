@@ -49,7 +49,7 @@ namespace Collision
 		if (a_oHost.Max.X < a_oOther.Min.X) return;
 		if (a_oHost.Max.X < a_oOther.Min.X) return;
 
-		//a_oHost.Object->OnCollision(a_oOther);
+		a_oHost.oObject->OnCollision();
 	}
 
 	void PushBoundingBox(BoundingBox<int>* a_bbBoundingBox)

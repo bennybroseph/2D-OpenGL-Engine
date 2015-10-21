@@ -92,9 +92,6 @@
     <ClCompile Include="Window.cpp">
       <Filter>Source Files\Engine\Graphics\Window</Filter>
     </ClCompile>
-    <ClCompile Include="System.cpp">
-      <Filter>Source Files\Engine\System</Filter>
-    </ClCompile>
     <ClCompile Include="Graphics.cpp">
       <Filter>Source Files\Engine\Graphics</Filter>
     </ClCompile>

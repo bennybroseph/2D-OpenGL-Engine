@@ -65,6 +65,60 @@ namespace Graphics
 			glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 			SDL_GL_SetSwapInterval(-1);
+
+			glViewport(0, 0, ac_iDimensions.W, ac_iDimensions.H);
+			glMatrixMode(GL_PROJECTION);
+			glLoadIdentity();
+
+			glOrtho(0.0f, ac_iResolution.W, ac_iResolution.H, 0.0f, -1.0f, 1.0f);
+		}
+	}
+
+	void Resize(
+		const System::Size2D<unsigned int>& ac_uiNewDimensions,
+		const unsigned int					ac_uiNewMonitorIndex,
+		const unsigned int					ac_uiIndex)
+	{
+		for (int i = 0; i < voCameras.size(); ++i)
+		{
+			switch (voCameras[i]->Tag)
+			{
+			case CameraUnion::INT: ResizeCameras(*voCameras[i]->iCamera, ac_uiNewDimensions, ac_uiIndex); break;
+			case CameraUnion::FLOAT: ResizeCameras(*voCameras[i]->fCamera, ac_uiNewDimensions, ac_uiIndex); break;
+			}
+		}
+		voWindows[ac_uiIndex]->Resize(ac_uiNewDimensions, ac_uiNewMonitorIndex);
+	}
+	void ToggleFullscreen(const unsigned int ac_uiIndex)
+	{
+		System::Size2D<unsigned int> NewDimensions;
+		NewDimensions.W = (!voWindows[ac_uiIndex]->GetIsFullscreen()) ? (unsigned int)sdlDisplayMode[ac_uiIndex].w : voWindows[ac_uiIndex]->GetNonFullscreen().W;
+		NewDimensions.H = (!voWindows[ac_uiIndex]->GetIsFullscreen()) ? (unsigned int)sdlDisplayMode[ac_uiIndex].h : voWindows[ac_uiIndex]->GetNonFullscreen().H;
+
+		for (int i = 0; i < voCameras.size(); ++i)
+		{
+			switch (voCameras[i]->Tag)
+			{
+			case CameraUnion::INT: ResizeCameras(*voCameras[i]->iCamera, NewDimensions, ac_uiIndex); break;
+			case CameraUnion::FLOAT: ResizeCameras(*voCameras[i]->fCamera, NewDimensions, ac_uiIndex); break;
+			}
+		}
+
+		voWindows[ac_uiIndex]->ToggleFullscreen();
+	}
+
+	template <typename T>
+	void ResizeCameras(Camera<T>& a_Camera, const System::Size2D<unsigned int>& ac_uiDimensions, const unsigned int ac_uiIndex)
+	{
+		if (a_Camera.GetWindowIndex() == ac_uiIndex)
+		{
+			System::Size2D<T> Scale = {
+				((float)voWindows[a_Camera.GetWindowIndex()]->GetDimensions().W / (float)a_Camera.GetDimensions().W) * 100,
+				((float)voWindows[a_Camera.GetWindowIndex()]->GetDimensions().H / (float)a_Camera.GetDimensions().H) * 100 };
+
+			System::Size2D<T> SizeOffset = { Scale.W * (T)ac_uiDimensions.W / 100, Scale.H * (T)ac_uiDimensions.H / 100 };
+
+			a_Camera.Resize(SizeOffset);
 		}
 	}
 
@@ -81,7 +135,7 @@ namespace Graphics
 	}
 
 	template <typename T>
-	void UpdateCameras(Camera<T> a_Camera)
+	void UpdateCameras(Camera<T>& a_Camera)
 	{
 		a_Camera.Update();
 
@@ -301,30 +355,6 @@ namespace Graphics
 		voCameras.push_back(newCameraUnion);
 	}
 
-	void Draw_Rect(
-		const float ac_fPosX, const float ac_fPosY,
-		const float ac_fWidth, const float ac_fHeight,
-		const int ac_iRed, const int ac_iGreen, const int ac_iBlue)
-	{
-		glBindTexture(GL_TEXTURE_2D, NULL);// boundTexture = NULL; }
-
-		glBegin(GL_QUADS);
-		glColor3ub(ac_iRed, ac_iGreen, ac_iBlue);
-		//Bottom-left vertex (corner)
-		glVertex3f(ac_fPosX, ac_fPosY, 0.0f); //Vertex Coords
-
-											  //Bottom-right vertex (corner)
-		glVertex3f(ac_fPosX + ac_fWidth, ac_fPosY, 0.f);
-
-		//Top-right vertex (corner)
-		glVertex3f(ac_fPosX + ac_fWidth, ac_fPosY + ac_fHeight, 0.f);
-
-		//Top-left vertex (corner)
-		glVertex3f(ac_fPosX, ac_fPosY + ac_fHeight, 0.f);
-
-		glEnd();
-	}
-
 	void Flip()
 	{
 		for (int i = 0; i < voWindows.size(); ++i)
@@ -337,5 +367,7 @@ namespace Graphics
 	void Quit()
 	{
 		voWindows.clear();
+		voCameras.clear();
+		vglSurfaces.clear();
 	}
 }

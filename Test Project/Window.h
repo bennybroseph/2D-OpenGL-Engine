@@ -17,6 +17,7 @@ namespace Graphics
 		const std::vector<SDL_DisplayMode>& m_sdlDisplayMode;
 
 		System::Size2D<unsigned int> m_uiDimensions;
+		System::Size2D<unsigned int> m_uiNonFullscreen;
 		System::Size2D<unsigned int> m_uiResolution;
 
 		System::Size2D<unsigned int>  m_uiViewport;
@@ -35,9 +36,13 @@ namespace Graphics
 		void ToggleFullscreen();
 
 		const System::Size2D<unsigned int>& GetDimensions();
+		const System::Size2D<unsigned int>& GetNonFullscreen();
+
 		SDL_Window* GetWindow();
 		const SDL_GLContext& GetContext();
 		const System::Size2D<unsigned int>& GetResolution();
+
+		const bool GetIsFullscreen();
 
 		void Flip();
 
@@ -49,7 +54,7 @@ namespace Graphics
 			const char*							ac_szTitle,			// The window's title
 			const unsigned int					ac_uiMonitorIndex,	// Which monitor the window should be created on
 			const std::vector<SDL_DisplayMode>&	ac_sdlDisplayMode); // A reference to all the current displays dimensions and specifications
-		// The default constructor does not exist on purpose
+																	// The default constructor does not exist on purpose
 		Window() = delete; // Make sure the default constructor cannot be called
 		~Window();
 	};
