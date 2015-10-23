@@ -19,14 +19,14 @@ void Player::Update()
 			m_Velocity = { SPEED, System::AngularDir::RIGHT };
 
 		/*if (m_bUp && m_bLeft)
-			m_Velocity = { SPEED, System::AngularDir::UP_LEFT };
+		m_Velocity = { SPEED, System::AngularDir::UP_LEFT };
 		if (m_bUp && m_bRight)
-			m_Velocity = { SPEED, System::AngularDir::UP_RIGHT };
+		m_Velocity = { SPEED, System::AngularDir::UP_RIGHT };
 
 		if (m_bDown && m_bLeft)
-			m_Velocity = { SPEED, System::AngularDir::DOWN_LEFT };
+		m_Velocity = { SPEED, System::AngularDir::DOWN_LEFT };
 		if (m_bDown && m_bRight)
-			m_Velocity = { SPEED, System::AngularDir::DOWN_RIGHT };*/
+		m_Velocity = { SPEED, System::AngularDir::DOWN_RIGHT };*/
 	}
 	else
 		m_bMove = false;
@@ -68,3 +68,4 @@ Player::~Player()
 {
 
 }
+

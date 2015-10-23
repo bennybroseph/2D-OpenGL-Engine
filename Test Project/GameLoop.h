@@ -10,6 +10,7 @@ namespace LoopHandle
 	{
 	private:
 		Player m_oPlayer;
+		System::Point2D<int> Temp;
 
 	public:
 		void Update();

@@ -9,8 +9,8 @@ namespace LoopHandle
 	}
 	void GameLoop::LateUpdate()
 	{
+		Collision::CheckCollisions();
 		m_oPlayer.LateHandle();
-		Collision::Collisions();
 	}
 
 	void GameLoop::OnKeyDown(const SDL_Keycode ac_sdlSym, const Uint16 ac_uiMod, const SDL_Scancode ac_sdlScancode)
@@ -32,7 +32,8 @@ namespace LoopHandle
 
 	GameLoop::GameLoop() : Loop()
 	{
-		Graphics::NewCamera<int>({ 0, 0 }, { 0, 0 }, m_oPlayer.GetPos(), { 100, 100 }, { 1, 1 }, 0, false, { 0, 0 }, 0, 0);
+		//Temp = { 1, 1 };
+		Graphics::NewCamera<int>({ 0, 0 }, { 0, 0 }, m_oPlayer.GetIntPos(), { 100, 100 }, { 1, 1 }, 0, false, { 0, 0 }, 0, 0);
 
 		Graphics::TileMap<int> TestMap("Tilemap/OriginalMap.txt", "Images/environment.png", { 128, 128 }, { 10, 7 }, { 0, 0 });
 	}
