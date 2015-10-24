@@ -3,72 +3,50 @@
 
 #include "Graphics.h"
 
-#define CALL_MEMBER_FN(OBJ, FUNC) ((OBJ).*(FUNC)) // Makes calling function pointers using an object much less clunky
-
 namespace Collision
 {
-	template <typename T>
 	class Object;
 
-	template <typename T>
 	struct BoundingBox
 	{
-		System::Point2D<T> Min, Max;
-		System::Size2D<T> Size;
+		System::Point2D<float> Min, Max;
+		System::Point2D<float> Center;
 
 		bool bIsTrigger;
 		bool bCheckOthers; // Whether to check this bounding boxes against all other bounding boxes
 
-		Object<T>* oObject;
-		void(Object<T>::*CallBack)(void) CallBackFunc;
-	};
-
-	struct BoundingBoxUnion
-	{
-		enum { INT, FLOAT } Tag;
-		union
-		{
-			BoundingBox<int>*   iBoundingBox;
-			BoundingBox<float>* fBoundingBox;
-		};
+		Object* oObject;
 	};
 
 	void Init();
 
 	void Collisions();
 
-	template <typename T>
-	void FindHost(const BoundingBox<T>& a_oObject, const unsigned int ac_uiIndex);
-	template <typename T, typename U>
-	void CheckCollisions(const BoundingBox<T>& a_oHost, BoundingBox<U>& a_oOther);
+	void FindHost(const BoundingBox& a_oObject, const unsigned int ac_uiIndex);
+	void CheckCollisions(const BoundingBox& a_oHost, BoundingBox& a_oOther);
 
-	template <typename T>
-	BoundingBox<T>* NewBoundingBox(const Object<T>* ac_oObject, const System::Size2D<T>& ac_Size, const bool ac_bIsTrigger, const bool ac_bCheckOthers);
-
-	void PushBoundingBox(BoundingBox<int>*	 a_bbBoundingBox);
-	void PushBoundingBox(BoundingBox<float>* a_bbBoundingBox);
+	BoundingBox* NewBoundingBox(const Object* ac_oObject, const bool ac_bIsTrigger, const bool ac_bCheckOthers);
 
 	void Quit();
 }
 
 namespace Collision
 {
-	template <typename T>
-	BoundingBox<T>* NewBoundingBox(Object<T>* ac_oObject, const System::Size2D<T>& ac_Size, const bool ac_bIsTrigger, const bool ac_bCheckOthers)
+	BoundingBox* NewBoundingBox(Object* ac_oObject, const bool ac_bIsTrigger, const bool ac_bCheckOthers)
 	{
-		BoundingBox<T>* bbBoundingBox = new BoundingBox<T>;
-
-		bbBoundingBox->oObject = ac_oObject;
-
-		bbBoundingBox->Size = ac_Size;
-
-		bbBoundingBox->bIsTrigger = ac_bIsTrigger;
-		bbBoundingBox->bIsTrigger = ac_bCheckOthers;
+		BoundingBox* bbBoundingBox = new BoundingBox;
 
 		bbBoundingBox->Min = { NULL, NULL };
 		bbBoundingBox->Max = { NULL, NULL };
 
-		PushBoundingBox(bbBoundingBox);
+		bbBoundingBox->Center = { NULL, NULL };
+
+		bbBoundingBox->bIsTrigger = ac_bIsTrigger;
+		bbBoundingBox->bIsTrigger = ac_bCheckOthers;
+
+		bbBoundingBox->oObject = ac_oObject;
+
+		voBoundingBoxes.push_back(bbBoundingBox);
 
 		return bbBoundingBox;
 	}
