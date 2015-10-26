@@ -4,13 +4,16 @@
 #include "Loop.h"
 #include "Player.h"
 
+#include <time.h>
+
 namespace LoopHandle
 {
 	class GameLoop : public Loop
 	{
 	private:
 		Player m_oPlayer;
-		System::Point2D<int> Temp;
+
+		int m_iFPS, m_iTime;
 
 	public:
 		void Update();

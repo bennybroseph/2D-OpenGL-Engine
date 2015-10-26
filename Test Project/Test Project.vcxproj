@@ -140,6 +140,7 @@
     <ClCompile Include="Graphics.cpp" />
     <ClCompile Include="Loop.cpp" />
     <ClCompile Include="LoopHandle.cpp" />
+    <ClCompile Include="Object.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Window.cpp" />
     <ClCompile Include="Source.cpp" />

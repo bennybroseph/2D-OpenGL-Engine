@@ -1,43 +1,11 @@
-﻿Build started 10/23/2015 5:16:58 PM.
-     1>Project "C:\Users\Womb-Raider\Documents\GitHub\2D OpenGL Engine\Test Project\Test Project.vcxproj" on node 2 (Build target(s)).
-     1>ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\CL.exe /c /IC:\SDL\include /IC:\OpenGL\include /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"Debug\\" /Fd"Debug\vc140.pdb" /Gd /TP /analyze- /errorReport:prompt GameLoop.cpp LoopHandle.cpp Source.cpp
-         Source.cpp
-     1>c:\users\womb-raider\documents\github\2d opengl engine\test project\player.h(6): error C2653: 'Collision': is not a class or namespace name
-     1>c:\users\womb-raider\documents\github\2d opengl engine\test project\player.h(7): error C2504: 'Object': base class undefined
-     1>c:\users\womb-raider\documents\github\2d opengl engine\test project\player.h(12): error C3646: 'other': unknown override specifier
-     1>c:\users\womb-raider\documents\github\2d opengl engine\test project\player.h(12): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
-     1>c:\users\womb-raider\documents\github\2d opengl engine\test project\player.h(18): error C2061: syntax error: identifier 'Object'
-         LoopHandle.cpp
-     1>c:\users\womb-raider\documents\github\2d opengl engine\test project\player.h(6): error C2653: 'Collision': is not a class or namespace name
-     1>c:\users\womb-raider\documents\github\2d opengl engine\test project\player.h(7): error C2504: 'Object': base class undefined
-     1>c:\users\womb-raider\documents\github\2d opengl engine\test project\player.h(12): error C3646: 'other': unknown override specifier
-     1>c:\users\womb-raider\documents\github\2d opengl engine\test project\player.h(12): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
-     1>c:\users\womb-raider\documents\github\2d opengl engine\test project\player.h(18): error C2061: syntax error: identifier 'Object'
-         GameLoop.cpp
-     1>c:\users\womb-raider\documents\github\2d opengl engine\test project\player.h(6): error C2653: 'Collision': is not a class or namespace name
-     1>c:\users\womb-raider\documents\github\2d opengl engine\test project\player.h(7): error C2504: 'Object': base class undefined
-     1>c:\users\womb-raider\documents\github\2d opengl engine\test project\player.h(12): error C3646: 'other': unknown override specifier
-     1>c:\users\womb-raider\documents\github\2d opengl engine\test project\player.h(12): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
-     1>c:\users\womb-raider\documents\github\2d opengl engine\test project\player.h(18): error C2061: syntax error: identifier 'Object'
-     1>c:\users\womb-raider\documents\github\2d opengl engine\test project\gameloop.cpp(8): error C2039: 'Handle': is not a member of 'Player'
-         c:\users\womb-raider\documents\github\2d opengl engine\test project\player.h(6): note: see declaration of 'Player'
-     1>c:\users\womb-raider\documents\github\2d opengl engine\test project\gameloop.cpp(12): error C2653: 'Collision': is not a class or namespace name
-     1>c:\users\womb-raider\documents\github\2d opengl engine\test project\gameloop.cpp(12): error C3861: 'CheckCollisions': identifier not found
-     1>c:\users\womb-raider\documents\github\2d opengl engine\test project\gameloop.cpp(13): error C2039: 'LateHandle': is not a member of 'Player'
-         c:\users\womb-raider\documents\github\2d opengl engine\test project\player.h(6): note: see declaration of 'Player'
-     1>c:\users\womb-raider\documents\github\2d opengl engine\test project\gameloop.cpp(36): error C2039: 'GetIntPos': is not a member of 'Player'
-         c:\users\womb-raider\documents\github\2d opengl engine\test project\player.h(6): note: see declaration of 'Player'
-     1>c:\users\womb-raider\documents\github\2d opengl engine\test project\gameloop.cpp(36): error C2664: 'void Graphics::NewCamera<int>(const System::Point2D<int> &,const System::Point2D<int> &,const System::Point2D<int> &,const System::Size2D<int> &,const System::Size2D<int> &,const T,const bool,const System::AngularVel<T> &,const unsigned int,const unsigned int)': cannot convert argument 5 from 'int' to 'const System::Size2D<int> &'
-                 with
-                 [
-                     T=int
-                 ]
-         c:\users\womb-raider\documents\github\2d opengl engine\test project\gameloop.cpp(36): note: Reason: cannot convert from 'int' to 'const System::Size2D<int>'
-         c:\users\womb-raider\documents\github\2d opengl engine\test project\gameloop.cpp(36): note: No constructor could take the source type, or constructor overload resolution was ambiguous
-         Generating Code...
-     1>Done Building Project "C:\Users\Womb-Raider\Documents\GitHub\2D OpenGL Engine\Test Project\Test Project.vcxproj" (Build target(s)) -- FAILED.
-
-Build FAILED.
-
-Time Elapsed 00:00:01.68
+﻿  Player.cpp
+c:\users\benjamin.odom\documents\github\2d-opengl-engine\test project\system.h(183): warning C4838: conversion from 'const int' to 'float' requires a narrowing conversion
+  c:\users\benjamin.odom\documents\github\2d-opengl-engine\test project\player.cpp(22): note: see reference to function template instantiation 'void System::ToAngular<float>(System::Velocity2D<float> &,const int)' being compiled
+c:\users\benjamin.odom\documents\github\2d-opengl-engine\test project\system.h(183): warning C4244: 'initializing': conversion from 'const int' to 'float', possible loss of data
+c:\users\benjamin.odom\documents\github\2d-opengl-engine\test project\system.h(183): warning C4838: conversion from 'double' to 'float' requires a narrowing conversion
+c:\users\benjamin.odom\documents\github\2d-opengl-engine\test project\system.h(183): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+c:\users\benjamin.odom\documents\github\2d-opengl-engine\test project\graphics.h(200): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+  c:\users\benjamin.odom\documents\github\2d-opengl-engine\test project\graphics.h(181): note: see reference to function template instantiation 'Graphics::GLSurface<int> *Graphics::LoadSurface<int>(SDL_Surface &)' being compiled
+  c:\users\benjamin.odom\documents\github\2d-opengl-engine\test project\player.cpp(77): note: see reference to function template instantiation 'Graphics::GLSurface<int> *Graphics::LoadSurface<int>(const char *)' being compiled
+c:\users\benjamin.odom\documents\github\2d-opengl-engine\test project\graphics.h(201): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+  Test Project.vcxproj -> C:\Users\benjamin.odom\Documents\GitHub\2D-OpenGL-Engine\Debug\Test Project.exe

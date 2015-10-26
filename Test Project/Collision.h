@@ -5,12 +5,53 @@
 
 namespace Collision
 {
-	class Object;
+	struct BoundingBox;
 
+	class Object
+	{
+	protected:
+
+		System::Point2D<float> m_fPos;
+		System::Point2D<int>   m_iPos;
+
+		System::Velocity2D<float> m_fVelocity;
+		System::AngularVel<float> m_fAngularVel;
+
+		bool m_bMove;
+
+		
+	public:
+		BoundingBox* m_bbBoundingBox;
+
+		void Handle();
+		void LateHandle();
+
+		virtual void Update();
+		virtual void LateUpdate();
+
+		void Move();
+
+		virtual void OnCollision(Object& a_oOther);
+
+		virtual void UpdateBB();
+
+		const System::Point2D<float>& GetPos();
+		const System::Point2D<int>& GetIntPos();
+
+		const BoundingBox& GetBoundingBox();
+
+		Object();
+		~Object();
+	};
+}
+namespace Collision
+{
 	struct BoundingBox
 	{
-		System::Point2D<float> Min, Max;
-		System::Point2D<float> Center;
+		System::Point2D<float> fMin, fMax;
+		System::Point2D<float> fCenter;
+
+		System::Size2D<float> fSize;
 
 		bool bIsTrigger;
 		bool bCheckOthers; // Whether to check this bounding boxes against all other bounding boxes
@@ -20,36 +61,11 @@ namespace Collision
 
 	void Init();
 
-	void Collisions();
+	void CheckCollisions();
 
-	void FindHost(const BoundingBox& a_oObject, const unsigned int ac_uiIndex);
-	void CheckCollisions(const BoundingBox& a_oHost, BoundingBox& a_oOther);
-
-	BoundingBox* NewBoundingBox(const Object* ac_oObject, const bool ac_bIsTrigger, const bool ac_bCheckOthers);
+	BoundingBox* NewBoundingBox(Object* ac_oObject, const System::Size2D<float>& ac_fSize, const System::Point2D<float>& ac_fPos, const bool ac_bIsTrigger, const bool ac_bCheckOthers);
 
 	void Quit();
-}
-
-namespace Collision
-{
-	BoundingBox* NewBoundingBox(Object* ac_oObject, const bool ac_bIsTrigger, const bool ac_bCheckOthers)
-	{
-		BoundingBox* bbBoundingBox = new BoundingBox;
-
-		bbBoundingBox->Min = { NULL, NULL };
-		bbBoundingBox->Max = { NULL, NULL };
-
-		bbBoundingBox->Center = { NULL, NULL };
-
-		bbBoundingBox->bIsTrigger = ac_bIsTrigger;
-		bbBoundingBox->bIsTrigger = ac_bCheckOthers;
-
-		bbBoundingBox->oObject = ac_oObject;
-
-		voBoundingBoxes.push_back(bbBoundingBox);
-
-		return bbBoundingBox;
-	}
 }
 #endif // _COLLISION_H_
 

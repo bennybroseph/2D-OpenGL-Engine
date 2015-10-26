@@ -181,10 +181,10 @@ namespace System
 		if (a_VelocityA.X != 0 || a_VelocityA.Y != 0)
 		{
 			const AngularVel<T> VelocityC = { ac_iSpeed, atan2(a_VelocityA.Y, a_VelocityA.X) * (180 / PI) };
-
+			
 			a_VelocityA = {
-				VelocityC.Speed * (T)cos(VelocityC.Angle * (PI / 180)),
-				VelocityC.Speed * (T)sin(VelocityC.Angle * (PI / 180)) };
+				(a_VelocityA.X != 0) ? VelocityC.Speed * (T)cos(VelocityC.Angle * (PI / 180)) : 0,
+				(a_VelocityA.Y != 0) ? VelocityC.Speed * (T)sin(VelocityC.Angle * (PI / 180)) : 0};
 		}
 		else
 			return;

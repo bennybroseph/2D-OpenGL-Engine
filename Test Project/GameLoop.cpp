@@ -11,6 +11,15 @@ namespace LoopHandle
 	{
 		Collision::CheckCollisions();
 		m_oPlayer.LateHandle();
+
+		++m_iFPS;
+		if (clock() > m_iTime + 1000)
+		{
+			printf("FPS: %d\n", m_iFPS);
+
+			m_iTime = clock();
+			m_iFPS = NULL;
+		}
 	}
 
 	void GameLoop::OnKeyDown(const SDL_Keycode ac_sdlSym, const Uint16 ac_uiMod, const SDL_Scancode ac_sdlScancode)
@@ -32,10 +41,12 @@ namespace LoopHandle
 
 	GameLoop::GameLoop() : Loop()
 	{
-		//Temp = { 1, 1 };
 		Graphics::NewCamera<int>({ 0, 0 }, { 0, 0 }, m_oPlayer.GetIntPos(), { 100, 100 }, { 1, 1 }, 0, false, { 0, 0 }, 0, 0);
 
 		Graphics::TileMap<int> TestMap("Tilemap/OriginalMap.txt", "Images/environment.png", { 128, 128 }, { 10, 7 }, { 0, 0 });
+
+		m_iTime = clock();
+		m_iFPS = NULL;
 	}
 	GameLoop::~GameLoop()
 	{
