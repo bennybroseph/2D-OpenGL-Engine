@@ -31,17 +31,23 @@ namespace LoopHandle
 			LateUpdate();
 
 			Graphics::Draw();
+			Draw();
 			Graphics::Flip();
 		}
 	}
 
-	//Empty because it is virtual
+	//Empty because it is virtual only
 	void Loop::Update()
 	{
 
 	}
-	//Empty because it is virtual
+	//Empty because it is virtual only
 	void Loop::LateUpdate()
+	{
+
+	}
+	//Empty because it is virtual only
+	void Loop::Draw()
 	{
 
 	}

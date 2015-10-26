@@ -32,6 +32,8 @@ namespace LoopHandle
 		virtual void Update();
 		// Redefined for each child
 		virtual void LateUpdate();
+		// Redefined for each child
+		virtual void Draw();
 
 	protected:
 		//////Member Variables//////

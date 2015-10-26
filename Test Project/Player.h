@@ -3,6 +3,7 @@
 
 #include "Collision.h"
 
+
 class Player : public Collision::Object
 {
 private:
@@ -14,6 +15,8 @@ private:
 public:
 	void Update();
 	void LateUpdate();
+
+	void Draw();
 
 	void OnCollision(Object& a_oOther);
 

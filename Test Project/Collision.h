@@ -11,7 +11,7 @@ namespace Collision
 	{
 	protected:
 
-		System::Point2D<float> m_fPos;
+		System::Point2D<float> m_fPos, m_fPrevPos;
 		System::Point2D<int>   m_iPos;
 
 		System::Velocity2D<float> m_fVelocity;
@@ -38,7 +38,7 @@ namespace Collision
 		const System::Point2D<float>& GetPos();
 		const System::Point2D<int>& GetIntPos();
 
-		const BoundingBox& GetBoundingBox();
+		const BoundingBox& GetBB();
 
 		Object();
 		~Object();

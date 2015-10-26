@@ -15,7 +15,7 @@ namespace LoopHandle
 
 		Graphics::Init();
 
-		Graphics::NewWindow({ 1600, 900 }, false, { 1600, 900 }, "New Window", 1);
+		Graphics::NewWindow({ 1600, 900 }, false, { 1600, 900 }, "New Window", 0);
 		//Graphics::NewWindow({ 200, 900 }, false, { 200, 900 }, "New Window", 0);
 
 		GameLoop oGameLoop;

@@ -1,11 +1,11 @@
 ﻿  Player.cpp
-c:\users\benjamin.odom\documents\github\2d-opengl-engine\test project\system.h(183): warning C4838: conversion from 'const int' to 'float' requires a narrowing conversion
+c:\users\benjamin.odom\documents\github\2d-opengl-engine\test project\system.h(189): warning C4838: conversion from 'const int' to 'float' requires a narrowing conversion
   c:\users\benjamin.odom\documents\github\2d-opengl-engine\test project\player.cpp(22): note: see reference to function template instantiation 'void System::ToAngular<float>(System::Velocity2D<float> &,const int)' being compiled
-c:\users\benjamin.odom\documents\github\2d-opengl-engine\test project\system.h(183): warning C4244: 'initializing': conversion from 'const int' to 'float', possible loss of data
-c:\users\benjamin.odom\documents\github\2d-opengl-engine\test project\system.h(183): warning C4838: conversion from 'double' to 'float' requires a narrowing conversion
-c:\users\benjamin.odom\documents\github\2d-opengl-engine\test project\system.h(183): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+c:\users\benjamin.odom\documents\github\2d-opengl-engine\test project\system.h(189): warning C4244: 'initializing': conversion from 'const int' to 'float', possible loss of data
+c:\users\benjamin.odom\documents\github\2d-opengl-engine\test project\system.h(189): warning C4838: conversion from 'double' to 'float' requires a narrowing conversion
+c:\users\benjamin.odom\documents\github\2d-opengl-engine\test project\system.h(189): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
 c:\users\benjamin.odom\documents\github\2d-opengl-engine\test project\graphics.h(200): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
   c:\users\benjamin.odom\documents\github\2d-opengl-engine\test project\graphics.h(181): note: see reference to function template instantiation 'Graphics::GLSurface<int> *Graphics::LoadSurface<int>(SDL_Surface &)' being compiled
-  c:\users\benjamin.odom\documents\github\2d-opengl-engine\test project\player.cpp(77): note: see reference to function template instantiation 'Graphics::GLSurface<int> *Graphics::LoadSurface<int>(const char *)' being compiled
+  c:\users\benjamin.odom\documents\github\2d-opengl-engine\test project\player.cpp(110): note: see reference to function template instantiation 'Graphics::GLSurface<int> *Graphics::LoadSurface<int>(const char *)' being compiled
 c:\users\benjamin.odom\documents\github\2d-opengl-engine\test project\graphics.h(201): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
   Test Project.vcxproj -> C:\Users\benjamin.odom\Documents\GitHub\2D-OpenGL-Engine\Debug\Test Project.exe

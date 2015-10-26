@@ -25,9 +25,9 @@ namespace Collision
 					float fD2X = voBoundingBoxes[j]->fMin.X - voBoundingBoxes[i]->fMax.X;
 					float fD2Y = voBoundingBoxes[j]->fMin.Y - voBoundingBoxes[i]->fMax.Y;
 
-					if (fD1X > 0.0f || fD1Y > 0.0f)
+					if (fD1X >= 0.0f || fD1Y >= 0.0f)
 						return;
-					if (fD2X > 0.0f || fD2Y > 0.0f)
+					if (fD2X >= 0.0f || fD2Y >= 0.0f)
 						return;
 
 					voBoundingBoxes[i]->oObject->OnCollision(*voBoundingBoxes[j]->oObject);

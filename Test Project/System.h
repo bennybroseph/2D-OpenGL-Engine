@@ -26,19 +26,21 @@ namespace System
 		T X, Y;
 
 		// Addition of two 'Point2D's
-		template <typename U>
+		template <typename T, typename U>
 		friend const Point2D<T> operator+(const Point2D<T>& ac_PointA, const Point2D<U>& ac_PointB);
 		// Subtraction of two 'Point2D's
-		template <typename U>
+		template <typename T, typename U>
 		friend const Point2D<T> operator-(const Point2D<T>& ac_PointA, const Point2D<U>& ac_PointB);
 		// Applying a negative sign to a single Point2D; ex: "NegativeA = -PointA;"
+		template <typename T>
 		friend const Point2D<T> operator-(const Point2D<T>& ac_PointA);
 
 		// Division of two 'Point2D's
-		template <typename U>
+		template <typename T, typename U>
 		friend const Point2D<T> operator/(const Point2D<T>& ac_PointA, const Point2D<U>& ac_PointB);
 
 		// Division of a 'Point2D' and an integer; ex: "HalfofA = PointA / 2;"
+		template <typename T>
 		friend const Point2D<T> operator/(const Point2D<T>& ac_PointA, const int ac_iNum);
 	};
 
@@ -48,6 +50,7 @@ namespace System
 	{
 		T W, H;
 
+		template <typename T>
 		friend const Size2D<T> operator/(const Size2D<T>& ac_SizeA, const int ac_iNum);
 	};
 	// Defines a templated struct for angular velocity in 2D space
@@ -62,7 +65,7 @@ namespace System
 	{
 		T X, Y;
 
-		template <typename U>
+		template <typename T, typename U>
 		friend const Velocity2D<T> operator+(const Velocity2D<T>& ac_VelocityA, const Velocity2D<T>& ac_VelocityB);
 	};
 	// Defines a templated struct for color in the format rgba, which is the most useful for OpenGL
@@ -87,6 +90,9 @@ namespace System
 	const AngularVel<T> CalculateAngular(const Velocity2D<T>& ac_VelocityA, const int ac_iSpeed);
 	template <typename T>
 	void ToAngular(Velocity2D<T>& ac_VelocityA, const int ac_iSpeed = 1);
+
+	template <typename T, typename U>
+	const T Distance(const Point2D<T>& ac_PointA, const Point2D<U>& ac_PointB);
 }
 
 namespace System
@@ -98,17 +104,17 @@ namespace System
 
 		return PointC;
 	}
+	template <typename T, typename U>
+	const Point2D<T> operator-(const Point2D<T>& ac_PointA, const Point2D<U>& ac_PointB)
+	{
+		return ac_PointA + (-ac_PointB);
+	}
 	template <typename T>
 	const Point2D<T> operator-(const Point2D<T>& ac_PointA)
 	{
 		const Point2D<T> PointC = { -ac_PointA.X, -ac_PointA.Y };
 
 		return PointC;
-	}
-	template <typename T, typename U>
-	const Point2D<T> operator-(const Point2D<T>& ac_PointA, const Point2D<U>& ac_PointB)
-	{
-		return ac_PointA + (-ac_PointB);
 	}
 	template <typename T, typename U>
 	const Point2D<T> operator/(const Point2D<T>& ac_PointA, const Point2D<U>& ac_PointB)
@@ -188,6 +194,14 @@ namespace System
 		}
 		else
 			return;
+	}
+
+	template <typename T, typename U>
+	const T Distance(const Point2D<T>& ac_PointA, const Point2D<U>& ac_PointB)
+	{
+		const T Distance = sqrt(pow(ac_PointB.X - ac_PointA.X, 2) + pow(ac_PointB.Y - ac_PointA.Y, 2));
+
+		return Distance;
 	}
 }
 

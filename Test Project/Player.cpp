@@ -31,19 +31,52 @@ void Player::LateUpdate()
 	other.UpdateBB();
 }
 
+void Player::Draw()
+{
+	System::Point2D<float> Center = { 800, 450 };
+}
+
 void Player::OnCollision(Object& a_oOther)
 {
-	//printf("Collision ");
+	struct DistanceHold
+	{
+		enum
+		{
+			TOP, BOTTOM, LEFT, RIGHT
+		} Tag;
+		float Distance;
+	};
 
-	if (m_fVelocity.Y < 0 && m_fVelocity.X == 0.0f)
-		m_fPos.Y = a_oOther.GetBoundingBox().fMax.Y + m_glSurface->OffsetD.H / 2 + 1.0f;
-	if (m_fVelocity.Y > 0 && m_fVelocity.X == 0.0f)
-		m_fPos.Y = a_oOther.GetBoundingBox().fMin.Y - m_glSurface->OffsetD.H / 2 - 1.0f;
+	std::vector<DistanceHold> Distances;
 
-	if (m_fVelocity.X < 0 && m_fVelocity.Y == 0.0f)
-		m_fPos.X = a_oOther.GetBoundingBox().fMax.X + m_glSurface->OffsetD.W / 2 + 1.0f;
-	if (m_fVelocity.X > 0 && m_fVelocity.Y == 0.0f)
-		m_fPos.X = a_oOther.GetBoundingBox().fMin.X - m_glSurface->OffsetD.W / 2 - 1.0f;
+	Distances.push_back({ DistanceHold::LEFT, System::Distance<float, float>(m_fPrevPos, { a_oOther.GetBB().fMin.X, a_oOther.GetBB().fMin.Y + a_oOther.GetBB().fSize.H / 2 }) });
+	Distances.push_back({ DistanceHold::RIGHT, System::Distance<float, float>(m_fPrevPos, { a_oOther.GetBB().fMax.X, a_oOther.GetBB().fMin.Y + a_oOther.GetBB().fSize.H / 2 }) });
+	Distances.push_back({ DistanceHold::TOP, System::Distance<float, float>(m_fPrevPos, { a_oOther.GetBB().fMin.X + a_oOther.GetBB().fSize.W / 2, a_oOther.GetBB().fMin.Y }) });
+	Distances.push_back({ DistanceHold::BOTTOM, System::Distance<float, float>(m_fPrevPos, { a_oOther.GetBB().fMin.X + a_oOther.GetBB().fSize.W / 2, a_oOther.GetBB().fMax.Y }) });
+
+	int i = 1;
+	while (Distances.size() > 1)
+	{
+
+		if (Distances[0].Distance < Distances[i].Distance)
+		{
+			Distances.erase(Distances.begin() + i);
+			i = 1;
+		}
+		else
+		{
+			Distances.erase(Distances.begin());
+			i = 1;
+		}
+	}
+
+	switch (Distances[0].Tag)
+	{
+	case DistanceHold::TOP:	   m_fPos.Y = a_oOther.GetBB().fMin.Y - (m_bbBoundingBox->fSize.H / 2); break;
+	case DistanceHold::BOTTOM: m_fPos.Y = a_oOther.GetBB().fMax.Y + (m_bbBoundingBox->fSize.H / 2); break;
+	case DistanceHold::LEFT:   m_fPos.X = a_oOther.GetBB().fMin.X - (m_bbBoundingBox->fSize.W / 2); break;
+	case DistanceHold::RIGHT:  m_fPos.X = a_oOther.GetBB().fMax.X + (m_bbBoundingBox->fSize.W / 2); break;
+	}
 }
 
 void Player::OnKeyDown(const SDL_Keycode ac_sdlSym, const Uint16 ac_uiMod, const SDL_Scancode ac_sdlScancode)
@@ -74,16 +107,16 @@ void Player::OnKeyUp(const SDL_Keycode ac_sdlSym, const Uint16 ac_uiMod, const S
 
 Player::Player() : Object()
 {
-	m_glSurface = Graphics::LoadSurface<int>("Images/treeLarge.png");
+	m_glSurface = Graphics::LoadSurface<int>("Images/box1.png");
 	m_glSurface->Layer = Graphics::LayerType::FOREGROUND;
 
 	m_bbBoundingBox = Collision::NewBoundingBox(this, { (float)m_glSurface->OffsetD.W, (float)m_glSurface->OffsetD.H }, m_fPos, false, true);
 
 	m_fPos = { 200, 200 };
 
-	auto temp = Graphics::LoadSurface<int>("Images/treeLarge.png");
-	temp->Pos = { 0,0 };
-	temp->Layer = Graphics::LayerType::FOREGROUND;
+	auto temp1 = Graphics::LoadSurface<int>("Images/box1.png");
+	temp1->Pos = { 0, 0 };
+	temp1->Layer = Graphics::LayerType::FOREGROUND;
 
 	other.m_bbBoundingBox = Collision::NewBoundingBox(&other, { (float)m_glSurface->OffsetD.W, (float)m_glSurface->OffsetD.H }, { 0, 0 }, false, true);
 }
