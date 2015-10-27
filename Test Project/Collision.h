@@ -6,6 +6,7 @@
 namespace Collision
 {
 	struct BoundingBox;
+	struct BoundingCircle;
 
 	class Object
 	{
@@ -22,6 +23,7 @@ namespace Collision
 		
 	public:
 		BoundingBox* m_bbBoundingBox;
+		BoundingCircle* m_bcBoundingCircle;
 
 		void Handle();
 		void LateHandle();
@@ -31,14 +33,18 @@ namespace Collision
 
 		void Move();
 
-		virtual void OnCollision(Object& a_oOther);
+		void OnCollision(Object& a_oOther);
+		virtual void OnCircleCollision(Object& a_oOther);
+		virtual void OnBoxCollision(Object& a_oOther);
 
 		virtual void UpdateBB();
+		virtual void UpdateBC();
 
 		const System::Point2D<float>& GetPos();
 		const System::Point2D<int>& GetIntPos();
 
 		const BoundingBox& GetBB();
+		const BoundingCircle& GetBC();
 
 		Object();
 		~Object();
@@ -58,12 +64,26 @@ namespace Collision
 
 		Object* oObject;
 	};
+	struct BoundingCircle
+	{
+		System::Point2D<float> fCenter;
+
+		float fRadius;
+
+		bool bIsTrigger;
+		bool bCheckOthers;
+
+		Object* oObject;
+	};
 
 	void Init();
 
 	void CheckCollisions();
+	void CheckBB();
+	void CheckBC();
 
-	BoundingBox* NewBoundingBox(Object* ac_oObject, const System::Size2D<float>& ac_fSize, const System::Point2D<float>& ac_fPos, const bool ac_bIsTrigger, const bool ac_bCheckOthers);
+	BoundingBox* NewBoundingBox(Object* a_oObject, const System::Point2D<float>& ac_fPos, const System::Size2D<float>& ac_fSize, const bool ac_bIsTrigger, const bool ac_bCheckOthers);
+	BoundingCircle* NewBoundingCircle(Object* a_oObject, const System::Point2D<float>& ac_fCenter, const float ac_fRadius, const bool ac_bIsTrigger, const bool ac_bCheckOthers);
 
 	void Quit();
 }

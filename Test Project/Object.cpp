@@ -13,6 +13,7 @@ namespace Collision
 		}
 
 		UpdateBB();
+		UpdateBC();
 	}
 	void Object::LateHandle()
 	{
@@ -109,12 +110,35 @@ namespace Collision
 			break;
 		}
 		}*/
+		if (&a_oOther.GetBB() != nullptr)
+			OnBoxCollision(a_oOther);
+		if (&a_oOther.GetBC() != nullptr)
+			OnCircleCollision(a_oOther);
+	}
+	void Object::OnCircleCollision(Object& a_oOther)
+	{
+		// Virtual, Do Nothing...
+	}
+	void Object::OnBoxCollision(Object& a_oOther)
+	{
+		// Virtual, Do Nothing...
 	}
 
 	void Object::UpdateBB()
 	{
-		m_bbBoundingBox->fMin = { m_fPos.X - m_bbBoundingBox->fSize.W / 2, m_fPos.Y - m_bbBoundingBox->fSize.H / 2 };
-		m_bbBoundingBox->fMax = { m_fPos.X + m_bbBoundingBox->fSize.W / 2, m_fPos.Y + m_bbBoundingBox->fSize.H / 2 };
+		if (m_bbBoundingBox != nullptr)
+		{
+			m_bbBoundingBox->fMin = { m_fPos.X - m_bbBoundingBox->fSize.W / 2, m_fPos.Y - m_bbBoundingBox->fSize.H / 2 };
+			m_bbBoundingBox->fMax = { m_fPos.X + m_bbBoundingBox->fSize.W / 2, m_fPos.Y + m_bbBoundingBox->fSize.H / 2 };
+		}
+	}
+
+	void Object::UpdateBC()
+	{
+		if (m_bcBoundingCircle != nullptr)
+		{
+			m_bcBoundingCircle->fCenter = m_fPos;
+		}
 	}
 
 	const System::Point2D<float>& Object::GetPos()
@@ -131,6 +155,11 @@ namespace Collision
 		return *m_bbBoundingBox;
 	}
 
+	const BoundingCircle& Object::GetBC()
+	{
+		return *m_bcBoundingCircle;
+	}
+
 	Object::Object()
 	{
 		m_fPos = { NULL, NULL };
@@ -141,6 +170,7 @@ namespace Collision
 		m_bMove = false;
 
 		m_bbBoundingBox = nullptr;
+		m_bcBoundingCircle = nullptr;
 	}
 	Object::~Object()
 	{

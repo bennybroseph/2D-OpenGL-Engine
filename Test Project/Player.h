@@ -18,7 +18,8 @@ public:
 
 	void Draw();
 
-	void OnCollision(Object& a_oOther);
+	void OnBoxCollision(Object& a_oOther);
+	void OnCircleCollision(Object& a_oOther);
 
 	void OnKeyDown(const SDL_Keycode ac_sdlSym, const Uint16 ac_uiMod, const SDL_Scancode ac_sdlScancode);
 	void OnKeyUp(const SDL_Keycode ac_sdlSym, const Uint16 ac_uiMod, const SDL_Scancode ac_sdlScancode);

@@ -40,8 +40,8 @@ namespace System
 		friend const Point2D<T> operator/(const Point2D<T>& ac_PointA, const Point2D<U>& ac_PointB);
 
 		// Division of a 'Point2D' and an integer; ex: "HalfofA = PointA / 2;"
-		template <typename T>
-		friend const Point2D<T> operator/(const Point2D<T>& ac_PointA, const int ac_iNum);
+		template <typename T, typename U>
+		friend const Point2D<T> operator/(const Point2D<T>& ac_PointA, const U ac_iNum);
 	};
 
 	// Defines a templated struct for dimensions/size in 2D space as well as some overloaded operators to go along with it
@@ -50,8 +50,8 @@ namespace System
 	{
 		T W, H;
 
-		template <typename T>
-		friend const Size2D<T> operator/(const Size2D<T>& ac_SizeA, const int ac_iNum);
+		template <typename T, typename U>
+		friend const Size2D<T> operator/(const Size2D<T>& ac_SizeA, const U ac_iNum);
 	};
 	// Defines a templated struct for angular velocity in 2D space
 	template <typename T>
@@ -86,10 +86,10 @@ namespace System
 	template <typename T, typename U>
 	void operator+=(Point2D<T>& ac_PointA, const Velocity2D<U>& ac_VelocityA);
 
-	template <typename T>
-	const AngularVel<T> CalculateAngular(const Velocity2D<T>& ac_VelocityA, const int ac_iSpeed);
-	template <typename T>
-	void ToAngular(Velocity2D<T>& ac_VelocityA, const int ac_iSpeed = 1);
+	template <typename T, typename U>
+	const AngularVel<T> CalculateAngular(const Velocity2D<T>& ac_VelocityA, const U ac_iSpeed = 1);
+	template <typename T, typename U>
+	void ToAngular(Velocity2D<T>& ac_VelocityA, const U ac_iSpeed = 1);
 
 	template <typename T, typename U>
 	const T Distance(const Point2D<T>& ac_PointA, const Point2D<U>& ac_PointB);
@@ -123,16 +123,16 @@ namespace System
 
 		return PointC;
 	}
-	template <typename T>
-	const Point2D<T> operator/(const Point2D<T>& ac_PointA, const int ac_iNum)
+	template <typename T, typename U>
+	const Point2D<T> operator/(const Point2D<T>& ac_PointA, const U ac_iNum)
 	{
 		const Point2D<T> PointC = { ac_PointA.X / ac_iNum, ac_PointA.Y / ac_iNum };
 
 		return PointC;
 	}
 
-	template <typename T>
-	const Size2D<T> operator/(const Size2D<T>& ac_SizeA, const int ac_iNum)
+	template <typename T, typename U>
+	const Size2D<T> operator/(const Size2D<T>& ac_SizeA, const U ac_iNum)
 	{
 		const Size2D<T> SizeC = { ac_Dimension.W / ac_iNum, ac_Dimension.H / ac_iNum };
 
@@ -169,8 +169,8 @@ namespace System
 		ac_PointA = { ac_PointA.X + ac_VelocityA.X, ac_PointA.Y + ac_VelocityA.Y};
 	}
 
-	template <typename T>
-	const AngularVel<T> CalculateAngular(const Velocity2D<T>& ac_VelocityA, const int ac_iSpeed)
+	template <typename T, typename U>
+	const AngularVel<T> CalculateAngular(const Velocity2D<T>& ac_VelocityA, const U ac_iSpeed)
 	{
 		if (ac_VelocityA.X != 0 || ac_VelocityA.Y != 0)
 		{
@@ -181,8 +181,8 @@ namespace System
 		else
 			return{ 0, 0 };
 	}
-	template <typename T>
-	void ToAngular(Velocity2D<T>& a_VelocityA, const int ac_iSpeed)
+	template <typename T, typename U>
+	void ToAngular(Velocity2D<T>& a_VelocityA, const U ac_iSpeed)
 	{
 		if (a_VelocityA.X != 0 || a_VelocityA.Y != 0)
 		{

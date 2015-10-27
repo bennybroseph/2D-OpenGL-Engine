@@ -201,6 +201,13 @@ namespace Graphics
 			-a_Camera.GetWorldPos().X,
 			-a_Camera.GetWorldPos().Y, 0.0f);
 
+		DrawSurface(ac_glSurface);
+
+		glPopMatrix(); // Reset the current matrix to the one that was saved.
+	}
+	template <typename T>
+	void DrawSurface(const GLSurface<T>& ac_glSurface)
+	{
 		GLfloat glVertices[] = {
 			(float)ac_glSurface.OffsetP.X / (float)ac_glSurface.Dimensions.W,
 			(float)ac_glSurface.OffsetP.Y / (float)ac_glSurface.Dimensions.H,
@@ -242,8 +249,6 @@ namespace Graphics
 
 		glDisableClientState(GL_TEXTURE_COORD_ARRAY);
 		glDisableClientState(GL_VERTEX_ARRAY);
-
-		glPopMatrix(); // Reset the current matrix to the one that was saved.
 	}
 
 	bool SortLayer(SurfaceUnion* ac_pglLeft, SurfaceUnion* ac_pglRight)

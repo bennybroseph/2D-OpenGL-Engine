@@ -46,6 +46,9 @@
     <Filter Include="Source Files\Engine\Object">
       <UniqueIdentifier>{4871c799-b865-4d0e-9120-e4ddb27dc908}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Engine\Graphics\Text">
+      <UniqueIdentifier>{0ac70425-b18b-45c7-999c-ef9966ea0eba}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Window.h">
@@ -81,6 +84,9 @@
     <ClInclude Include="Collision.h">
       <Filter>Source Files\Engine\Object</Filter>
     </ClInclude>
+    <ClInclude Include="Text.h">
+      <Filter>Source Files\Engine\Graphics\Text</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source.cpp">
@@ -112,6 +118,9 @@
     </ClCompile>
     <ClCompile Include="Object.cpp">
       <Filter>Source Files\Engine\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="Text.cpp">
+      <Filter>Source Files\Engine\Graphics\Text</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

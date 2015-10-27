@@ -9,8 +9,6 @@
 
 #include <SDL_image.h>
 
-
-
 namespace Graphics
 {
 	struct SurfaceUnion
@@ -91,6 +89,8 @@ namespace Graphics
 	// - Draws a 'GLSurface' in relation to a 'Camera' object
 	template <typename T, typename U>
 	void DrawSurface(const GLSurface<T>& ac_glSurface, Camera<U>& a_Camera);
+	template <typename T>
+	void DrawSurface(const GLSurface<T>& ac_glSurface);
 
 	// - Sorts each surface based on its layer order
 	bool SortLayer(SurfaceUnion* ac_pglLeft, SurfaceUnion* ac_pglRight);
@@ -103,6 +103,9 @@ namespace Graphics
 	// - Loads a 'GLSurface' from an existing 'SDL_Surface'
 	template <typename T = float>
 	GLSurface<T>* LoadSurface(SDL_Surface& a_sdlSurface);
+
+	template <typename T>
+	void DeleteSurface(GLSurface<T>* a_pglSurface);
 
 	// - Pushes a 'GLSurface' of type int into the 'vglSurfaces' vector
 	void PushSurface(GLSurface<int>* a_glSurface);
@@ -221,6 +224,29 @@ namespace Graphics
 		std::sort(vglSurfaces.begin(), vglSurfaces.end(), SortLayer);
 
 		return glSurface;
+	}
+
+	template <typename T>
+	void DeleteSurface(GLSurface<T>* a_pglSurface)
+	{
+		for (int i = 0; i < vglSurfaces.size(); ++i)
+		{
+			switch (vglSurfaces[i]->Tag)
+			{
+			case SurfaceUnion::INT:
+			{
+				if (vglSurfaces[i]->iGLSurface == a_pglSurface)
+				{
+					auto DeleteSurface = vglSurfaces[i]->iGLSurface;
+					vglSurfaces.erase(vglSurfaces.begin() + i);
+
+				}
+
+				break;
+			}
+			case SurfaceUnion::FLOAT:  break;
+			}
+		}
 	}
 
 	template <typename T>

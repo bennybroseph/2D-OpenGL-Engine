@@ -36,7 +36,7 @@ void Player::Draw()
 	System::Point2D<float> Center = { 800, 450 };
 }
 
-void Player::OnCollision(Object& a_oOther)
+void Player::OnBoxCollision(Object& a_oOther)
 {
 	struct DistanceHold
 	{
@@ -78,6 +78,14 @@ void Player::OnCollision(Object& a_oOther)
 	case DistanceHold::RIGHT:  m_fPos.X = a_oOther.GetBB().fMax.X + (m_bbBoundingBox->fSize.W / 2); break;
 	}
 }
+void Player::OnCircleCollision(Object& a_oOther)
+{
+	printf("Collision! ");
+	/*auto i = atan2f(m_fPrevPos.Y - a_oOther.GetBC().fCenter.Y, m_fPrevPos.X - a_oOther.GetBC().fCenter.X);
+	m_fPos = { 
+		a_oOther.GetBC().fCenter.X + ((m_bbBoundingBox->fSize.W/2 + a_oOther.GetBC().fRadius) * cos(i)),
+		a_oOther.GetBC().fCenter.Y + ((m_bbBoundingBox->fSize.H/2 + a_oOther.GetBC().fRadius) * sin(i)) };*/
+}
 
 void Player::OnKeyDown(const SDL_Keycode ac_sdlSym, const Uint16 ac_uiMod, const SDL_Scancode ac_sdlScancode)
 {
@@ -110,15 +118,15 @@ Player::Player() : Object()
 	m_glSurface = Graphics::LoadSurface<int>("Images/box1.png");
 	m_glSurface->Layer = Graphics::LayerType::FOREGROUND;
 
-	m_bbBoundingBox = Collision::NewBoundingBox(this, { (float)m_glSurface->OffsetD.W, (float)m_glSurface->OffsetD.H }, m_fPos, false, true);
+	m_bbBoundingBox = Collision::NewBoundingBox(this, m_fPos, { (float)m_glSurface->OffsetD.W, (float)m_glSurface->OffsetD.H }, false, true);
 
 	m_fPos = { 200, 200 };
 
-	auto temp1 = Graphics::LoadSurface<int>("Images/box1.png");
+	auto temp1 = Graphics::LoadSurface<int>("Images/circle1.png");
 	temp1->Pos = { 0, 0 };
 	temp1->Layer = Graphics::LayerType::FOREGROUND;
 
-	other.m_bbBoundingBox = Collision::NewBoundingBox(&other, { (float)m_glSurface->OffsetD.W, (float)m_glSurface->OffsetD.H }, { 0, 0 }, false, true);
+	other.m_bcBoundingCircle = Collision::NewBoundingCircle(&other, { 0, 0 }, (float)m_glSurface->OffsetD.W / 2, false, true);
 }
 Player::~Player()
 {

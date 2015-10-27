@@ -129,6 +129,7 @@
     <ClInclude Include="Loop.h" />
     <ClInclude Include="LoopHandle.h" />
     <ClInclude Include="Player.h" />
+    <ClInclude Include="Text.h" />
     <ClInclude Include="TileMap.h" />
     <ClInclude Include="Window.h" />
     <ClInclude Include="System.h" />
@@ -142,6 +143,7 @@
     <ClCompile Include="LoopHandle.cpp" />
     <ClCompile Include="Object.cpp" />
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="Text.cpp" />
     <ClCompile Include="Window.cpp" />
     <ClCompile Include="Source.cpp" />
   </ItemGroup>
