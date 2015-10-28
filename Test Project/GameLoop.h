@@ -3,6 +3,7 @@
 
 #include "Loop.h"
 #include "Player.h"
+#include "Text.h"
 
 #include <time.h>
 

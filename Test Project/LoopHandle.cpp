@@ -14,9 +14,9 @@ namespace LoopHandle
 		SetWindowPos(consoleWindow, 0, 0, 0, 0, 0, SWP_NOSIZE | SWP_NOZORDER); // Move it to the Top Left and don't change its size or 'z' order
 
 		Graphics::Init();
+		Text::Init("Fonts/Pokemon FireRed.ttf", { 255, 255, 255, 255 }, 16);
 
 		Graphics::NewWindow({ 1600, 900 }, false, { 1600, 900 }, "New Window", 0);
-		//Graphics::NewWindow({ 200, 900 }, false, { 200, 900 }, "New Window", 0);
 
 		GameLoop oGameLoop;
 

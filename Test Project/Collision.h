@@ -23,7 +23,6 @@ namespace Collision
 		
 	public:
 		BoundingBox* m_bbBoundingBox;
-		BoundingCircle* m_bcBoundingCircle;
 
 		void Handle();
 		void LateHandle();
@@ -34,7 +33,7 @@ namespace Collision
 		void Move();
 
 		void OnCollision(Object& a_oOther);
-		virtual void OnCircleCollision(Object& a_oOther);
+		//virtual void OnCircleCollision(Object& a_oOther);
 		virtual void OnBoxCollision(Object& a_oOther);
 
 		virtual void UpdateBB();
@@ -44,7 +43,7 @@ namespace Collision
 		const System::Point2D<int>& GetIntPos();
 
 		const BoundingBox& GetBB();
-		const BoundingCircle& GetBC();
+		//const BoundingCircle& GetBC();
 
 		Object();
 		~Object();
@@ -61,6 +60,8 @@ namespace Collision
 
 		bool bIsTrigger;
 		bool bCheckOthers; // Whether to check this bounding boxes against all other bounding boxes
+		
+		bool bActive;
 
 		Object* oObject;
 	};
@@ -72,6 +73,8 @@ namespace Collision
 
 		bool bIsTrigger;
 		bool bCheckOthers;
+
+		bool bActive;
 
 		Object* oObject;
 	};

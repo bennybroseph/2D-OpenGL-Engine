@@ -237,14 +237,24 @@ namespace Graphics
 			{
 				if (vglSurfaces[i]->iGLSurface == a_pglSurface)
 				{
-					auto DeleteSurface = vglSurfaces[i]->iGLSurface;
+					GLuint DeleteSurface = vglSurfaces[i]->iGLSurface->Surface;
 					vglSurfaces.erase(vglSurfaces.begin() + i);
-
+					glDeleteTextures(1, &DeleteSurface);
 				}
 
 				break;
 			}
-			case SurfaceUnion::FLOAT:  break;
+			case SurfaceUnion::FLOAT: 
+			{
+				/*if (vglSurfaces[i]->fGLSurface == a_pglSurface)
+				{
+					GLuint DeleteSurface = vglSurfaces[i]->fGLSurface->Surface;
+					vglSurfaces.erase(vglSurfaces.begin() + i);
+					glDeleteTextures(1, &DeleteSurface);
+				}
+
+				break;*/
+			}
 			}
 		}
 	}

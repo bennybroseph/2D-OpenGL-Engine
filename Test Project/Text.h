@@ -33,6 +33,7 @@ namespace Text
 
     bool Init(const char* ac_szFilename, const System::Color<int>& ac_iColor, const int ac_iSize);
     
+	void Print(const System::Point2D<int>& ac_iPos, const bool ac_bAlign, const char* ac_szText);
 	void Print(const FontData &ac_ttfFont, const System::Point2D<int>& ac_iPos, const bool ac_bAlign, const char* ac_szText);
     void Print(const FontData &ac_ttfFont, const System::Point2D<int>& ac_iPos, const bool ac_bAlign, const int ac_iText);
 

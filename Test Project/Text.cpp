@@ -20,6 +20,10 @@ namespace Text
 		return 0;
 	}
 
+	void Print(const System::Point2D<int>& ac_iPos, const bool ac_bAlign, const char* ac_szText)
+	{
+		Print(*voFontData[0], ac_iPos, ac_bAlign, ac_szText);
+	}
 	void Print(const FontData &ac_ttfFont, const System::Point2D<int>& ac_iPos, const bool ac_bAlign, const char* ac_szText)
 	{
 		std::vector<std::string> vsLines;

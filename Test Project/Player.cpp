@@ -122,11 +122,11 @@ Player::Player() : Object()
 
 	m_fPos = { 200, 200 };
 
-	auto temp1 = Graphics::LoadSurface<int>("Images/circle1.png");
+	auto temp1 = Graphics::LoadSurface<int>("Images/box1.png");
 	temp1->Pos = { 0, 0 };
 	temp1->Layer = Graphics::LayerType::FOREGROUND;
 
-	other.m_bcBoundingCircle = Collision::NewBoundingCircle(&other, { 0, 0 }, (float)m_glSurface->OffsetD.W / 2, false, true);
+	other.m_bbBoundingBox = Collision::NewBoundingBox(&other, { 0, 0 }, { (float)temp1->OffsetD.W, (float)temp1->OffsetD.H }, false, true);
 }
 Player::~Player()
 {

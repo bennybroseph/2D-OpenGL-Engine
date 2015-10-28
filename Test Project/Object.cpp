@@ -112,13 +112,13 @@ namespace Collision
 		}*/
 		if (&a_oOther.GetBB() != nullptr)
 			OnBoxCollision(a_oOther);
-		if (&a_oOther.GetBC() != nullptr)
-			OnCircleCollision(a_oOther);
+		/*if (&a_oOther.GetBC() != nullptr)
+			OnCircleCollision(a_oOther);*/
 	}
-	void Object::OnCircleCollision(Object& a_oOther)
-	{
-		// Virtual, Do Nothing...
-	}
+	//void Object::OnCircleCollision(Object& a_oOther)
+	//{
+	//	// Virtual, Do Nothing...
+	//}
 	void Object::OnBoxCollision(Object& a_oOther)
 	{
 		// Virtual, Do Nothing...
@@ -135,10 +135,10 @@ namespace Collision
 
 	void Object::UpdateBC()
 	{
-		if (m_bcBoundingCircle != nullptr)
+		/*if (m_bcBoundingCircle != nullptr)
 		{
 			m_bcBoundingCircle->fCenter = m_fPos;
-		}
+		}*/
 	}
 
 	const System::Point2D<float>& Object::GetPos()
@@ -155,10 +155,10 @@ namespace Collision
 		return *m_bbBoundingBox;
 	}
 
-	const BoundingCircle& Object::GetBC()
+	/*const BoundingCircle& Object::GetBC()
 	{
 		return *m_bcBoundingCircle;
-	}
+	}*/
 
 	Object::Object()
 	{
@@ -170,7 +170,7 @@ namespace Collision
 		m_bMove = false;
 
 		m_bbBoundingBox = nullptr;
-		m_bcBoundingCircle = nullptr;
+		/*m_bcBoundingCircle = nullptr;*/
 	}
 	Object::~Object()
 	{

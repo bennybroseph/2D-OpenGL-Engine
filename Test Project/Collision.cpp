@@ -21,7 +21,7 @@ namespace Collision
 	{
 		for (int i = 0; i < voBoundingBoxes.size(); ++i)
 		{
-			if (voBoundingBoxes[i]->bCheckOthers)
+			if (voBoundingBoxes[i]->bCheckOthers && voBoundingBoxes[i]->bActive)
 			{
 				for (int j = 0; j < voBoundingBoxes.size(); ++j)
 				{
@@ -41,7 +41,7 @@ namespace Collision
 						voBoundingBoxes[i]->oObject->OnCollision(*voBoundingBoxes[j]->oObject);
 					}
 				}
-				for (int j = 0; j < voBoundingCircles.size(); ++j)
+				/*for (int j = 0; j < voBoundingCircles.size(); ++j)
 				{
 					float fD1X = voBoundingBoxes[i]->fMin.X - (voBoundingCircles[j]->fCenter.X + voBoundingCircles[j]->fRadius);
 					float fD1Y = voBoundingBoxes[i]->fMin.Y - (voBoundingCircles[j]->fCenter.Y + voBoundingCircles[j]->fRadius);
@@ -55,7 +55,7 @@ namespace Collision
 						return;
 
 					voBoundingBoxes[i]->oObject->OnCollision(*voBoundingCircles[j]->oObject);
-				}
+				}*/
 			}
 		}
 	}

@@ -1,7 +1,6 @@
 #include "Graphics.h"
 
 
-
 namespace Graphics
 {
 	std::vector<SDL_DisplayMode> sdlDisplayMode;
