@@ -15,8 +15,11 @@
 #ifndef LOOPS_H_INCLUDED
 #define LOOPS_H_INCLUDED
 
-#include "Graphics.h"
 #include "GameLoop.h"
+
+#include <Graphics.h>
+
+#include <windows.h>
 
 namespace LoopHandle
 {

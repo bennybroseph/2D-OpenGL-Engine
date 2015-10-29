@@ -1,7 +1,7 @@
 #ifndef _PLAYER_H_
 #define _PLAYER_H_
 
-#include "Collision.h"
+#include <Collision.h>
 
 
 class Player : public Collision::Object

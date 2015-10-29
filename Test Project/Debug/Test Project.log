@@ -1,34 +1,18 @@
-﻿Build started 10/29/2015 2:53:32 AM.
-     1>Project "C:\Users\Womb-Raider\Documents\GitHub\2D OpenGL Engine\Test Project\Test Project.vcxproj" on node 2 (Build target(s)).
-     1>ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\CL.exe /c /IC:\SDL\include /IC:\OpenGL\include /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"Debug\\" /Fd"Debug\vc140.pdb" /Gd /TP /analyze- /errorReport:prompt Player.cpp
-         Player.cpp
-     1>c:\users\womb-raider\documents\github\2d opengl engine\test project\system.h(198): warning C4838: conversion from 'double' to 'float' requires a narrowing conversion
-         c:\users\womb-raider\documents\github\2d opengl engine\test project\player.cpp(22): note: see reference to function template instantiation 'void System::ToAngular<float,float>(System::Velocity2D<float> &,const U)' being compiled
-                 with
-                 [
-                     U=float
-                 ]
-     1>c:\users\womb-raider\documents\github\2d opengl engine\test project\system.h(198): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-     1>c:\users\womb-raider\documents\github\2d opengl engine\test project\graphics.h(203): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
-         c:\users\womb-raider\documents\github\2d opengl engine\test project\graphics.h(184): note: see reference to function template instantiation 'Graphics::GLSurface<int> *Graphics::LoadSurface<int>(SDL_Surface &)' being compiled
-         c:\users\womb-raider\documents\github\2d opengl engine\test project\player.cpp(127): note: see reference to function template instantiation 'Graphics::GLSurface<int> *Graphics::LoadSurface<int>(const char *)' being compiled
-     1>c:\users\womb-raider\documents\github\2d opengl engine\test project\graphics.h(204): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
-       Link:
-         C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\Womb-Raider\Documents\GitHub\2D OpenGL Engine\Debug\Test Project.exe" /INCREMENTAL /NOLOGO /LIBPATH:C:\SDL\lib /LIBPATH:C:\OpenGL\lib SDL2.lib SDL2main.lib SDL2_image.lib SDL2_mixer.lib SDL2_ttf.lib glew32.lib glew32s.lib freeglut.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /Debug /PDB:"C:\Users\Womb-Raider\Documents\GitHub\2D OpenGL Engine\Debug\Test Project.pdb" /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\Womb-Raider\Documents\GitHub\2D OpenGL Engine\Debug\Test Project.lib" /MACHINE:X86 Debug\Collision.obj
-         Debug\EventHandler.obj
-         Debug\GameLoop.obj
-         Debug\Graphics.obj
-         Debug\Loop.obj
-         Debug\LoopHandle.obj
-         Debug\Object.obj
-         Debug\Player.obj
-         Debug\Text.obj
-         Debug\Window.obj
-         Debug\Source.obj
-         Test Project.vcxproj -> C:\Users\Womb-Raider\Documents\GitHub\2D OpenGL Engine\Debug\Test Project.exe
-     1>Done Building Project "C:\Users\Womb-Raider\Documents\GitHub\2D OpenGL Engine\Test Project\Test Project.vcxproj" (Build target(s)).
-
-Build succeeded.
-
-Time Elapsed 00:00:00.83
+﻿C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppBuild.targets(368,5): warning MSB8004: Output Directory does not end with a trailing slash.  This build instance will add the slash as it is required to allow proper evaluation of the Output Directory.
+  GameLoop.cpp
+c:\users\benjamin.odom\documents\github\2d-opengl-engine\dependencies\include\graphics.h(200): warning C4838: conversion from 'float' to 'int' requires a narrowing conversion
+  c:\users\benjamin.odom\documents\github\2d-opengl-engine\test project\gameloop.cpp(50): note: see reference to function template instantiation 'void Graphics::NewCamera<int>(const System::Point2D<int> &,const System::Point2D<int> &,const System::Point2D<int> &,const System::Size2D<int> &,const System::Size2D<int> &,const T,const bool,const System::AngularVel<T> &,const unsigned int,const unsigned int)' being compiled
+          with
+          [
+              T=int
+          ]
+c:\users\benjamin.odom\documents\github\2d-opengl-engine\dependencies\include\graphics.h(200): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+c:\users\benjamin.odom\documents\github\2d-opengl-engine\dependencies\include\graphics.h(239): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+  c:\users\benjamin.odom\documents\github\2d-opengl-engine\dependencies\include\graphics.h(220): note: see reference to function template instantiation 'Graphics::GLSurface<int> *Graphics::LoadSurface<int>(SDL_Surface &)' being compiled
+  c:\users\benjamin.odom\documents\github\2d-opengl-engine\dependencies\include\tilemap.h(50): note: see reference to function template instantiation 'Graphics::GLSurface<int> *Graphics::LoadSurface<int>(const char *)' being compiled
+  c:\users\benjamin.odom\documents\github\2d-opengl-engine\dependencies\include\tilemap.h(34): note: while compiling class template member function 'Graphics::TileMap<int>::TileMap(const char *,const char *,const System::Size2D<int>,const System::Size2D<int>,const System::Point2D<int>)'
+  c:\users\benjamin.odom\documents\github\2d-opengl-engine\test project\gameloop.cpp(52): note: see reference to function template instantiation 'Graphics::TileMap<int>::TileMap(const char *,const char *,const System::Size2D<int>,const System::Size2D<int>,const System::Point2D<int>)' being compiled
+  c:\users\benjamin.odom\documents\github\2d-opengl-engine\test project\gameloop.cpp(52): note: see reference to class template instantiation 'Graphics::TileMap<int>' being compiled
+c:\users\benjamin.odom\documents\github\2d-opengl-engine\dependencies\include\graphics.h(240): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppBuild.targets(368,5): warning MSB8004: Output Directory does not end with a trailing slash.  This build instance will add the slash as it is required to allow proper evaluation of the Output Directory.
+  Test Project.vcxproj -> C:\Users\benjamin.odom\Documents\GitHub\2D-OpenGL-Engine\Debug\Test Project.exe

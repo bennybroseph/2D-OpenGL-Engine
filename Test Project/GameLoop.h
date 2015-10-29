@@ -1,9 +1,11 @@
 #ifndef _GAMELOOP_H_
 #define _GAMELOOP_H_
 
-#include "Loop.h"
 #include "Player.h"
-#include "Text.h"
+
+#include <Loop.h>
+#include <Text.h>
+#include <TileMap.h>
 
 #include <time.h>
 

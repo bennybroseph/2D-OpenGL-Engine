@@ -25,7 +25,7 @@ namespace LoopHandle
 	void GameLoop::Draw()
 	{
 		m_oPlayer.Draw();
-		Text::Print({ 10, 10 }, false, "Something");
+		Text::Print({ 0, 0 }, true, "Something\nYes sir");
 	}
 
 	void GameLoop::OnKeyDown(const SDL_Keycode ac_sdlSym, const Uint16 ac_uiMod, const SDL_Scancode ac_sdlScancode)

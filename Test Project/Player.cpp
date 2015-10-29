@@ -49,9 +49,10 @@ void Player::OnBoxCollision(Object& a_oOther)
 
 	std::vector<DistanceHold> Distances;
 	
-	float fProportion = (a_oOther.GetBB().fSize.W > a_oOther.GetBB().fSize.H) ? (a_oOther.GetBB().fSize.W / 2) / (a_oOther.GetBB().fSize.H) : (a_oOther.GetBB().fSize.H / 2) / (a_oOther.GetBB().fSize.W / 2);
-	fProportion = System::Distance(a_oOther.GetBB().fCenter, a_oOther.GetBB().fMax);
-	float test = System::Distance(a_oOther.GetBB().fMin, a_oOther.GetBB().fMax);
+	float fProportion = (a_oOther.GetBB().fSize.W < a_oOther.GetBB().fSize.H) ? (a_oOther.GetBB().fSize.W / a_oOther.GetBB().fSize.H) * 1.5 : (a_oOther.GetBB().fSize.H / a_oOther.GetBB().fSize.W) * 1.5;
+	//fProportion = 1.41;
+	float Bottom = fProportion * abs(((a_oOther.GetBB().fMin.X + a_oOther.GetBB().fSize.W / 2) - m_fPrevPos.X) + (a_oOther.GetBB().fMax.Y - m_fPrevPos.Y));
+	float Right  = abs(((a_oOther.GetBB().fMin.Y + a_oOther.GetBB().fSize.H / 2) - m_fPrevPos.Y) + (a_oOther.GetBB().fMax.X - m_fPrevPos.X));
 
 	float fDLeft   = System::Distance<float, float>(m_fPrevPos, { a_oOther.GetBB().fMin.X, a_oOther.GetBB().fMin.Y + a_oOther.GetBB().fSize.H / 2 });
 	float fDRight  = System::Distance<float, float>(m_fPrevPos, { a_oOther.GetBB().fMax.X, a_oOther.GetBB().fMin.Y + a_oOther.GetBB().fSize.H / 2 });
@@ -131,9 +132,10 @@ Player::Player() : Object()
 
 	m_fPos = { 75, 75 };
 
-	auto temp1 = Graphics::LoadSurface<int>("Images/rect1.png");
+	auto temp1 = Graphics::LoadSurface<int>("Images/box1.png");
 	temp1->Pos = { 0, 0 };
 	temp1->Layer = Graphics::LayerType::FOREGROUND;
+	temp1->OffsetD = { 62, 100 };
 
 	other.m_bbBoundingBox = Collision::NewBoundingBox(&other, { 0, 0 }, { (float)temp1->OffsetD.W, (float)temp1->OffsetD.H }, false, true);
 }

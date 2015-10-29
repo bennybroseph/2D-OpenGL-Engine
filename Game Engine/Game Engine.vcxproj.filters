@@ -1,0 +1,99 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Source Files\Graphics">
+      <UniqueIdentifier>{a38e1e25-5436-46c6-9f0c-472d96be0bde}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Graphics\Window">
+      <UniqueIdentifier>{b565f568-ac70-4bea-aa18-46451083ed46}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Graphics\Text">
+      <UniqueIdentifier>{79fea3ee-edf8-4b76-8807-157f54f70fbc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Graphics\TileMap">
+      <UniqueIdentifier>{c404f019-b7e5-4c3b-afe6-af5b78b3e195}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\EventHandler">
+      <UniqueIdentifier>{6c1d8ffc-3435-42a5-abdd-8ceea9d1dd2b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Collision">
+      <UniqueIdentifier>{de2ee622-c280-4acf-9e2d-661793660c28}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Collision\Object">
+      <UniqueIdentifier>{8ac72f3b-30e9-4229-ab7d-75e6c6d4de24}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\System">
+      <UniqueIdentifier>{f8354ee5-3d40-40bd-8ae0-5494ac29a43a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Loop">
+      <UniqueIdentifier>{4f6e4715-80ae-4abe-87c2-9fb964d48c0c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Graphics\Window\Camera">
+      <UniqueIdentifier>{35d6c332-d916-4800-8596-7255b9ea8107}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Window.cpp">
+      <Filter>Source Files\Graphics\Window</Filter>
+    </ClCompile>
+    <ClCompile Include="Text.cpp">
+      <Filter>Source Files\Graphics\Text</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics.cpp">
+      <Filter>Source Files\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="EventHandler.cpp">
+      <Filter>Source Files\EventHandler</Filter>
+    </ClCompile>
+    <ClCompile Include="Collision.cpp">
+      <Filter>Source Files\Collision</Filter>
+    </ClCompile>
+    <ClCompile Include="Object.cpp">
+      <Filter>Source Files\Collision\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="Loop.cpp">
+      <Filter>Source Files\Loop</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\Dependencies\include\Camera.h">
+      <Filter>Source Files\Graphics\Window\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Dependencies\include\Window.h">
+      <Filter>Source Files\Graphics\Window</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Dependencies\include\TileMap.h">
+      <Filter>Source Files\Graphics\TileMap</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Dependencies\include\Graphics.h">
+      <Filter>Source Files\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Dependencies\include\EventHandler.h">
+      <Filter>Source Files\EventHandler</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Dependencies\include\Collision.h">
+      <Filter>Source Files\Collision</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Dependencies\include\Loop.h">
+      <Filter>Source Files\Loop</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Dependencies\include\System.h">
+      <Filter>Source Files\System</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Dependencies\include\Text.h">
+      <Filter>Source Files\Graphics\Text</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
