@@ -52,6 +52,8 @@ namespace System
 
 		template <typename T, typename U>
 		friend const Size2D<T> operator/(const Size2D<T>& ac_SizeA, const U ac_iNum);
+		template <typename T, typename U>
+		friend const Size2D<T> operator*(const Size2D<T>& ac_SizeA, const U ac_iNum);
 	};
 	// Defines a templated struct for angular velocity in 2D space
 	template <typename T>
@@ -135,6 +137,13 @@ namespace System
 	const Size2D<T> operator/(const Size2D<T>& ac_SizeA, const U ac_iNum)
 	{
 		const Size2D<T> SizeC = { ac_Dimension.W / ac_iNum, ac_Dimension.H / ac_iNum };
+
+		return SizeC;
+	}
+	template <typename T, typename U>
+	const Size2D<T> operator*(const Size2D<T>& ac_SizeA, const U ac_iNum)
+	{
+		const Size2D<T> SizeC = { ac_Dimension.W * ac_iNum, ac_Dimension.H * ac_iNum };
 
 		return SizeC;
 	}

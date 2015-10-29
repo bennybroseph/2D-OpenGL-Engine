@@ -57,7 +57,7 @@ namespace Text
 			glSurface->Layer = Graphics::LayerType::OVERLAY;
 		}
 
-		Graphics::DeleteSurface(glSurface);
+		//Graphics::DeleteSurface(glSurface);
 	}
 
 	void Print(const FontData &ac_ttfFont, const System::Point2D<int>& ac_iPos, const bool ac_bAlign, const int ac_iText)

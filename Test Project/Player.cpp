@@ -1,6 +1,6 @@
 #include "Player.h"
 
-const unsigned int SPEED = 5;
+const float SPEED = 5;
 
 void Player::Update()
 {
@@ -48,11 +48,20 @@ void Player::OnBoxCollision(Object& a_oOther)
 	};
 
 	std::vector<DistanceHold> Distances;
+	
+	float fProportion = (a_oOther.GetBB().fSize.W > a_oOther.GetBB().fSize.H) ? (a_oOther.GetBB().fSize.W / 2) / (a_oOther.GetBB().fSize.H) : (a_oOther.GetBB().fSize.H / 2) / (a_oOther.GetBB().fSize.W / 2);
+	fProportion = System::Distance(a_oOther.GetBB().fCenter, a_oOther.GetBB().fMax);
+	float test = System::Distance(a_oOther.GetBB().fMin, a_oOther.GetBB().fMax);
 
-	Distances.push_back({ DistanceHold::LEFT, System::Distance<float, float>(m_fPrevPos, { a_oOther.GetBB().fMin.X, a_oOther.GetBB().fMin.Y + a_oOther.GetBB().fSize.H / 2 }) });
-	Distances.push_back({ DistanceHold::RIGHT, System::Distance<float, float>(m_fPrevPos, { a_oOther.GetBB().fMax.X, a_oOther.GetBB().fMin.Y + a_oOther.GetBB().fSize.H / 2 }) });
-	Distances.push_back({ DistanceHold::TOP, System::Distance<float, float>(m_fPrevPos, { a_oOther.GetBB().fMin.X + a_oOther.GetBB().fSize.W / 2, a_oOther.GetBB().fMin.Y }) });
-	Distances.push_back({ DistanceHold::BOTTOM, System::Distance<float, float>(m_fPrevPos, { a_oOther.GetBB().fMin.X + a_oOther.GetBB().fSize.W / 2, a_oOther.GetBB().fMax.Y }) });
+	float fDLeft   = System::Distance<float, float>(m_fPrevPos, { a_oOther.GetBB().fMin.X, a_oOther.GetBB().fMin.Y + a_oOther.GetBB().fSize.H / 2 });
+	float fDRight  = System::Distance<float, float>(m_fPrevPos, { a_oOther.GetBB().fMax.X, a_oOther.GetBB().fMin.Y + a_oOther.GetBB().fSize.H / 2 });
+	float fDTop    = System::Distance<float, float>(m_fPrevPos, { a_oOther.GetBB().fMin.X + a_oOther.GetBB().fSize.W / 2, a_oOther.GetBB().fMin.Y });
+	float fDBottom = System::Distance<float, float>(m_fPrevPos, { a_oOther.GetBB().fMin.X + a_oOther.GetBB().fSize.W / 2, a_oOther.GetBB().fMax.Y });
+
+	Distances.push_back({ DistanceHold::LEFT, fDLeft });
+	Distances.push_back({ DistanceHold::RIGHT, fDRight});
+	Distances.push_back({ DistanceHold::TOP, fDTop});
+	Distances.push_back({ DistanceHold::BOTTOM, fDBottom });
 
 	int i = 1;
 	while (Distances.size() > 1)
@@ -120,9 +129,9 @@ Player::Player() : Object()
 
 	m_bbBoundingBox = Collision::NewBoundingBox(this, m_fPos, { (float)m_glSurface->OffsetD.W, (float)m_glSurface->OffsetD.H }, false, true);
 
-	m_fPos = { 200, 200 };
+	m_fPos = { 75, 75 };
 
-	auto temp1 = Graphics::LoadSurface<int>("Images/box1.png");
+	auto temp1 = Graphics::LoadSurface<int>("Images/rect1.png");
 	temp1->Pos = { 0, 0 };
 	temp1->Layer = Graphics::LayerType::FOREGROUND;
 

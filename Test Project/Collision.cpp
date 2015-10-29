@@ -76,7 +76,9 @@ namespace Collision
 		bbBoundingBox->fSize = ac_fSize;
 
 		bbBoundingBox->bIsTrigger = ac_bIsTrigger;
-		bbBoundingBox->bIsTrigger = ac_bCheckOthers;
+		bbBoundingBox->bCheckOthers = ac_bCheckOthers;
+
+		bbBoundingBox->bActive = true;
 
 		bbBoundingBox->oObject = a_oObject;
 
