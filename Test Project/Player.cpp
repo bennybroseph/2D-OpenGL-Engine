@@ -135,7 +135,7 @@ Player::Player() : Object()
 	auto temp1 = Graphics::LoadSurface<int>("Images/box1.png");
 	temp1->Pos = { 0, 0 };
 	temp1->Layer = Graphics::LayerType::FOREGROUND;
-	temp1->OffsetD = { 62, 100 };
+	temp1->OffsetD = { 100, 100 };
 
 	other.m_bbBoundingBox = Collision::NewBoundingBox(&other, { 0, 0 }, { (float)temp1->OffsetD.W, (float)temp1->OffsetD.H }, false, true);
 }

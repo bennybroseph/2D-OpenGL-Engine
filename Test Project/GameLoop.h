@@ -15,6 +15,7 @@ namespace LoopHandle
 	{
 	private:
 		Player m_oPlayer;
+		Text::TextBlock<int>* m_ttfTextBlock;
 
 		int m_iFPS, m_iTime;
 

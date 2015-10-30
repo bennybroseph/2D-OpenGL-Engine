@@ -9,6 +9,7 @@
 namespace Text
 {
 	std::vector<FontData*> voFontData;
+	std::vector<TextBlockUnion*> voTextBlocks;
 
 	bool Init(const char* ac_szFilename, const System::Color<int>& ac_iColor, const int ac_iSize)
 	{
@@ -26,57 +27,11 @@ namespace Text
 
 	void Print(const System::Point2D<int>& ac_iPos, const bool ac_bAlign, const char* ac_szText)
 	{
-		Print(*voFontData[0], ac_iPos, ac_bAlign, ac_szText);
+		//Print(*voFontData[0], ac_iPos, ac_bAlign, ac_szText);
 	}
 	void Print(const FontData &ac_ttfFont, const System::Point2D<int>& ac_iPos, const bool ac_bAlign, const char* ac_szText)
 	{
-		std::vector<std::string> vsLines;
-
-		char szHold[256];
-		strcpy_s(szHold, "");
-
-		const char* i;
-		if ((i = strchr(ac_szText, 10)) != NULL)
-		{
-			strncat_s(szHold, ac_szText, int(i - ac_szText));
-			vsLines.push_back(szHold);
-
-			strcpy_s(szHold, i + 1);
-			vsLines.push_back(szHold);
-		}
-		else
-		{
-			vsLines.push_back(ac_szText);
-		}
-
-		std::vector<SDL_Surface*> vsdlTemp;
-		Graphics::GLSurface<int>* glSurface;
-
-		int width = 0, height = 0;
-		// Write text to surface
-		for (int j = 0; j < vsLines.size(); ++j)
-		{
-			vsdlTemp.push_back(TTF_RenderUTF8_Blended(ac_ttfFont.ttfFont, vsLines[j].c_str(), { (Uint8)ac_ttfFont.iColor.Red, (Uint8)ac_ttfFont.iColor.Blue, (Uint8)ac_ttfFont.iColor.Green, (Uint8)ac_ttfFont.iColor.Alpha }));
-
-			if (vsdlTemp[j]->w > width)
-				width = vsdlTemp[j]->w;
-
-			height += vsdlTemp[j]->h;
-		}
-
-		SDL_Surface* sdlSurface = SDL_CreateRGBSurface(0, width, height, 32, 0, 0, 0, 0);
-		SDL_Rect TextPos;
-
-		for (int j = 0; j < vsdlTemp.size(); ++j)
-		{
-			TextPos = { 0, j*(height / (int)vsdlTemp.size()), width, height };
-			SDL_BlitSurface(vsdlTemp[j], NULL, sdlSurface, &TextPos);
-		}
-		glSurface = Graphics::LoadSurface<int>(*sdlSurface);
-		glSurface->Pos = { ac_iPos.X + (ac_bAlign)*(glSurface->Dimensions.W / 2), ac_iPos.Y + (ac_bAlign)*(glSurface->Dimensions.H / 2) };
-		glSurface->Layer = Graphics::LayerType::OVERLAY;
-
-		//Graphics::DeleteSurface(glSurface);
+		
 	}
 
 	void Print(const FontData &ac_ttfFont, const System::Point2D<int>& ac_iPos, const bool ac_bAlign, const int ac_iText)
@@ -89,15 +44,15 @@ namespace Text
 
 	FontData* LoadFont(const char* ac_szFilename, const System::Color<int>& ac_iColor, const int ac_iSize)
 	{
-		FontData* NewFont = new FontData;
+		FontData* newFont = new FontData;
 
-		NewFont->ttfFont = TTF_OpenFont(ac_szFilename, ac_iSize);
+		newFont->ttfFont = TTF_OpenFont(ac_szFilename, ac_iSize);
 
-		NewFont->iColor = ac_iColor;
+		newFont->iColor = ac_iColor;
 
-		NewFont->iSize = ac_iSize;
+		newFont->iSize = ac_iSize;
 
-		if (NewFont->ttfFont == NULL)
+		if (newFont->ttfFont == NULL)
 		{
 			printf("Failure to load \"%s\"\n", ac_szFilename);
 			return nullptr;
@@ -105,18 +60,18 @@ namespace Text
 
 		for (int i = 0; i < 256; i++)
 		{
-			if (TTF_GlyphMetrics(NewFont->ttfFont, i,
-				&NewFont->aoChar[i].iMin.X, &NewFont->aoChar[i].iMax.X, &NewFont->aoChar[i].iMin.Y, &NewFont->aoChar[i].iMax.Y,
-				&NewFont->aoChar[i].iAdvance) == -1)
+			if (TTF_GlyphMetrics(newFont->ttfFont, i,
+				&newFont->aoChar[i].iMin.X, &newFont->aoChar[i].iMax.X, &newFont->aoChar[i].iMin.Y, &newFont->aoChar[i].iMax.Y,
+				&newFont->aoChar[i].iAdvance) == -1)
 			{
 				printf("%s\n", TTF_GetError());
 				return nullptr;
 			}
 		}
 
-		voFontData.push_back(NewFont);
+		voFontData.push_back(newFont);
 
-		return NewFont;
+		return newFont;
 	}
 
 	void Quit()

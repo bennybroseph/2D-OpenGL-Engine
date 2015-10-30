@@ -98,7 +98,7 @@ namespace Graphics
 	void ToggleFullscreen(const unsigned int ac_uiIndex);
 
 	// - Creates a 'new Camera' object and passes it the following parameters
-	template <typename T = float>
+	template <typename T = int>
 	void NewCamera(
 		const System::Point2D<T>&	   ac_ScreenPos = { 0, 0 },			// Where the 'Camera' object should be placed relative to the screen
 		const System::Point2D<T>&	   ac_WorldPos = { 0, 0 },			// Where in the World the 'Camera' object should start in the world. Serves as an offset to 'm_RelativePos'
@@ -128,17 +128,21 @@ namespace Graphics
 	template <typename T>
 	void DrawSurface(const GLSurface<T>& ac_glSurface);
 
+	void Sort();
 	// - Sorts each surface based on its layer order
 	bool SortLayer(SurfaceUnion* ac_pglLeft, SurfaceUnion* ac_pglRight);
 	// - Sorts each surface based on its camera order
 	bool SortCamera(SurfaceUnion* ac_pglLeft, SurfaceUnion* ac_pglRight);
 
 	// - Loads a 'GLSurface' from a filename
-	template <typename T = float>
+	template <typename T = int>
 	GLSurface<T>* LoadSurface(const char* ac_szFilename);
 	// - Loads a 'GLSurface' from an existing 'SDL_Surface'
-	template <typename T = float>
+	template <typename T = int>
 	GLSurface<T>* LoadSurface(SDL_Surface& a_sdlSurface);
+	template <typename T = int>
+	void ReloadSurface(GLSurface<T>* a_glSurface, SDL_Surface& a_sdlSurface);
+
 
 	template <typename T>
 	void DeleteSurface(GLSurface<T>* a_pglSurface);
@@ -224,11 +228,7 @@ namespace Graphics
 	{
 		GLSurface<T>* glSurface = new GLSurface<T>;
 
-		glGenTextures(1, &glSurface->Surface);
-		glBindTexture(GL_TEXTURE_2D, glSurface->Surface);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, a_sdlSurface.w, a_sdlSurface.h, 0, GL_RGBA, GL_UNSIGNED_BYTE, a_sdlSurface.pixels);
+		ReloadSurface(glSurface, a_sdlSurface);
 
 		glSurface->Pos = { NULL, NULL };
 		glSurface->OffsetP = { NULL, NULL };
@@ -256,10 +256,17 @@ namespace Graphics
 		SDL_FreeSurface(&a_sdlSurface);
 
 		PushSurface(glSurface);
-		std::sort(vglSurfaces.begin(), vglSurfaces.end(), SortCamera);
-		std::sort(vglSurfaces.begin(), vglSurfaces.end(), SortLayer);
 
 		return glSurface;
+	}
+	template <typename T>
+	void ReloadSurface(GLSurface<T>* a_glSurface, SDL_Surface& a_sdlSurface)
+	{
+		glGenTextures(1, &a_glSurface->Surface);
+		glBindTexture(GL_TEXTURE_2D, a_glSurface->Surface);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, a_sdlSurface.w, a_sdlSurface.h, 0, GL_RGBA, GL_UNSIGNED_BYTE, a_sdlSurface.pixels);
 	}
 
 	template <typename T>
@@ -273,9 +280,10 @@ namespace Graphics
 			{
 				if (vglSurfaces[i]->iGLSurface == a_pglSurface)
 				{
-					GLuint DeleteSurface = vglSurfaces[i]->iGLSurface->Surface;
+					auto DeleteSurface = vglSurfaces[i]->iGLSurface;
 					vglSurfaces.erase(vglSurfaces.begin() + i);
-					glDeleteTextures(1, &DeleteSurface);
+					glDeleteTextures(1, &DeleteSurface->Surface);
+					delete DeleteSurface;
 				}
 
 				break;
@@ -284,9 +292,9 @@ namespace Graphics
 			{
 				/*if (vglSurfaces[i]->fGLSurface == a_pglSurface)
 				{
-					GLuint DeleteSurface = vglSurfaces[i]->fGLSurface->Surface;
+					auto DeleteSurface = vglSurfaces[i]->fGLSurface;
 					vglSurfaces.erase(vglSurfaces.begin() + i);
-					glDeleteTextures(1, &DeleteSurface);
+					glDeleteTextures(1, &DeleteSurface->Surface);
 				}
 
 				break;*/

@@ -11,6 +11,7 @@
 
 #include "Graphics.h"
 #include "EventHandler.h"
+#include "Collision.h"
 
 class Loop : protected EH
 {

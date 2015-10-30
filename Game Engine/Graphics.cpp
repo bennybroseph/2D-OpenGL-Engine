@@ -254,6 +254,12 @@ namespace Graphics
 		glDisableClientState(GL_VERTEX_ARRAY);
 	}
 
+	void Sort()
+	{
+		std::sort(vglSurfaces.begin(), vglSurfaces.end(), SortCamera);
+		std::sort(vglSurfaces.begin(), vglSurfaces.end(), SortLayer);
+	}
+
 	bool SortLayer(SurfaceUnion* ac_pglLeft, SurfaceUnion* ac_pglRight)
 	{
 		switch (ac_pglLeft->Tag)
@@ -377,5 +383,7 @@ namespace Graphics
 		voWindows.clear();
 		voCameras.clear();
 		vglSurfaces.clear();
+
+
 	}
 }

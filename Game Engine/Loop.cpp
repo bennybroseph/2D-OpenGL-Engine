@@ -25,7 +25,7 @@ void Loop::Run()
 			OnEvent(m_sdlEvent);
 		}
 		Update();
-
+		Collision::CheckCollisions();
 		LateUpdate();
 
 		Graphics::Draw();
