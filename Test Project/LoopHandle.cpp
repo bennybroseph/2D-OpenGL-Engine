@@ -18,6 +18,8 @@ namespace LoopHandle
 
 		Graphics::NewWindow({ 1600, 900 }, false, { 1600, 900 }, "New Window", 1);
 
+		srand(time(NULL));
+
 		GameLoop oGameLoop;
 
 		oGameLoop.Run();

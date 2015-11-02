@@ -69,6 +69,13 @@ namespace System
 
 		template <typename T, typename U>
 		friend const Velocity2D<T> operator+(const Velocity2D<T>& ac_VelocityA, const Velocity2D<T>& ac_VelocityB);
+		template <typename T, typename U>
+		friend const Velocity2D<T> operator-(const Velocity2D<T>& ac_VelocityA, const Velocity2D<T>& ac_VelocityB);
+		template <typename T>
+		friend const Velocity2D<T> operator-(const Velocity2D<T>& ac_VelocityA);
+
+		template <typename T, typename U>
+		friend const Velocity2D<T> operator*(const T ac_Num, const Velocity2D<U>& ac_VelocityA);
 	};
 	// Defines a templated struct for color in the format rgba, which is the most useful for OpenGL
 	// Accepted value range is 0 - 255
@@ -82,11 +89,18 @@ namespace System
 	template <typename T, typename U>
 	const Point2D<T> operator+(const Point2D<T>& ac_PointA, const Size2D<U>& ac_SizeA);
 
+	template <typename T, typename U>
+	const Point2D<T> operator+(const Point2D<T>& ac_PointA, const Velocity2D<U>& ac_VelocityA);
+	template <typename T, typename U>
+	const Point2D<T> operator-(const Point2D<T>& ac_PointA, const Velocity2D<U>& ac_VelocityA);
 	// Defines what it means to set a 'Point2D' equal to itself + an 'AngularVel'
 	template <typename T, typename U>
 	void operator+=(Point2D<T>& ac_PointA, const AngularVel<U>& ac_VelocityA);
+	// Defines what it means to set a 'Point2D' equal to itself + an 'Velocity'
 	template <typename T, typename U>
 	void operator+=(Point2D<T>& ac_PointA, const Velocity2D<U>& ac_VelocityA);
+	template <typename T, typename U>
+	void operator-=(Point2D<T>& ac_PointA, const Velocity2D<U>& ac_VelocityA);
 
 	template <typename T, typename U>
 	const AngularVel<T> CalculateAngular(const Velocity2D<T>& ac_VelocityA, const U ac_iSpeed = 1);
@@ -155,6 +169,26 @@ namespace System
 
 		return VelocityC;
 	}
+	template <typename T, typename U>
+	const Velocity2D<T> operator-(const Velocity2D<T>& ac_VelocityA, const Velocity2D<T>& ac_VelocityB)
+	{
+		return ac_VelocityA + (-ac_VelocityB);
+	}
+	template <typename T>
+	const Velocity2D<T> operator-(const Velocity2D<T>& ac_VelocityA)
+	{
+		const Velocity2D<T> VelocityC = { -ac_VelocityA.X, -ac_VelocityA.Y };
+
+		return VelocityC;
+	}
+
+	template <typename T, typename U>
+	const Velocity2D<T> operator*(const T ac_Num, const Velocity2D<U>& ac_VelocityA)
+	{
+		const Velocity2D<T> VelocityC = { ac_Num * ac_VelocityA.X, ac_Num * ac_VelocityA.Y };
+
+		return VelocityC;
+	}
 
 	template <typename T, typename U>
 	const Point2D<T> operator+(const Point2D<T>& ac_PointA, const Size2D<U>& ac_SizeA)
@@ -164,6 +198,18 @@ namespace System
 		return PointC;
 	}
 
+	template <typename T, typename U>
+	const Point2D<T> operator+(const Point2D<T>& ac_PointA, const Velocity2D<U>& ac_VelocityA)
+	{
+		const Point2D<T> PointC = { ac_PointA.X + ac_VelocityA.X, ac_PointA.Y + ac_VelocityA.Y };
+
+		return PointC;
+	}
+	template <typename T, typename U>
+	const Point2D<T> operator-(const Point2D<T>& ac_PointA, const Velocity2D<U>& ac_VelocityA)
+	{
+		return ac_PointA + (-ac_VelocityA);
+	}
 	template <typename T, typename U>
 	void operator+=(Point2D<T>& ac_PointA, const AngularVel<U>& ac_VelocityA)
 	{
@@ -176,6 +222,11 @@ namespace System
 	void operator+=(Point2D<T>& ac_PointA, const Velocity2D<U>& ac_VelocityA)
 	{
 		ac_PointA = { ac_PointA.X + ac_VelocityA.X, ac_PointA.Y + ac_VelocityA.Y};
+	}
+	template <typename T, typename U>
+	void operator-=(Point2D<T>& ac_PointA, const Velocity2D<U>& ac_VelocityA)
+	{
+		ac_PointA += -ac_VelocityA;
 	}
 
 	template <typename T, typename U>

@@ -11,15 +11,14 @@ namespace Collision
 	class Object
 	{
 	protected:
-
-		
 		System::Point2D<int>   m_iPos;
 
 		System::Velocity2D<float> m_fVelocity;
 		System::AngularVel<float> m_fAngularVel;
 
-		bool m_bMove;
+		float m_fMass;
 
+		bool m_bMove, m_bUseGravity;
 		
 	public:
 		BoundingBox* m_bbBoundingBox;

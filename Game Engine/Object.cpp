@@ -1,10 +1,15 @@
 #include "Collision.h"
 
+
+
 namespace Collision
 {
 	void Object::Handle()
 	{
 		Update();
+
+		if (m_bUseGravity)
+			m_fVelocity.Y += 0.8;
 
 		if (m_bMove)
 		{
@@ -121,7 +126,47 @@ namespace Collision
 	//}
 	void Object::OnBoxCollision(Object& a_oOther)
 	{
-		// Virtual, Do Nothing...
+		// Collision with left side of other object
+		if (m_fPrevPos.X - (m_bbBoundingBox->fSize.W / 2) >= a_oOther.GetBB().fMax.X)
+		{
+			m_fPos.X = a_oOther.GetBB().fMax.X + (m_bbBoundingBox->fSize.W / 2);
+			m_fVelocity.X = 0;
+		}
+		else if (m_fPrevPos.Y - (m_bbBoundingBox->fSize.H / 2) >= a_oOther.GetBB().fMax.Y)
+		{
+			m_fPos.Y = a_oOther.GetBB().fMax.Y + (m_bbBoundingBox->fSize.H / 2);
+			m_fVelocity.Y = 0;
+		}
+
+		// Collision with right side of other object
+		else if (m_fPrevPos.X + (m_bbBoundingBox->fSize.W / 2) <= a_oOther.GetBB().fMin.X)
+		{
+			m_fPos.X = a_oOther.GetBB().fMin.X - (m_bbBoundingBox->fSize.W / 2);
+			m_fVelocity.X = 0;
+		}
+		else if (m_fPrevPos.Y + (m_bbBoundingBox->fSize.H / 2) <= a_oOther.GetBB().fMin.Y)
+		{
+			m_fPos.Y = a_oOther.GetBB().fMin.Y - (m_bbBoundingBox->fSize.H / 2);
+			m_fVelocity.Y = 0;
+		}
+		else
+		{
+			if (m_fPos.X - (m_bbBoundingBox->fSize.W / 2) >= a_oOther.GetBB().fMin.X)
+			{
+				m_fPos.X = a_oOther.GetBB().fMax.X + (m_bbBoundingBox->fSize.W / 2);
+				m_fVelocity.X = 0;
+			}
+			else if (m_fPos.Y - (m_bbBoundingBox->fSize.H / 2) >= a_oOther.GetBB().fMin.Y)
+			{
+				m_fPos.Y = a_oOther.GetBB().fMax.Y + (m_bbBoundingBox->fSize.H / 2);
+				m_fVelocity.Y = 0;
+			}
+			//m_fPrevPos -= m_fVelocity;
+			//OnBoxCollision(a_oOther);
+		}
+
+
+		UpdateBB();
 	}
 
 	void Object::UpdateBB()

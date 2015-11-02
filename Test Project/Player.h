@@ -10,7 +10,7 @@ private:
 	bool m_bUp, m_bDown, m_bLeft, m_bRight;
 
 	Graphics::GLSurface<int>* m_glSurface;
-	Object other, other2;
+	Object other;
 
 public:
 	void Update();
@@ -18,8 +18,8 @@ public:
 
 	void Draw();
 
-	void OnBoxCollision(Object& a_oOther);
-	void OnCircleCollision(Object& a_oOther);
+	//void OnBoxCollision(Object& a_oOther);
+	//void OnCircleCollision(Object& a_oOther);
 
 	void OnKeyDown(const SDL_Keycode ac_sdlSym, const Uint16 ac_uiMod, const SDL_Scancode ac_sdlScancode);
 	void OnKeyUp(const SDL_Keycode ac_sdlSym, const Uint16 ac_uiMod, const SDL_Scancode ac_sdlScancode);

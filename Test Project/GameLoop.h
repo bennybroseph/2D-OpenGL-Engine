@@ -2,6 +2,7 @@
 #define _GAMELOOP_H_
 
 #include "Player.h"
+#include "Enemy.h"
 
 #include <Loop.h>
 #include <Text.h>
@@ -15,6 +16,7 @@ namespace LoopHandle
 	{
 	private:
 		Player m_oPlayer;
+		std::vector<Enemy*> m_oEnemy;
 		Text::TextBlock<int>* m_ttfTextBlock;
 
 		int m_iFPS, m_iTime;
