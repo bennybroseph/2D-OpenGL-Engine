@@ -26,7 +26,7 @@ namespace LoopHandle
 		sprintf_s(szBuffer, "(%d, %d)", m_oPlayer.GetIntPos().X, m_oPlayer.GetIntPos().Y);
 		Text::ReloadTextBlock(m_ttfTextBlock, false, szBuffer);
 
-		m_ttfTextBlock->glSurface->Pos = m_oPlayer.GetIntPos();
+		
 	}
 
 	void GameLoop::Draw()
@@ -59,6 +59,7 @@ namespace LoopHandle
 		Graphics::TileMap<int> TestMap("Tilemap/OriginalMap.txt", "Images/environment.png", { 128, 128 }, { 10, 7 }, { (-128*9)/2, (-128*6)/2 });
 
 		m_ttfTextBlock = Text::LoadTextBlock({ 0, 0 }, false, "0, 0");
+		m_ttfTextBlock->glSurface->Pos = {-200, -200};
 
 		m_iTime = clock();
 		m_iFPS = NULL;

@@ -12,7 +12,7 @@ namespace Collision
 	{
 	protected:
 
-		System::Point2D<float> m_fPos, m_fPrevPos;
+		
 		System::Point2D<int>   m_iPos;
 
 		System::Velocity2D<float> m_fVelocity;
@@ -23,6 +23,7 @@ namespace Collision
 		
 	public:
 		BoundingBox* m_bbBoundingBox;
+		System::Point2D<float> m_fPos, m_fPrevPos;
 
 		void Handle();
 		void LateHandle();

@@ -10,7 +10,7 @@ private:
 	bool m_bUp, m_bDown, m_bLeft, m_bRight;
 
 	Graphics::GLSurface<int>* m_glSurface;
-	Object other;
+	Object other, other2;
 
 public:
 	void Update();
