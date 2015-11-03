@@ -64,6 +64,8 @@ namespace Text
 	template <typename T = int>
 	void ReloadTextBlock(TextBlock<T>* a_ttfTextBlock, const bool ac_bAlign, char* ac_szText);
 
+	void DeleteTextBlock();
+
 	void Print(const FontData &ac_ttfFont, const System::Point2D<int>& ac_iPos, const bool ac_bAlign, const int ac_iText);
 
 	FontData* LoadFont(const char* ac_szFilename, const System::Color<int>& ac_iColor, const int ac_iSize);
@@ -150,6 +152,7 @@ namespace Text
 		else
 		{
 			Graphics::ReloadSurface(a_ttfTextBlock->glSurface, *sdlSurface);
+			SDL_FreeSurface(sdlSurface);
 
 			a_ttfTextBlock->glSurface->Dimensions = { sdlSurface->w, sdlSurface->h };
 			a_ttfTextBlock->glSurface->OffsetD = { sdlSurface->w, sdlSurface->h };
@@ -157,8 +160,6 @@ namespace Text
 			a_ttfTextBlock->glSurface->Center.X = a_ttfTextBlock->glSurface->Dimensions.W / 2.0f;
 			a_ttfTextBlock->glSurface->Center.Y = a_ttfTextBlock->glSurface->Dimensions.H / 2.0f;
 		}
-
-		
 	}
 }
 

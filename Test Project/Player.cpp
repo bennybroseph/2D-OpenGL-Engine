@@ -6,23 +6,24 @@ void Player::Update()
 {
 	if (m_bUp || m_bDown || m_bLeft || m_bRight)
 	{
-		//m_fVelocity = { 0, 0 };
+		m_fVelocity = { 0, 0 };
 		m_fVelocity.X = 0;
 
 		if (m_bUp)
-			m_fVelocity.Y += -1;
+			m_fVelocity.Y += -SPEED;
 		if (m_bDown)
-			m_fVelocity.Y += 1;
+			m_fVelocity.Y += SPEED;
 
 		if (m_bLeft)
 			m_fVelocity.X += -SPEED;
 		if (m_bRight)
 			m_fVelocity.X += SPEED;
 
-		//System::ToAngular(m_fVelocity, SPEED);
+		System::ToAngular(m_fVelocity, SPEED);
 	}
 	else
 	{
+		m_fVelocity = { 0, 0 };
 		m_fVelocity.X = 0;
 	}
 }
@@ -90,14 +91,14 @@ Player::Player() : Object()
 	m_bbBoundingBox = Collision::NewBoundingBox(this, m_fPos, { (float)m_glSurface->OffsetD.W, (float)m_glSurface->OffsetD.H }, false, true);
 
 	m_bMove = true;
-	m_bUseGravity = true;
+	m_bUseGravity = false;
 
 	auto temp1 = Graphics::LoadSurface<int>("Images/box1.png");
 	temp1->Pos = { 0, 0 };
 	temp1->Layer = Graphics::LayerType::FOREGROUND;
 	temp1->OffsetD = { 1000, 100 };
 
-	other.m_bbBoundingBox = Collision::NewBoundingBox(&other, { 0, 0 }, { (float)temp1->OffsetD.W, (float)temp1->OffsetD.H }, false, true);
+	other.m_bbBoundingBox = Collision::NewBoundingBox(&other, { 0, 0 }, { (float)temp1->OffsetD.W, (float)temp1->OffsetD.H }, false, false);
 }
 Player::~Player()
 {

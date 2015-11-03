@@ -18,7 +18,6 @@ namespace Collision
 		}
 
 		UpdateBB();
-		UpdateBC();
 	}
 	void Object::LateHandle()
 	{
@@ -116,57 +115,88 @@ namespace Collision
 		}
 		}*/
 		if (&a_oOther.GetBB() != nullptr)
+		{
 			OnBoxCollision(a_oOther);
-		/*if (&a_oOther.GetBC() != nullptr)
-			OnCircleCollision(a_oOther);*/
+		}
 	}
-	//void Object::OnCircleCollision(Object& a_oOther)
-	//{
-	//	// Virtual, Do Nothing...
-	//}
 	void Object::OnBoxCollision(Object& a_oOther)
 	{
 		// Collision with left side of other object
-		if (m_fPrevPos.X - (m_bbBoundingBox->fSize.W / 2) >= a_oOther.GetBB().fMax.X)
+		if (m_fPrevPos.X - (m_bbBoundingBox->fSize.W / 2) > a_oOther.GetBB().fMax.X)
 		{
 			m_fPos.X = a_oOther.GetBB().fMax.X + (m_bbBoundingBox->fSize.W / 2);
-			m_fVelocity.X = 0;
+			//m_fVelocity.X = 0;
 		}
-		else if (m_fPrevPos.Y - (m_bbBoundingBox->fSize.H / 2) >= a_oOther.GetBB().fMax.Y)
+		else if (m_fPrevPos.Y - (m_bbBoundingBox->fSize.H / 2) > a_oOther.GetBB().fMax.Y)
 		{
 			m_fPos.Y = a_oOther.GetBB().fMax.Y + (m_bbBoundingBox->fSize.H / 2);
 			m_fVelocity.Y = 0;
 		}
 
 		// Collision with right side of other object
-		else if (m_fPrevPos.X + (m_bbBoundingBox->fSize.W / 2) <= a_oOther.GetBB().fMin.X)
+		else if (m_fPrevPos.X + (m_bbBoundingBox->fSize.W / 2) < a_oOther.GetBB().fMin.X)
 		{
 			m_fPos.X = a_oOther.GetBB().fMin.X - (m_bbBoundingBox->fSize.W / 2);
-			m_fVelocity.X = 0;
+			//m_fVelocity.X = 0;
 		}
-		else if (m_fPrevPos.Y + (m_bbBoundingBox->fSize.H / 2) <= a_oOther.GetBB().fMin.Y)
+		else if (m_fPrevPos.Y + (m_bbBoundingBox->fSize.H / 2) < a_oOther.GetBB().fMin.Y)
 		{
 			m_fPos.Y = a_oOther.GetBB().fMin.Y - (m_bbBoundingBox->fSize.H / 2);
 			m_fVelocity.Y = 0;
 		}
 		else
-		{
-			if (m_fPos.X - (m_bbBoundingBox->fSize.W / 2) >= a_oOther.GetBB().fMin.X)
-			{
-				m_fPos.X = a_oOther.GetBB().fMax.X + (m_bbBoundingBox->fSize.W / 2);
-				m_fVelocity.X = 0;
-			}
-			else if (m_fPos.Y - (m_bbBoundingBox->fSize.H / 2) >= a_oOther.GetBB().fMin.Y)
-			{
-				m_fPos.Y = a_oOther.GetBB().fMax.Y + (m_bbBoundingBox->fSize.H / 2);
-				m_fVelocity.Y = 0;
-			}
-			//m_fPrevPos -= m_fVelocity;
-			//OnBoxCollision(a_oOther);
-		}
-
+			OnMovingCollision(a_oOther);
 
 		UpdateBB();
+	}
+	void Object::OnMovingCollision(Object& a_oOther)
+	{
+		if (m_fPos.X >= a_oOther.GetPos().X)
+		{
+			if (m_fPos.Y >= a_oOther.GetPos().Y)
+			{
+				if (abs(a_oOther.GetBB().fMax.X - m_bbBoundingBox->fMin.X) < abs(a_oOther.GetBB().fMax.Y - m_bbBoundingBox->fMin.Y))
+					m_fPos.X = a_oOther.GetBB().fMax.X + (m_bbBoundingBox->fSize.W / 2);
+				else
+				{
+					m_fPos.Y = a_oOther.GetBB().fMax.Y + (m_bbBoundingBox->fSize.H / 2);
+					m_fVelocity.Y = 0;
+				}
+			}
+			else
+			{
+				if (abs(a_oOther.GetBB().fMax.X - m_bbBoundingBox->fMin.X) < abs(a_oOther.GetBB().fMin.Y - m_bbBoundingBox->fMax.Y))
+					m_fPos.X = a_oOther.GetBB().fMax.X + (m_bbBoundingBox->fSize.W / 2);
+				else
+				{
+					m_fPos.Y = a_oOther.GetBB().fMin.Y - (m_bbBoundingBox->fSize.H / 2);
+					m_fVelocity.Y = 0;
+				}
+			}
+		}
+		else if (m_fPos.X < a_oOther.GetPos().X)
+		{
+			if (m_fPos.Y >= a_oOther.GetPos().Y)
+			{
+				if (abs(a_oOther.GetBB().fMin.X - m_bbBoundingBox->fMax.X) < abs(a_oOther.GetBB().fMax.Y - m_bbBoundingBox->fMin.Y))
+					m_fPos.X = a_oOther.GetBB().fMin.X - (m_bbBoundingBox->fSize.W / 2);
+				else
+				{
+					m_fPos.Y = a_oOther.GetBB().fMax.Y + (m_bbBoundingBox->fSize.H / 2);
+					m_fVelocity.Y = 0;
+				}
+			}
+			else
+			{
+				if (abs(a_oOther.GetBB().fMin.X - m_bbBoundingBox->fMax.X) < abs(a_oOther.GetBB().fMin.Y - m_bbBoundingBox->fMax.Y))
+					m_fPos.X = a_oOther.GetBB().fMin.X - (m_bbBoundingBox->fSize.W / 2);
+				else
+				{
+					m_fPos.Y = a_oOther.GetBB().fMin.Y - (m_bbBoundingBox->fSize.H / 2);
+					m_fVelocity.Y = 0;
+				}
+			}
+		}
 	}
 
 	void Object::UpdateBB()
@@ -178,14 +208,6 @@ namespace Collision
 		}
 	}
 
-	void Object::UpdateBC()
-	{
-		/*if (m_bcBoundingCircle != nullptr)
-		{
-			m_bcBoundingCircle->fCenter = m_fPos;
-		}*/
-	}
-
 	const System::Point2D<float>& Object::GetPos()
 	{
 		return m_fPos;
@@ -195,15 +217,15 @@ namespace Collision
 		return m_iPos;
 	}
 
+	const System::Velocity2D<float>& Object::GetVel()
+	{
+		return m_fVelocity;
+	}
+
 	const BoundingBox& Object::GetBB()
 	{
 		return *m_bbBoundingBox;
 	}
-
-	/*const BoundingCircle& Object::GetBC()
-	{
-		return *m_bcBoundingCircle;
-	}*/
 
 	Object::Object()
 	{
@@ -215,7 +237,6 @@ namespace Collision
 		m_bMove = false;
 
 		m_bbBoundingBox = nullptr;
-		/*m_bcBoundingCircle = nullptr;*/
 	}
 	Object::~Object()
 	{

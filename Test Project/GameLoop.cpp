@@ -1,7 +1,7 @@
 #include "GameLoop.h"
 
 const System::Point2D<int> Center = { 0, 0 };
-const unsigned int NUM_ENEMIES = 10;
+const unsigned int NUM_ENEMIES = 500;
 
 namespace LoopHandle
 {
@@ -63,8 +63,8 @@ namespace LoopHandle
 
 	GameLoop::GameLoop() : Loop()
 	{
-		//Graphics::NewCamera({ 0, 0 }, { 0, 0 }, m_oPlayer.GetIntPos(), { 100, 100 }, { 1, 1 }, 0, false, { 0, 0 }, 0, 0);
 		Graphics::NewCamera({ 0, 0 }, { 0, 0 }, Center, { 100, 100 }, { 1, 1 }, 0, false, { 0, 0 }, 0, 0);
+		//Graphics::NewCamera({ 0, 0 }, { 0, 0 }, m_oPlayer.GetIntPos(), { 50, 50 }, { 1, 1 }, 0, false, { 0, 0 }, 0, 0);
 
 		Graphics::TileMap<int> TestMap("Tilemap/OriginalMap.txt", "Images/environment.png", { 128, 128 }, { 10, 7 }, { (-128 * 9) / 2, (-128 * 6) / 2 });
 
