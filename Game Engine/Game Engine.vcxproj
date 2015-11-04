@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Collision.cpp" />
     <ClCompile Include="EventHandler.cpp" />
     <ClCompile Include="Graphics.cpp" />
@@ -33,9 +34,12 @@
     <ClInclude Include="..\Dependencies\include\EventHandler.h" />
     <ClInclude Include="..\Dependencies\include\Graphics.h" />
     <ClInclude Include="..\Dependencies\include\Loop.h" />
+    <ClInclude Include="..\Dependencies\include\Point2D.h" />
+    <ClInclude Include="..\Dependencies\include\Size2D.h" />
     <ClInclude Include="..\Dependencies\include\System.h" />
     <ClInclude Include="..\Dependencies\include\Text.h" />
     <ClInclude Include="..\Dependencies\include\TileMap.h" />
+    <ClInclude Include="..\Dependencies\include\Velocity2D.h" />
     <ClInclude Include="..\Dependencies\include\Window.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
@@ -90,9 +94,13 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <OutDir>$(SolutionDir)Dependencies\lib</OutDir>
+    <IncludePath>C:\Boost\include;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\Boost\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <OutDir>$(SolutionDir)Dependencies\lib</OutDir>
+    <IncludePath>C:\Boost\include;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\Boost\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>

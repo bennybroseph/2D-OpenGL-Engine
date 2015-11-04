@@ -70,9 +70,13 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <OutDir>$(SolutionDir)$(Configuration)</OutDir>
+    <IncludePath>C:\Boost\include;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\Boost\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <OutDir>$(SolutionDir)$(Configuration)</OutDir>
+    <IncludePath>C:\Boost\include;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\Boost\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>

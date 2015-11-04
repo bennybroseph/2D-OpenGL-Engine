@@ -57,7 +57,10 @@ namespace Graphics
 		Camera() = delete;
 		~Camera();
 	};
+}
 
+namespace Graphics
+{
 	template <typename T>
 	void Camera<T>::Resize(const System::Size2D<T>& ac_NewDimensions)
 	{
@@ -78,8 +81,7 @@ namespace Graphics
 	void Camera<T>::Update()
 	{
 		if (m_bIsScrolling)
-			m_WorldPos.X += 0.01;
-			//m_WorldPos += m_Velocity;
+			m_WorldPos += m_Velocity;
 	}
 
 	template <typename T>

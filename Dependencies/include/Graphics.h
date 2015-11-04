@@ -4,6 +4,8 @@
 #include "Window.h"
 #include "Camera.h"
 
+#include <boost\variant\variant.hpp>
+
 #include <algorithm>
 
 #include <SDL_image.h>
@@ -13,7 +15,6 @@ namespace Graphics
 	enum LayerType
 	{
 		BACKGROUND,
-		INLINEFORE,	// Layer is behind the Mid-ground, but acts as if it is in line with the Foreground
 		MIDGROUND,
 		FOREGROUND,
 
@@ -47,6 +48,9 @@ namespace Graphics
 		bool bIsActive;
 	};
 
+	//std::vector<boost::variant<GLSurface<int>*, GLSurface<float>*, GLSurface<double>*>*> vglSurfacessk;
+	//std::vector<boost::variant<int, float>> b;
+	
 	struct SurfaceUnion
 	{
 		enum { INT, FLOAT }Tag;
@@ -262,6 +266,8 @@ namespace Graphics
 	template <typename T>
 	void ReloadSurface(GLSurface<T>* a_glSurface, SDL_Surface& a_sdlSurface)
 	{
+		glDeleteTextures(1, &a_glSurface->Surface);
+
 		glGenTextures(1, &a_glSurface->Surface);
 		glBindTexture(GL_TEXTURE_2D, a_glSurface->Surface);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);

@@ -66,6 +66,9 @@
     <ClCompile Include="Loop.cpp">
       <Filter>Source Files\Loop</Filter>
     </ClCompile>
+    <ClCompile Include="Camera.cpp">
+      <Filter>Source Files\Graphics\Window\Camera</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Dependencies\include\Camera.h">
@@ -94,6 +97,15 @@
     </ClInclude>
     <ClInclude Include="..\Dependencies\include\Text.h">
       <Filter>Source Files\Graphics\Text</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Dependencies\include\Point2D.h">
+      <Filter>Source Files\System</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Dependencies\include\Size2D.h">
+      <Filter>Source Files\System</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Dependencies\include\Velocity2D.h">
+      <Filter>Source Files\System</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
