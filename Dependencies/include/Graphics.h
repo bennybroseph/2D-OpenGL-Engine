@@ -47,9 +47,6 @@ namespace Graphics
 
 		bool bIsActive;
 	};
-
-	//std::vector<boost::variant<GLSurface<int>*, GLSurface<float>*, GLSurface<double>*>*> vglSurfacessk;
-	//std::vector<boost::variant<int, float>> b;
 	
 	struct SurfaceUnion
 	{
