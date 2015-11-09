@@ -12,8 +12,12 @@ namespace Graphics
 
 	std::vector<SurfaceUnion*> vglSurfaces;
 
+	std::vector<GLSurface<boost::variant<int, float, double>>> vglSurfacessk;
+
 	bool Init()
 	{
+		
+
 		if (SDL_Init(SDL_INIT_VIDEO) < 0)
 		{
 			printf("SDL_Error: %s\n", SDL_GetError());
@@ -26,7 +30,7 @@ namespace Graphics
 			return 1;
 		}
 
-		for (int i = 0; i < uiNumDisplays; ++i)
+		for (unsigned int i = 0; i < uiNumDisplays; ++i)
 		{
 			SDL_DisplayMode sdlTemp;
 			if (SDL_GetDisplayMode(i, i, &sdlTemp) != 0)
@@ -80,7 +84,7 @@ namespace Graphics
 		const unsigned int					ac_uiNewMonitorIndex,
 		const unsigned int					ac_uiIndex)
 	{
-		for (int i = 0; i < voCameras.size(); ++i)
+		for (unsigned int i = 0; i < voCameras.size(); ++i)
 		{
 			switch (voCameras[i]->Tag)
 			{
@@ -96,7 +100,7 @@ namespace Graphics
 		NewDimensions.W = (!voWindows[ac_uiIndex]->GetIsFullscreen()) ? (unsigned int)sdlDisplayMode[ac_uiIndex].w : voWindows[ac_uiIndex]->GetNonFullscreen().W;
 		NewDimensions.H = (!voWindows[ac_uiIndex]->GetIsFullscreen()) ? (unsigned int)sdlDisplayMode[ac_uiIndex].h : voWindows[ac_uiIndex]->GetNonFullscreen().H;
 
-		for (int i = 0; i < voCameras.size(); ++i)
+		for (unsigned int i = 0; i < voCameras.size(); ++i)
 		{
 			switch (voCameras[i]->Tag)
 			{
@@ -125,7 +129,7 @@ namespace Graphics
 
 	void Draw()
 	{
-		for (int i = 0; i < voCameras.size(); ++i)
+		for (unsigned int i = 0; i < voCameras.size(); ++i)
 		{
 			switch (voCameras[i]->Tag)
 			{
