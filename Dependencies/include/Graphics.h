@@ -4,8 +4,6 @@
 #include "Window.h"
 #include "Camera.h"
 
-#include <boost\variant\variant.hpp>
-
 #include <algorithm>
 
 #include <SDL_image.h>
@@ -47,9 +45,6 @@ namespace Graphics
 
 		bool bIsActive;
 	};
-
-	//std::vector<boost::variant<GLSurface<int>*, GLSurface<float>*, GLSurface<double>*>*> vglSurfacessk;
-	//std::vector<boost::variant<int, float>> b;
 	
 	struct SurfaceUnion
 	{

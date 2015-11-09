@@ -84,7 +84,7 @@ void Player::OnKeyUp(const SDL_Keycode ac_sdlSym, const Uint16 ac_uiMod, const S
 Player::Player() : Object()
 {
 	m_glSurface = Graphics::LoadSurface<int>("Images/box1.png");
-	m_glSurface->Layer = Graphics::LayerType::FOREGROUND;
+	m_glSurface->Layer = Graphics::LayerType::ALWAYS_TOP;
 
 	m_fPos = { 0, -175 };
 

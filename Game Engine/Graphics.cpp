@@ -4,7 +4,7 @@
 namespace Graphics
 {
 	std::vector<SDL_DisplayMode> sdlDisplayMode;
-	SDL_GLContext glContext = nullptr;
+	SDL_GLContext glContext;
 	unsigned int uiNumDisplays;
 
 	std::vector<Window*>		voWindows;
@@ -34,6 +34,8 @@ namespace Graphics
 			else
 				sdlDisplayMode.push_back(sdlTemp);
 		}
+
+		glContext = nullptr;
 
 		return 0;
 	}
@@ -163,6 +165,7 @@ namespace Graphics
 			-a_Camera.GetWorldPos().X,
 			-a_Camera.GetWorldPos().Y, 0.0f);
 
+
 		for (int i = 0; i < vglSurfaces.size(); ++i)
 		{
 			switch (vglSurfaces[i]->Tag)
@@ -192,12 +195,20 @@ namespace Graphics
 	template <typename T, typename U>
 	void DrawSurface(const GLSurface<T>& ac_glSurface, Camera<U>& a_Camera)
 	{
-		glPushMatrix(); // Save the current matrix.
+		GLfloat glMatrix[16];
+
+		if (ac_glSurface.Layer == LayerType::OVERLAY)
+		{
+			glGetFloatv(GL_PROJECTION_MATRIX, glMatrix);
+			glPopMatrix();
+		}
+		else
+			glPushMatrix(); // Save the current matrix.
 
 		glTranslatef(																	// Move the image back to its original position
 			ac_glSurface.Pos.X + (ac_glSurface.Center.X - ac_glSurface.OffsetD.W / 2),
 			ac_glSurface.Pos.Y + (ac_glSurface.Center.Y - ac_glSurface.OffsetD.H / 2),
-			0.0f); 
+			0.0f);
 		glScalef(ac_glSurface.Scale.W, ac_glSurface.Scale.H, 0.0f);						// Scale the image
 		glRotatef(ac_glSurface.Rotation, 0.0f, 0.0f, 1.0f);								// Rotate the image
 		glTranslatef(																	// Move the image to (0,0) on the screen
@@ -206,7 +217,13 @@ namespace Graphics
 
 		DrawSurface(ac_glSurface);
 
-		glPopMatrix(); // Reset the current matrix to the one that was saved.
+		if (ac_glSurface.Layer == LayerType::OVERLAY)
+		{
+			glLoadMatrixf(glMatrix);
+			glPushMatrix();
+		}
+		else
+			glPopMatrix(); // Reset the current matrix to the one that was saved.
 	}
 	template <typename T>
 	void DrawSurface(const GLSurface<T>& ac_glSurface)
@@ -383,7 +400,5 @@ namespace Graphics
 		voWindows.clear();
 		voCameras.clear();
 		vglSurfaces.clear();
-
-
 	}
 }

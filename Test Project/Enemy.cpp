@@ -23,9 +23,8 @@ Enemy::Enemy()
 	m_glSurface->Layer = Graphics::LayerType::FOREGROUND;
 	m_glSurface->OffsetD = { 20, 20 };
 
-	m_bbBoundingBox = Collision::NewBoundingBox(this, m_fPos, { (float)m_glSurface->OffsetD.W, (float)m_glSurface->OffsetD.H }, false, false);
+	m_bbBoundingBox = Collision::NewBoundingBox(this, m_fPos, { (float)m_glSurface->OffsetD.W, (float)m_glSurface->OffsetD.H }, false, true);
 }
-
 
 Enemy::~Enemy()
 {

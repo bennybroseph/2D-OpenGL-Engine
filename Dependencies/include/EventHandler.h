@@ -11,6 +11,7 @@
 #ifndef _EVENTHANDLER_H_
 #define _EVENTHANDLER_H_
 
+#include <stdio.h>
 #include <SDL.h>
 
 class EventHandler
@@ -39,19 +40,19 @@ protected:
 	virtual void OnMouseFocus();
 	virtual void OnMouseBlur();
 
-	//Passes                mouse_x mouse_y x_velocity y_velocity  buttonL,  buttonR,      buttonM (scroll wheel)
-	virtual void OnMouseMove(const int ac_iMouseX, const int ac_iMouseY, const int ac_iVelX, const int ac_VelY, const bool ac_bLeft, const bool ac_bRight, const bool ac_bMiddle);
+	//Passes mouse_x mouse_y x_velocity y_velocity  buttonL,  buttonR,      buttonM (scroll wheel)
+	virtual void OnMouseMove(const Sint32 ac_iMouseX, const Sint32 ac_iMouseY, const Sint32 ac_iVelX, const Sint32 ac_VelY, const bool ac_bLeft, const bool ac_bRight, const bool ac_bMiddle);
 
 	//Passes which way the mouse wheel is spun
-	virtual void OnMouseWheel(const bool ac_bUp, const bool ac_bDown);
+	virtual void OnMouseWheel(const Sint32 ac_iVelX, const Sint32 ac_iVelY);
 
 	//If mouse buttons down/up
-	virtual void OnLButtonDown(const int ac_MouseX, const int ac_MouseY);
-	virtual void OnLButtonUp(const int ac_MouseX, const int ac_MouseY);
-	virtual void OnRButtonDown(const int ac_MouseX, const int ac_MouseY);
-	virtual void OnRButtonUp(const int ac_MouseX, const int ac_MouseY);
-	virtual void OnMButtonDown(const int ac_MouseX, const int ac_MouseY);
-	virtual void OnMButtonUp(const int ac_MouseX, const int ac_MouseY);
+	virtual void OnLButtonDown(const Sint32 ac_MouseX, const Sint32 ac_MouseY);
+	virtual void OnLButtonUp(const Sint32 ac_MouseX, const Sint32 ac_MouseY);
+	virtual void OnRButtonDown(const Sint32 ac_MouseX, const Sint32 ac_MouseY);
+	virtual void OnRButtonUp(const Sint32 ac_MouseX, const Sint32 ac_MouseY);
+	virtual void OnMButtonDown(const Sint32 ac_MouseX, const Sint32 ac_MouseY);
+	virtual void OnMButtonUp(const Sint32 ac_MouseX, const Sint32 ac_MouseY);
 
 	//Checks for joystick events, but there's an SDL_Joystick object which is much better
 	virtual void OnJoyAxis(const Uint8 ac_uiWhich, const Uint8 ac_uiAxis, const Sint16 ac_uiValue);
@@ -65,7 +66,7 @@ protected:
 	virtual void OnRestore();
 
 	//When the window gets resized, returns the new W and H
-	virtual void OnResize(const int ac_iWidth, const int ac_iHeight);
+	virtual void OnResize(const Sint32 ac_iWidth, const Sint32 ac_iHeight);
 
 	//Most likely when the window is restored from being minimized?
 	virtual void OnExpose();
@@ -74,7 +75,7 @@ protected:
 	virtual void OnExit();
 
 	//No clue
-	virtual void OnUser(const Uint8 ac_uiType, const int ac_iCode, const void* ac_pData1, const void* ac_pData2);
+	virtual void OnUser(const Uint32 ac_uiType, const Sint32 ac_iCode, const void* ac_pData1, const void* ac_pData2);
 };
 
 //Renames EventHandler as EH

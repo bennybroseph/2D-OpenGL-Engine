@@ -26,6 +26,9 @@ namespace System
 		// Division of a 'Point2D' and an integer; ex: "HalfofA = PointA / 2;"
 		template <typename T, typename U>
 		friend const Point2D<T> operator/(const Point2D<T>& ac_PointA, const U ac_iNum);
+
+		template <typename T, typename U>
+		friend void operator+=(Point2D<T>& ac_PointA, const Point2D<U> ac_PointB);
 	};
 
 	template <typename T, typename U>
@@ -60,6 +63,12 @@ namespace System
 		const Point2D<T> PointC = { ac_PointA.X / ac_iNum, ac_PointA.Y / ac_iNum };
 
 		return PointC;
+	}
+
+	template <typename T, typename U>
+	void operator+=(Point2D<T>& ac_PointA, const Point2D<U> ac_PointB)
+	{
+		ac_PointA = { ac_PointA.X + ac_PointB.X, ac_PointA.Y + ac_PointB.Y };
 	}
 }
 

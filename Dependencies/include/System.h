@@ -31,10 +31,12 @@ namespace System
 	const Point2D<T> operator+(const Point2D<T>& ac_PointA, const Velocity2D<U>& ac_VelocityA);
 	template <typename T, typename U>
 	const Point2D<T> operator-(const Point2D<T>& ac_PointA, const Velocity2D<U>& ac_VelocityA);
+
 	// Defines what it means to set a 'Point2D' equal to itself + an 'AngularVel'
 	template <typename T, typename U>
 	void operator+=(Point2D<T>& ac_PointA, const AngularVel<U>& ac_VelocityA);
-	// Defines what it means to set a 'Point2D' equal to itself + an 'Velocity'
+
+	// Defines what it means to set a 'Point2D' equal to itself + a 'Velocity'
 	template <typename T, typename U>
 	void operator+=(Point2D<T>& ac_PointA, const Velocity2D<U>& ac_VelocityA);
 	template <typename T, typename U>

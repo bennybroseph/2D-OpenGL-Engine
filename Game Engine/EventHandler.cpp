@@ -74,6 +74,8 @@ void EventHandler::OnEvent(const SDL_Event& event)
 		break;
 	}
 
+	case SDL_MOUSEWHEEL: OnMouseWheel(event.wheel.x, event.wheel.y); break;
+
 	case SDL_JOYAXISMOTION: OnJoyAxis(event.jaxis.which, event.jaxis.axis, event.jaxis.value); break;
 
 	case SDL_JOYBALLMOTION: OnJoyBall(event.jball.which, event.jball.ball, event.jball.xrel, event.jball.yrel); break;
@@ -124,42 +126,42 @@ void EventHandler::OnMouseBlur()
 	//Pure virtual, do nothing
 }
 
-void EventHandler::OnMouseMove(const int ac_iMouseX, const int ac_iMouseY, const int ac_iVelX, const int ac_VelY, const bool ac_bLeft, const bool ac_bRight, const bool ac_bMiddle)
+void EventHandler::OnMouseMove(const Sint32 ac_iMouseX, const Sint32 ac_iMouseY, const Sint32 ac_iVelX, const Sint32 ac_VelY, const bool ac_bLeft, const bool ac_bRight, const bool ac_bMiddle)
 {
 	//Pure virtual, do nothing
 }
 
-void EventHandler::OnMouseWheel(const bool ac_bUp, const bool ac_bDown)
+void EventHandler::OnMouseWheel(const Sint32 ac_iVelX, const Sint32 ac_iVelY)
 {
 	//Pure virtual, do nothing
 }
 
-void EventHandler::OnLButtonDown(const int ac_MouseX, const int ac_MouseY)
+void EventHandler::OnLButtonDown(const Sint32 ac_MouseX, const Sint32 ac_MouseY)
 {
 	//Pure virtual, do nothing
 }
 
-void EventHandler::OnLButtonUp(const int ac_MouseX, const int ac_MouseY)
+void EventHandler::OnLButtonUp(const Sint32 ac_MouseX, const Sint32 ac_MouseY)
 {
 	//Pure virtual, do nothing
 }
 
-void EventHandler::OnRButtonDown(const int ac_MouseX, const int ac_MouseY)
+void EventHandler::OnRButtonDown(const Sint32 ac_MouseX, const Sint32 ac_MouseY)
 {
 	//Pure virtual, do nothing
 }
 
-void EventHandler::OnRButtonUp(const int ac_MouseX, const int ac_MouseY)
+void EventHandler::OnRButtonUp(const Sint32 ac_MouseX, const Sint32 ac_MouseY)
 {
 	//Pure virtual, do nothing
 }
 
-void EventHandler::OnMButtonDown(const int ac_MouseX, const int ac_MouseY)
+void EventHandler::OnMButtonDown(const Sint32 ac_MouseX, const Sint32 ac_MouseY)
 {
 	//Pure virtual, do nothing
 }
 
-void EventHandler::OnMButtonUp(const int ac_MouseX, const int ac_MouseY)
+void EventHandler::OnMButtonUp(const Sint32 ac_MouseX, const Sint32 ac_MouseY)
 {
 	//Pure virtual, do nothing
 }
@@ -214,7 +216,7 @@ void EventHandler::OnExit()
 	//Pure virtual, do nothing
 }
 
-void EventHandler::OnUser(const Uint8 ac_uiType, const int ac_iCode, const void* ac_pData1, const void* ac_pData2)
+void EventHandler::OnUser(const Uint32 ac_uiType, const Sint32 ac_iCode, const void* ac_pData1, const void* ac_pData2)
 {
 	//Pure virtual, do nothing
 }
