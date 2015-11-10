@@ -12,7 +12,7 @@ namespace Graphics
 
 	std::vector<SurfaceUnion*> vglSurfaces;
 
-	std::vector<GLSurface<boost::variant<int, float, double>>> vglSurfacessk;
+	//std::vector<GLSurface<boost::variant<int, float, double>>> vglSurfacessk;
 
 	bool Init()
 	{

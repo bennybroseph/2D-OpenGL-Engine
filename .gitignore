@@ -8,6 +8,7 @@
 *.sln.docstates
 
 # Build results
+/*.csproj
 [Dd]ebug/
 [Dd]ebugPublic/
 [Rr]elease/
@@ -18,6 +19,7 @@ build/
 bld/
 [Bb]in/
 [Oo]bj/
+
 
 # Roslyn cache directories
 *.ide/
@@ -229,3 +231,5 @@ $RECYCLE.BIN/
 
 # Windows shortcuts
 *.lnk
+
+*.pdb
