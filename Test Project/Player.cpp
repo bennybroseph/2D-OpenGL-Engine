@@ -42,7 +42,7 @@ void Player::LateUpdate()
 void Player::Draw()
 {
 	System::Point2D<float> Center = { 800, 450 };
-	System::Size2D<float> Test = (System::Size2D<float>)Center;
+	//System::Size2D<float> Test = (System::Size2D<float>)Center;
 
 	//Graphics::DrawLine(m_fPos + Center, (m_fPos + Center) + (50.0f * m_fVelocity), { 255, 255, 255, 255 });
 
@@ -94,7 +94,7 @@ Player::Player() : Object()
 
 	m_fPos = { 0, -175 };
 
-	m_bbBoundingBox = Collision::NewBoundingBox(this, m_fPos, { (float)m_glSurface->OffsetD.W, (float)m_glSurface->OffsetD.H }, false, true);
+	m_bbBoundingBox = Collision::NewBoundingBox(this, m_fPos, { (float)m_glSurface->OffsetSize.W, (float)m_glSurface->OffsetSize.H }, false, true);
 
 	m_bMove = true;
 	m_bUseGravity = false;
@@ -102,9 +102,9 @@ Player::Player() : Object()
 	auto temp1 = Graphics::LoadSurface<int>("Images/box1.png");
 	temp1->Pos = { 0, 0 };
 	temp1->Layer = Graphics::LayerType::FOREGROUND;
-	temp1->OffsetD = { 1000, 100 };
+	temp1->OffsetSize = { 1000, 100 };
 
-	other.m_bbBoundingBox = Collision::NewBoundingBox(&other, { 0, 0 }, { (float)temp1->OffsetD.W, (float)temp1->OffsetD.H }, false, false);
+	other.m_bbBoundingBox = Collision::NewBoundingBox(&other, { 0, 0 }, { (float)temp1->OffsetSize.W, (float)temp1->OffsetSize.H }, false, false);
 }
 Player::~Player()
 {

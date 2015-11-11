@@ -93,10 +93,10 @@ namespace Graphics
 		SDL_GL_MakeCurrent(voWindows[a_Camera.GetWindowIndex()]->GetWindow(), glContext);
 
 		glViewport(
-			a_Camera.GetScreenPos().X,
-			a_Camera.GetScreenPos().Y,
-			a_Camera.GetDimensions().W,
-			a_Camera.GetDimensions().H);
+			(GLsizei)a_Camera.GetScreenPos().X,
+			(GLsizei)a_Camera.GetScreenPos().Y,
+			(GLsizei)a_Camera.GetDimensions().W,
+			(GLsizei)a_Camera.GetDimensions().H);
 		glMatrixMode(GL_MODELVIEW);
 
 		glOrtho(
@@ -108,15 +108,15 @@ namespace Graphics
 
 		glPushMatrix(); // Save the current matrix.
 
-		glTranslatef(a_Camera.GetResolution().W / 2, a_Camera.GetResolution().H / 2, 0.0f); // Move the world space based on the camera's position and center it
-		glScalef(a_Camera.GetZoom().W, a_Camera.GetZoom().H, 0.0f);							// Scale the world space based on the camera's scale
-		glRotatef(a_Camera.GetRotation(), 0.0f, 0.0f, 1.0f);								// Rotate the world space based on the camera's rotation
-		glTranslatef(																		// Move the world space based on the camera's position
-			-a_Camera.GetWorldPos().X,
-			-a_Camera.GetWorldPos().Y, 0.0f);
+		glTranslatef((GLfloat)(a_Camera.GetResolution().W / 2), (GLfloat)(a_Camera.GetResolution().H / 2), 0.0f);	// Move the world space based on the camera's position and center it
+		glScalef((GLfloat)a_Camera.GetZoom().W, (GLfloat)a_Camera.GetZoom().H, 0.0f);								// Scale the world space based on the camera's scale
+		glRotatef((GLfloat)a_Camera.GetRotation(), 0.0f, 0.0f, 1.0f);												// Rotate the world space based on the camera's rotation
+		glTranslatef(																								// Move the world space based on the camera's position
+			(GLfloat)(-a_Camera.GetWorldPos().X),
+			(GLfloat)(-a_Camera.GetWorldPos().Y), 0.0f);
 
 
-		for (int i = 0; i < vglSurfaces.size(); ++i)
+		for (unsigned int i = 0; i < vglSurfaces.size(); ++i)
 		{
 			switch (vglSurfaces[i]->Tag)
 			{
@@ -216,12 +216,14 @@ namespace Graphics
 			}
 			break;
 		}
+		default: return false;
 		}
+		return false;
 	}
 
 	void Flip()
 	{
-		for (int i = 0; i < voWindows.size(); ++i)
+		for (unsigned int i = 0; i < voWindows.size(); ++i)
 		{
 			SDL_GL_MakeCurrent(voWindows[i]->GetWindow(), glContext);
 			voWindows[i]->Flip();

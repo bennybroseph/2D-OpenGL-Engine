@@ -9,7 +9,7 @@ namespace LoopHandle
 	{
 		m_oPlayer.Handle();
 
-		for (int i = 0; i < m_oEnemy.size(); ++i)
+		for (unsigned int i = 0; i < m_oEnemy.size(); ++i)
 		{
 			m_oEnemy[i]->Handle();
 		}
@@ -18,21 +18,23 @@ namespace LoopHandle
 	{
 		m_oPlayer.LateHandle();
 
-		for (int i = 0; i < m_oEnemy.size(); ++i)
+		for (unsigned int i = 0; i < m_oEnemy.size(); ++i)
 		{
 			m_oEnemy[i]->LateHandle();
 		}
 
+		char szBuffer[256];
+
 		++m_iFPS;
 		if (clock() > m_iTime + 1000)
 		{
-			printf("FPS: %d\n", m_iFPS);
+			sprintf_s(szBuffer, "FPS: %d", m_iFPS);
+			Text::ReloadTextBlock(m_ttfFPS, true, szBuffer);
+			Text::ReloadTextBlock(m_ttfShadowFPS, true, szBuffer);
 
 			m_iTime = clock();
 			m_iFPS = NULL;
 		}
-
-		char szBuffer[256];
 
 		sprintf_s(szBuffer, "(%d, %d)", m_oPlayer.GetIntPos().X, m_oPlayer.GetIntPos().Y);
 		Text::ReloadTextBlock(m_ttfTextBlock, false, szBuffer);
@@ -74,12 +76,15 @@ namespace LoopHandle
 
 		Graphics::TileMap<int> TestMap("Tilemap/OriginalMap.txt", "Images/environment.png", { 128, 128 }, { 10, 7 }, { (-128 * 9) / 2, (-128 * 6) / 2 });
 
-		m_ttfShadow = Text::LoadTextBlock({ 0, 0 }, false, "0, 0");
-		m_ttfShadow->glSurface->Pos = { 103, 53 };
-		m_ttfShadow->glSurface->Color = { 0, 0, 0, 200 };
+		m_ttfShadow = Text::LoadTextBlock({ 103, 53 }, false, "0, 0");
+		m_ttfShadow->glSurface->Color = { 0, 0, 0, 185 };
 
-		m_ttfTextBlock = Text::LoadTextBlock({ 0, 0 }, false, "0, 0");
-		m_ttfTextBlock->glSurface->Pos = { 100, 50 };
+		m_ttfTextBlock = Text::LoadTextBlock({ 100, 50 }, false, "0, 0");
+
+		m_ttfShadowFPS = Text::LoadTextBlock({ 3, 8 }, true, "FPS: 0");
+		m_ttfShadowFPS->glSurface->Color = { 0, 0, 0, 185 };
+
+		m_ttfFPS = Text::LoadTextBlock({ 0, 5 }, true, "FPS: 0");
 
 		m_iTime = clock();
 		m_iFPS = NULL;

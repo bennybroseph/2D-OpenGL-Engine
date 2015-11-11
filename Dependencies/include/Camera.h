@@ -15,7 +15,7 @@ namespace Graphics
 		System::Point2D<T>		  m_WorldPos;
 		const System::Point2D<T>* m_RelativePos;
 
-		System::Size2D<T> m_Dimensions;
+		System::Size2D<T> m_Size;
 		System::Size2D<T> m_Resolution;
 
 		System::Size2D<T> m_Zoom;
@@ -29,7 +29,7 @@ namespace Graphics
 		unsigned int m_uiWorldSpace;
 
 	public:
-		void Resize(const System::Size2D<T>&  ac_NewDimensions);
+		void Resize(const System::Size2D<T>&  ac_NewSize);
 		void RePosition(const System::Point2D<T>& ac_ScreenPos);
 		void ReBind(const System::Point2D<T>& ac_NewRelativePos);
 
@@ -48,7 +48,7 @@ namespace Graphics
 			const System::Point2D<T>&	 ac_ScreenPos,
 			const System::Point2D<T>&	 ac_WorldPos,
 			const System::Point2D<T>&	 ac_RelativePos,
-			const System::Size2D<T>&	 ac_Dimension,
+			const System::Size2D<T>&	 ac_Size,
 			const System::Size2D<T>&	 ac_Resolution,
 			const System::Size2D<T>&	 ac_Zoom,
 			const T						 ac_Rotation,
@@ -81,7 +81,7 @@ namespace Graphics
 		const System::Point2D<T>&	   ac_ScreenPos = { 0, 0 },			// Where the 'Camera' object should be placed relative to the screen
 		const System::Point2D<T>&	   ac_WorldPos = { 0, 0 },			// Where in the World the 'Camera' object should start in the world. Serves as an offset to 'm_RelativePos'
 		const System::Point2D<T>&	   ac_RelativePos = { 0, 0 },		// What point if any the 'Camera' should be anchored to, such as a player object's 'Point2D'
-		const System::Size2D<T>&	   ac_Dimensions = { 100, 100 },	// The size of the 'Camera' object relative to the window size
+		const System::Size2D<T>&	   ac_Size = { 100, 100 },			// The size of the 'Camera' object relative to the window size. Should be passed as a percentage i.e. 0-100
 		const System::Size2D<T>&	   ac_Zoom = { 1, 1 },				// The zoom in of the 'Camera' object
 		const T						   ac_Rotation = 0,					// The rotation of the 'Camera' object
 		const bool					   ac_bIsScrolling = false,			// Whether or not the 'Camera' object scrolls
@@ -103,7 +103,7 @@ namespace Graphics
 		const System::Point2D<T>&	   ac_ScreenPos,
 		const System::Point2D<T>&	   ac_WorldPos,
 		const System::Point2D<T>&	   ac_RelativePos,
-		const System::Size2D<T>&	   ac_Dimensions,
+		const System::Size2D<T>&	   ac_Size,
 		const System::Size2D<T>&	   ac_Zoom,
 		const T						   ac_Rotation,
 		const bool					   ac_bIsScrolling,
@@ -111,14 +111,14 @@ namespace Graphics
 		const unsigned int			   ac_uiWindowIndex,
 		const unsigned int			   ac_uiWorldSpace)
 	{
-		System::Size2D<T> SizeOffset = { ac_Dimensions.W * (T)voWindows[ac_uiWindowIndex]->GetDimensions().W / 100.0f, ac_Dimensions.H * (T)voWindows[ac_uiWindowIndex]->GetDimensions().H / 100.0f };
+		System::Size2D<T> SizeOffset = { ac_Size.W * (T)voWindows[ac_uiWindowIndex]->GetDimensions().W / (T)100.0f, ac_Size.H * (T)voWindows[ac_uiWindowIndex]->GetDimensions().H / (T)100.0f };
 		System::Point2D<T> ScreenOffset = {
-			ac_ScreenPos.X * (T(voWindows[ac_uiWindowIndex]->GetDimensions().W) - SizeOffset.W) / 100.0f,
-			abs(ac_ScreenPos.Y - 100.0f) * (T(voWindows[ac_uiWindowIndex]->GetDimensions().H) - SizeOffset.H) / 100.0f };
+			ac_ScreenPos.X * ((T)voWindows[ac_uiWindowIndex]->GetDimensions().W - SizeOffset.W) / (T)100.0f,
+			abs(ac_ScreenPos.Y - (T)100.0f) * ((T)voWindows[ac_uiWindowIndex]->GetDimensions().H - SizeOffset.H) / (T)100.0f };
 
 		System::Size2D<T> Resolution = {
-			(T)voWindows[ac_uiWindowIndex]->GetResolution().W * ((float)SizeOffset.W / (float)voWindows[ac_uiWindowIndex]->GetDimensions().W),
-			(T)voWindows[ac_uiWindowIndex]->GetResolution().H * ((float)SizeOffset.H / (float)voWindows[ac_uiWindowIndex]->GetDimensions().H) };
+			(T)((T)voWindows[ac_uiWindowIndex]->GetResolution().W * ((float)SizeOffset.W / (float)voWindows[ac_uiWindowIndex]->GetDimensions().W)),
+			(T)((T)voWindows[ac_uiWindowIndex]->GetResolution().H * ((float)SizeOffset.H / (float)voWindows[ac_uiWindowIndex]->GetDimensions().H)) };
 
 		Camera<T>* newCamera = new Camera<T>(ScreenOffset, ac_WorldPos, ac_RelativePos, SizeOffset, Resolution, ac_Zoom, ac_Rotation, ac_bIsScrolling, ac_Velocity, ac_uiWindowIndex, ac_uiWorldSpace);
 		PushCamera(newCamera);
@@ -130,10 +130,10 @@ namespace Graphics
 		if (a_Camera.GetWindowIndex() == ac_uiIndex)
 		{
 			System::Size2D<T> Scale = {
-				(T)((float)voWindows[a_Camera.GetWindowIndex()]->GetDimensions().W / (float)a_Camera.GetDimensions().W) * 100.0f,
-				(T)((float)voWindows[a_Camera.GetWindowIndex()]->GetDimensions().H / (float)a_Camera.GetDimensions().H) * 100.0f };
+				(T)((float)voWindows[a_Camera.GetWindowIndex()]->GetDimensions().W / (float)a_Camera.GetDimensions().W) * (T)100.0f,
+				(T)((float)voWindows[a_Camera.GetWindowIndex()]->GetDimensions().H / (float)a_Camera.GetDimensions().H) * (T)100.0f };
 
-			System::Size2D<T> SizeOffset = { Scale.W * (T)ac_uiDimensions.W / 100.0f, Scale.H * (T)ac_uiDimensions.H / 100.0f };
+			System::Size2D<T> SizeOffset = { Scale.W * (T)ac_uiDimensions.W / (T)100.0f, Scale.H * (T)ac_uiDimensions.H / (T)100.0f };
 
 			a_Camera.Resize(SizeOffset);
 		}
@@ -143,9 +143,9 @@ namespace Graphics
 namespace Graphics
 {
 	template <typename T>
-	void Camera<T>::Resize(const System::Size2D<T>& ac_NewDimensions)
+	void Camera<T>::Resize(const System::Size2D<T>& ac_NewSize)
 	{
-		m_Dimensions = ac_NewDimensions;
+		m_Size = ac_NewSize;
 	}
 	template <typename T>
 	void Camera<T>::RePosition(const System::Point2D<T>& ac_NewScreenPos)
@@ -178,7 +178,7 @@ namespace Graphics
 	template <typename T>
 	const System::Size2D<T>& Camera<T>::GetDimensions()
 	{
-		return m_Dimensions;
+		return m_Size;
 	}
 	template <typename T>
 	const System::Size2D<T>& Camera<T>::GetResolution()
@@ -211,7 +211,7 @@ namespace Graphics
 		const System::Point2D<T>&	 ac_ScreenPos,
 		const System::Point2D<T>&	 ac_WorldPos,
 		const System::Point2D<T>&	 ac_RelativePos,
-		const System::Size2D<T>&	 ac_Dimension,
+		const System::Size2D<T>&	 ac_Size,
 		const System::Size2D<T>&	 ac_Resolution,
 		const System::Size2D<T>&	 ac_Zoom,
 		const T						 ac_Rotation,
@@ -224,7 +224,7 @@ namespace Graphics
 		m_WorldPos =	 ac_WorldPos;
 		m_RelativePos = &ac_RelativePos;
 
-		m_Dimensions = ac_Dimension;
+		m_Size = ac_Size;
 		m_Resolution = ac_Resolution;
 
 		m_Zoom =	 ac_Zoom;

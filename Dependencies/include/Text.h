@@ -1,9 +1,10 @@
-/////////////////////////////////////////////////////////////
-// File: Text.h
+////////////////////////////////////////////////////////////
+// File: Text.cpp
 // Author: Ben Odom
+// Date Created: 11/02/2015
 // Brief: Holds functionality for drawing text to the screen
 //        using SDL_TTF. Can draw text string and integers.
-//////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////
 
 #ifndef _TEXT_H_
 #define _TEXT_H_
@@ -39,6 +40,8 @@ namespace Text
 
 		Graphics::GLSurface<T>* glSurface;
 
+		System::Point2D<T> PosOffset;
+
 		FontData* ttfFontData;
 	};
 	struct TextBlockUnion
@@ -53,7 +56,7 @@ namespace Text
 	extern std::vector<TextBlockUnion*> voTextBlocks;
 
 	// Defines the default font type, as one must exist to do anything else
-	bool Init(const char* ac_szFilename, const System::Color<int>& ac_iColor, const int ac_iSize);
+	bool Init(const char* ac_szFilename, const System::Color<int>& ac_iColor, const unsigned int ac_uiSize);
 
 	void Print(const System::Point2D<int>& ac_iPos, const bool ac_bAlign, const char* ac_szText);
 	
@@ -68,7 +71,7 @@ namespace Text
 
 	void Print(const FontData &ac_ttfFont, const System::Point2D<int>& ac_iPos, const bool ac_bAlign, const int ac_iText);
 
-	FontData* LoadFont(const char* ac_szFilename, const System::Color<int>& ac_iColor, const int ac_iSize);
+	FontData* LoadFont(const char* ac_szFilename, const System::Color<int>& ac_iColor, const unsigned int ac_uiSize);
 
 	void Quit();
 }
@@ -90,7 +93,11 @@ namespace Text
 
 		ReloadTextBlock(newTextBlock, ac_bAlign, ac_szText);
 
-		newTextBlock->glSurface->Pos = { ac_iPos.X + (ac_bAlign)*(newTextBlock->glSurface->Dimensions.W / 2), ac_iPos.Y };
+		newTextBlock->PosOffset = { (ac_bAlign)*(newTextBlock->glSurface->Size.W / 2), 0 };
+
+		newTextBlock->glSurface->Pos = ac_iPos;
+		newTextBlock->glSurface->Pos += newTextBlock->PosOffset;
+
 		newTextBlock->glSurface->Layer = Graphics::LayerType::OVERLAY;
 
 		return newTextBlock;
@@ -121,7 +128,7 @@ namespace Text
 
 		int width = 0, height = 0;
 		// Write text to surface
-		for (int j = 0; j < vsLines.size(); ++j)
+		for (unsigned int j = 0; j < vsLines.size(); ++j)
 		{
 			vsdlTemp.push_back(TTF_RenderUTF8_Blended(
 				a_ttfTextBlock->ttfFontData->ttfFont, 
@@ -137,9 +144,9 @@ namespace Text
 		SDL_Surface* sdlSurface = SDL_CreateRGBSurface(0, width, height, 32, 0, 0, 0, 0);
 		SDL_Rect TextPos;
 
-		for (int j = 0; j < vsdlTemp.size(); ++j)
+		for (unsigned int j = 0; j < vsdlTemp.size(); ++j)
 		{
-			TextPos = { 0, j*(height / (int)vsdlTemp.size()), width, height };
+			TextPos = { 0, (int)j*(height / (int)vsdlTemp.size()), width, height };
 			SDL_BlitSurface(vsdlTemp[j], NULL, sdlSurface, &TextPos);
 
 			SDL_FreeSurface(vsdlTemp[j]);
@@ -154,12 +161,15 @@ namespace Text
 			Graphics::ReloadSurface(a_ttfTextBlock->glSurface, *sdlSurface);
 			SDL_FreeSurface(sdlSurface);
 
-			a_ttfTextBlock->glSurface->Dimensions = { sdlSurface->w, sdlSurface->h };
-			a_ttfTextBlock->glSurface->OffsetD = { sdlSurface->w, sdlSurface->h };
+			a_ttfTextBlock->glSurface->Size = { sdlSurface->w, sdlSurface->h };
+			a_ttfTextBlock->glSurface->OffsetSize = { sdlSurface->w, sdlSurface->h };
 
-			a_ttfTextBlock->glSurface->Center.X = a_ttfTextBlock->glSurface->Dimensions.W / 2.0f;
-			a_ttfTextBlock->glSurface->Center.Y = a_ttfTextBlock->glSurface->Dimensions.H / 2.0f;
+			a_ttfTextBlock->glSurface->Center.X = a_ttfTextBlock->glSurface->Size.W / (T)2.0f;
+			a_ttfTextBlock->glSurface->Center.Y = a_ttfTextBlock->glSurface->Size.H / (T)2.0f;
 		}
+		a_ttfTextBlock->glSurface->Pos -= a_ttfTextBlock->PosOffset;
+		a_ttfTextBlock->PosOffset = { (ac_bAlign)*(a_ttfTextBlock->glSurface->Size.W / 2), 0 };
+		a_ttfTextBlock->glSurface->Pos += a_ttfTextBlock->PosOffset;
 	}
 }
 

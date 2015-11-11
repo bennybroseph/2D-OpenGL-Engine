@@ -79,7 +79,7 @@ namespace System
 	{
 		if (a_VelocityA.X != 0 || a_VelocityA.Y != 0)
 		{
-			const U Angle = atan2(a_VelocityA.Y, a_VelocityA.X) * (180 / PI);
+			const U Angle = (U)(atan2(a_VelocityA.Y, a_VelocityA.X) * (180 / PI));
 
 			a_VelocityA = {
 				(a_VelocityA.X != 0) ? ac_Speed * (T)cos(Angle * (PI / 180)) : 0,

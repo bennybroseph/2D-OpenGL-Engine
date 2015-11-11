@@ -199,7 +199,7 @@ namespace LoopHandle
 			Graphics::Flip();
 		}*/
 
-		srand(time(NULL));
+		srand((unsigned int)time(NULL));
 
 		GameLoop oGameLoop;
 

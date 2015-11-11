@@ -14,6 +14,9 @@
 
 #include <vector>
 
+#include <iostream>   // std::cout
+#include <typeinfo>   // operator typeid
+
 namespace Graphics
 {
 	enum LayerType
@@ -35,11 +38,11 @@ namespace Graphics
 		GLuint Surface;
 
 		System::Point2D<T> Pos;
-		System::Point2D<T> OffsetP;
+		System::Point2D<T> OffsetPos;
 		System::Point2D<T> Center;
 
-		System::Size2D<T> Dimensions;
-		System::Size2D<T> OffsetD;
+		System::Size2D<T> Size;
+		System::Size2D<T> OffsetSize;
 		System::Size2D<T> Scale;
 		T Rotation;
 
@@ -117,16 +120,16 @@ namespace Graphics
 		ReloadSurface(glSurface, a_sdlSurface);
 
 		glSurface->Pos = { NULL, NULL };
-		glSurface->OffsetP = { NULL, NULL };
+		glSurface->OffsetPos = { NULL, NULL };
 
-		glSurface->Dimensions.W = a_sdlSurface.w;
-		glSurface->Dimensions.H = a_sdlSurface.h;
+		glSurface->Size.W = a_sdlSurface.w;
+		glSurface->Size.H = a_sdlSurface.h;
 
-		glSurface->Center.X = glSurface->Dimensions.W / 2.0f;
-		glSurface->Center.Y = glSurface->Dimensions.H / 2.0f;
+		glSurface->Center.X = glSurface->Size.W / (T)2.0f;
+		glSurface->Center.Y = glSurface->Size.H / (T)2.0f;
 
-		glSurface->OffsetD.W = glSurface->Dimensions.W;
-		glSurface->OffsetD.H = glSurface->Dimensions.H;
+		glSurface->OffsetSize.W = glSurface->Size.W;
+		glSurface->OffsetSize.H = glSurface->Size.H;
 
 		glSurface->Rotation = NULL;
 		glSurface->Scale = { 1, 1 };
@@ -171,14 +174,14 @@ namespace Graphics
 		glPushMatrix(); // Save the current matrix.
 
 		glTranslatef(																	// Move the image back to its original position
-			ac_glSurface.Pos.X + (ac_glSurface.Center.X - ac_glSurface.OffsetD.W / 2),
-			ac_glSurface.Pos.Y + (ac_glSurface.Center.Y - ac_glSurface.OffsetD.H / 2),
+			(GLfloat)(ac_glSurface.Pos.X + (ac_glSurface.Center.X - ac_glSurface.OffsetSize.W / 2)),
+			(GLfloat)(ac_glSurface.Pos.Y + (ac_glSurface.Center.Y - ac_glSurface.OffsetSize.H / 2)),
 			0.0f);
-		glScalef(ac_glSurface.Scale.W, ac_glSurface.Scale.H, 0.0f);						// Scale the image
-		glRotatef(ac_glSurface.Rotation, 0.0f, 0.0f, 1.0f);								// Rotate the image
+		glScalef((GLfloat)ac_glSurface.Scale.W, (GLfloat)ac_glSurface.Scale.H, 0.0f);						// Scale the image
+		glRotatef((GLfloat)ac_glSurface.Rotation, 0.0f, 0.0f, 1.0f);								// Rotate the image
 		glTranslatef(																	// Move the image to (0,0) on the screen
-			-ac_glSurface.Pos.X - (ac_glSurface.Center.X - ac_glSurface.OffsetD.W / 2),
-			-ac_glSurface.Pos.Y - (ac_glSurface.Center.Y - ac_glSurface.OffsetD.H / 2), 0.0f);
+			(GLfloat)(-ac_glSurface.Pos.X - (ac_glSurface.Center.X - ac_glSurface.OffsetSize.W / 2)),
+			(GLfloat)(-ac_glSurface.Pos.Y - (ac_glSurface.Center.Y - ac_glSurface.OffsetSize.H / 2)), 0.0f);
 
 		DrawSurface(ac_glSurface);
 
@@ -191,35 +194,35 @@ namespace Graphics
 	void DrawSurface(const GLSurface<T>& ac_glSurface)
 	{
 		GLfloat glVertices[] = {
-			(float)ac_glSurface.OffsetP.X / (float)ac_glSurface.Dimensions.W,
-			(float)ac_glSurface.OffsetP.Y / (float)ac_glSurface.Dimensions.H,
+			(float)ac_glSurface.OffsetPos.X / (float)ac_glSurface.Size.W,
+			(float)ac_glSurface.OffsetPos.Y / (float)ac_glSurface.Size.H,
 
-			((float)ac_glSurface.OffsetP.X / (float)ac_glSurface.Dimensions.W) + ((float)ac_glSurface.OffsetD.W / (float)ac_glSurface.Dimensions.W),
-			(float)ac_glSurface.OffsetP.Y / (float)ac_glSurface.Dimensions.H,
+			((float)ac_glSurface.OffsetPos.X / (float)ac_glSurface.Size.W) + ((float)ac_glSurface.OffsetSize.W / (float)ac_glSurface.Size.W),
+			(float)ac_glSurface.OffsetPos.Y / (float)ac_glSurface.Size.H,
 
-			((float)ac_glSurface.OffsetP.X / (float)ac_glSurface.Dimensions.W) + ((float)ac_glSurface.OffsetD.W / (float)ac_glSurface.Dimensions.W),
-			((float)ac_glSurface.OffsetP.Y / (float)ac_glSurface.Dimensions.H) + ((float)ac_glSurface.OffsetD.H / (float)ac_glSurface.Dimensions.H),
+			((float)ac_glSurface.OffsetPos.X / (float)ac_glSurface.Size.W) + ((float)ac_glSurface.OffsetSize.W / (float)ac_glSurface.Size.W),
+			((float)ac_glSurface.OffsetPos.Y / (float)ac_glSurface.Size.H) + ((float)ac_glSurface.OffsetSize.H / (float)ac_glSurface.Size.H),
 
-			(float)ac_glSurface.OffsetP.X / (float)ac_glSurface.Dimensions.W,
-			((float)ac_glSurface.OffsetP.Y / (float)ac_glSurface.Dimensions.H) + ((float)ac_glSurface.OffsetD.H / (float)ac_glSurface.Dimensions.H)
+			(float)ac_glSurface.OffsetPos.X / (float)ac_glSurface.Size.W,
+			((float)ac_glSurface.OffsetPos.Y / (float)ac_glSurface.Size.H) + ((float)ac_glSurface.OffsetSize.H / (float)ac_glSurface.Size.H)
 		};
 
 		GLfloat glPosition[] = {
-			ac_glSurface.Pos.X - (ac_glSurface.OffsetD.W / 2),
-			ac_glSurface.Pos.Y - (ac_glSurface.OffsetD.H / 2),
+			(GLfloat)(ac_glSurface.Pos.X - (ac_glSurface.OffsetSize.W / 2)),
+			(GLfloat)(ac_glSurface.Pos.Y - (ac_glSurface.OffsetSize.H / 2)),
 
-			ac_glSurface.Pos.X + (ac_glSurface.OffsetD.W / 2),
-			ac_glSurface.Pos.Y - (ac_glSurface.OffsetD.H / 2),
+			(GLfloat)(ac_glSurface.Pos.X + (ac_glSurface.OffsetSize.W / 2)),
+			(GLfloat)(ac_glSurface.Pos.Y - (ac_glSurface.OffsetSize.H / 2)),
 
-			ac_glSurface.Pos.X + (ac_glSurface.OffsetD.W / 2),
-			ac_glSurface.Pos.Y + (ac_glSurface.OffsetD.H / 2),
+			(GLfloat)(ac_glSurface.Pos.X + (ac_glSurface.OffsetSize.W / 2)),
+			(GLfloat)(ac_glSurface.Pos.Y + (ac_glSurface.OffsetSize.H / 2)),
 
-			ac_glSurface.Pos.X - (ac_glSurface.OffsetD.W / 2),
-			ac_glSurface.Pos.Y + (ac_glSurface.OffsetD.H / 2)
+			(GLfloat)(ac_glSurface.Pos.X - (ac_glSurface.OffsetSize.W / 2)),
+			(GLfloat)(ac_glSurface.Pos.Y + (ac_glSurface.OffsetSize.H / 2))
 		};
 
 		glBindTexture(GL_TEXTURE_2D, ac_glSurface.Surface);
-		glColor4ub(ac_glSurface.Color.Red, ac_glSurface.Color.Green, ac_glSurface.Color.Blue, ac_glSurface.Color.Alpha);
+		glColor4ub((GLubyte)ac_glSurface.Color.Red, (GLubyte)ac_glSurface.Color.Green, (GLubyte)ac_glSurface.Color.Blue, (GLubyte)ac_glSurface.Color.Alpha);
 
 		glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 		glTexCoordPointer(2, GL_FLOAT, 0, glVertices);

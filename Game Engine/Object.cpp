@@ -9,7 +9,7 @@ namespace Collision
 		Update();
 
 		if (m_bUseGravity)
-			m_fVelocity.Y += 0.8;
+			m_fVelocity.Y += 0.8f;
 
 		if (m_bMove)
 		{

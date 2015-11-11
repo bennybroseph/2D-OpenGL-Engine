@@ -18,6 +18,7 @@ namespace LoopHandle
 		Player m_oPlayer;
 		std::vector<Enemy*> m_oEnemy;
 		Text::TextBlock<int>* m_ttfTextBlock, *m_ttfShadow;
+		Text::TextBlock<int>* m_ttfFPS, *m_ttfShadowFPS;
 
 		int m_iFPS, m_iTime;
 

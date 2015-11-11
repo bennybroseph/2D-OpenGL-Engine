@@ -1,7 +1,7 @@
 ////////////////////////////////////////////////////////////
 // File: Text.cpp
 // Author: Ben Odom
-// Date Created: 10/01/2015
+// Date Created: 11/02/2015
 ////////////////////////////////////////////////////////////
 
 #include "Text.h"
@@ -11,7 +11,7 @@ namespace Text
 	std::vector<FontData*> voFontData;
 	std::vector<TextBlockUnion*> voTextBlocks;
 
-	bool Init(const char* ac_szFilename, const System::Color<int>& ac_iColor, const int ac_iSize)
+	bool Init(const char* ac_szFilename, const System::Color<int>& ac_iColor, const unsigned int ac_uiSize)
 	{
 		if (TTF_Init() == 1)
 		{
@@ -19,7 +19,7 @@ namespace Text
 			return 1;
 		}
 
-		if (LoadFont(ac_szFilename, ac_iColor, ac_iSize) == nullptr)
+		if (LoadFont(ac_szFilename, ac_iColor, ac_uiSize) == nullptr)
 			return 1;
 
 		return 0;
@@ -42,15 +42,15 @@ namespace Text
 		Print(ac_ttfFont, ac_iPos, ac_bAlign, szBuffer);
 	}
 
-	FontData* LoadFont(const char* ac_szFilename, const System::Color<int>& ac_iColor, const int ac_iSize)
+	FontData* LoadFont(const char* ac_szFilename, const System::Color<int>& ac_iColor, const unsigned int ac_uiSize)
 	{
 		FontData* newFont = new FontData;
 
-		newFont->ttfFont = TTF_OpenFont(ac_szFilename, ac_iSize);
+		newFont->ttfFont = TTF_OpenFont(ac_szFilename, ac_uiSize);
 
 		newFont->iColor = ac_iColor;
 
-		newFont->iSize = ac_iSize;
+		newFont->iSize = ac_uiSize;
 
 		if (newFont->ttfFont == NULL)
 		{
@@ -76,7 +76,7 @@ namespace Text
 
 	void Quit()
 	{
-		for (int i = 0; i < voFontData.size(); ++i)
+		for (unsigned int i = 0; i < voFontData.size(); ++i)
 			TTF_CloseFont(voFontData[i]->ttfFont);
 
 		TTF_Quit();

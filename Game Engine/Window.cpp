@@ -1,19 +1,25 @@
+////////////////////////////////////////////////////////////
+// File: Window.cpp
+// Author: Ben Odom
+// Date Created: 10/01/2015
+////////////////////////////////////////////////////////////
+
 #include "Window.h"
 
 
 namespace Graphics
 {
 	void NewWindow(
-		const System::Size2D<unsigned int>& ac_iResolution,
+		const System::Size2D<unsigned int>& ac_uiResolution,
 		const bool							ac_bFullscreen,
-		const System::Size2D<unsigned int>& ac_iDimensions,
+		const System::Size2D<unsigned int>& ac_uiSize,
 		const char*							ac_szTitle,
 		const unsigned int					ac_uiMonitorIndex)
 	{
 		voWindows.push_back(new Window(
-			ac_iResolution,
+			ac_uiResolution,
 			ac_bFullscreen,
-			ac_iDimensions,
+			ac_uiSize,
 			ac_szTitle,
 			ac_uiMonitorIndex,
 			sdlDisplayMode));
@@ -30,11 +36,11 @@ namespace Graphics
 
 			SDL_GL_SetSwapInterval(-1);
 
-			glViewport(0, 0, ac_iDimensions.W, ac_iDimensions.H);
+			glViewport(0, 0, ac_uiSize.W, ac_uiSize.H);
 			glMatrixMode(GL_PROJECTION);
 			glLoadIdentity();
 
-			glOrtho(-1.0f, ac_iResolution.W, ac_iResolution.H, 0.0f, 0.0f, 1.0f);
+			glOrtho(-1.0f, ac_uiResolution.W, ac_uiResolution.H, 0.0f, 0.0f, 1.0f);
 		}
 	}
 }
@@ -45,17 +51,17 @@ namespace Graphics
 	{
 		m_uiMonitorIndex = ac_uiNewMonitorIndex;
 
-		m_uiDimensions.W = (m_bIsFullscreen) ? m_sdlDisplayMode[m_uiMonitorIndex].w : ac_uiNewDimensions.W;
-		m_uiDimensions.H = (m_bIsFullscreen) ? m_sdlDisplayMode[m_uiMonitorIndex].h : ac_uiNewDimensions.H;
+		m_uiSize.W = (m_bIsFullscreen) ? m_sdlDisplayMode[m_uiMonitorIndex].w : ac_uiNewDimensions.W;
+		m_uiSize.H = (m_bIsFullscreen) ? m_sdlDisplayMode[m_uiMonitorIndex].h : ac_uiNewDimensions.H;
 
-		m_uiNonFullscreen = ac_uiNewDimensions;
+		m_uiWindowedSize = ac_uiNewDimensions;
 
 		if (m_bIsFullscreen)
 			SDL_SetWindowFullscreen(m_sdlWindow, SDL_WINDOW_FULLSCREEN_DESKTOP*m_bIsFullscreen);
 		else
 		{
 			SDL_SetWindowFullscreen(m_sdlWindow, SDL_WINDOW_FULLSCREEN_DESKTOP*m_bIsFullscreen);
-			SDL_SetWindowSize(m_sdlWindow, m_uiNonFullscreen.W, m_uiNonFullscreen.H);
+			SDL_SetWindowSize(m_sdlWindow, m_uiWindowedSize.W, m_uiWindowedSize.H);
 			SDL_SetWindowPosition(m_sdlWindow, SDL_WINDOWPOS_CENTERED_DISPLAY(m_uiMonitorIndex), SDL_WINDOWPOS_CENTERED_DISPLAY(m_uiMonitorIndex));
 		}
 	}
@@ -68,23 +74,22 @@ namespace Graphics
 	void Window::ToggleFullscreen()
 	{
 		m_bIsFullscreen = !m_bIsFullscreen;
-		Resize(m_uiNonFullscreen, m_uiMonitorIndex);
+		Resize(m_uiWindowedSize, m_uiMonitorIndex);
 	}
 
 	const System::Size2D<unsigned int>& Window::GetDimensions()
 	{
-		return m_uiDimensions;
+		return m_uiSize;
 	}
 	const System::Size2D<unsigned int>& Window::GetNonFullscreen()
 	{
-		return m_uiNonFullscreen;
+		return m_uiWindowedSize;
 	}
 
 	SDL_Window* Window::GetWindow()
 	{
 		return m_sdlWindow;
 	}
-
 	const System::Size2D<unsigned int>& Window::GetResolution()
 	{
 		return m_uiResolution;
@@ -104,17 +109,17 @@ namespace Graphics
 	Window::Window(
 		const System::Size2D<unsigned int>& ac_uiResolution,
 		const bool							ac_bFullscreen,
-		const System::Size2D<unsigned int>& ac_uiDimensions,
+		const System::Size2D<unsigned int>& ac_uiSize,
 		const char*							ac_szTitle,
 		const unsigned int					ac_uiMonitorIndex,
 		const std::vector<SDL_DisplayMode>&	ac_sdlDisplayMode) : m_sdlDisplayMode(ac_sdlDisplayMode)
 	{
 		m_uiMonitorIndex = ac_uiMonitorIndex;
 
-		m_uiDimensions.W = (ac_bFullscreen) ? m_sdlDisplayMode[m_uiMonitorIndex].w : ac_uiDimensions.W;
-		m_uiDimensions.H = (ac_bFullscreen) ? m_sdlDisplayMode[m_uiMonitorIndex].h : ac_uiDimensions.H;
+		m_uiSize.W = (ac_bFullscreen) ? m_sdlDisplayMode[m_uiMonitorIndex].w : ac_uiSize.W;
+		m_uiSize.H = (ac_bFullscreen) ? m_sdlDisplayMode[m_uiMonitorIndex].h : ac_uiSize.H;
 
-		m_uiNonFullscreen = ac_uiDimensions;
+		m_uiWindowedSize = ac_uiSize;
 
 		m_uiResolution = ac_uiResolution;
 
@@ -126,8 +131,8 @@ namespace Graphics
 			m_sTitle.c_str(),
 			SDL_WINDOWPOS_CENTERED_DISPLAY(m_uiMonitorIndex),
 			SDL_WINDOWPOS_CENTERED_DISPLAY(m_uiMonitorIndex),
-			m_uiNonFullscreen.W,
-			m_uiNonFullscreen.H,
+			m_uiWindowedSize.W,
+			m_uiWindowedSize.H,
 			SDL_WINDOW_SHOWN | SDL_WINDOW_FULLSCREEN_DESKTOP*m_bIsFullscreen | SDL_WINDOW_OPENGL);
 
 		if (m_sdlWindow == nullptr)

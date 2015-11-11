@@ -48,8 +48,8 @@ namespace Graphics
 					voTemp.push_back(oTemp);
 
 					GLSurface<int>* glTemp = LoadSurface<int>("Images/environment.png");
-					glTemp->OffsetP = { (int)oTemp.uiRow*ac_TileSize.W, (int)oTemp.uiCollumn*ac_TileSize.H };
-					glTemp->OffsetD = { ac_TileSize.W, ac_TileSize.H };
+					glTemp->OffsetPos = { (int)oTemp.uiRow*ac_TileSize.W, (int)oTemp.uiCollumn*ac_TileSize.H };
+					glTemp->OffsetSize = { ac_TileSize.W, ac_TileSize.H };
 					glTemp->Pos = { (x*ac_TileSize.W) + ac_OriginPos.X, (y*ac_TileSize.H) + ac_OriginPos.Y };
 					glTemp->Layer = LayerType::BACKGROUND;
 

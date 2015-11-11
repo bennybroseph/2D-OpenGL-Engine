@@ -91,7 +91,7 @@ namespace Graphics
 
 		glBindTexture(GL_TEXTURE_2D, NULL);
 
-		glColor4ub(ac_Color.Red, ac_Color.Green, ac_Color.Blue, ac_Color.Alpha);
+		glColor4ub((GLubyte)ac_Color.Red, (GLubyte)ac_Color.Green, (GLubyte)ac_Color.Blue, (GLubyte)ac_Color.Alpha);
 
 		glBegin(GL_LINES);
 		{
