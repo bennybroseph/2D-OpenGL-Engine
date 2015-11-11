@@ -17,7 +17,7 @@ namespace LoopHandle
 	private:
 		Player m_oPlayer;
 		std::vector<Enemy*> m_oEnemy;
-		Text::TextBlock<int>* m_ttfTextBlock;
+		Text::TextBlock<int>* m_ttfTextBlock, *m_ttfShadow;
 
 		int m_iFPS, m_iTime;
 
@@ -29,6 +29,8 @@ namespace LoopHandle
 
 		void OnKeyDown(const SDL_Keycode ac_sdlSym, const Uint16 ac_uiMod, const SDL_Scancode ac_sdlScancode);
 		void OnKeyUp(const SDL_Keycode ac_sdlSym, const Uint16 ac_uiMod, const SDL_Scancode ac_sdlScancode);
+
+		void OnExit();
 
 		GameLoop();
 		~GameLoop();

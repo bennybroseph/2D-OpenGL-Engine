@@ -1,1 +1,15 @@
-﻿
+﻿  Player.cpp
+c:\users\benjamin.odom\documents\github\2d-opengl-engine\dependencies\include\velocity2d.h(82): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+  c:\users\benjamin.odom\documents\github\2d-opengl-engine\test project\player.cpp(27): note: see reference to function template instantiation 'void System::ToAngular<float,float>(System::Velocity2D<float> &,const U)' being compiled
+          with
+          [
+              U=float
+          ]
+c:\users\benjamin.odom\documents\github\2d-opengl-engine\dependencies\include\velocity2d.h(82): warning C4244: 'initializing': conversion from 'double' to 'const float', possible loss of data
+c:\users\benjamin.odom\documents\github\2d-opengl-engine\dependencies\include\graphics.h(94): warning C4244: 'argument': conversion from 'const float' to 'GLubyte', possible loss of data
+  c:\users\benjamin.odom\documents\github\2d-opengl-engine\test project\player.cpp(48): note: see reference to function template instantiation 'void Graphics::DrawLine<float>(const System::Point2D<float> &,const System::Point2D<float> &,const System::Color<float> &)' being compiled
+c:\users\benjamin.odom\documents\github\2d-opengl-engine\dependencies\include\glsurface.h(125): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+  c:\users\benjamin.odom\documents\github\2d-opengl-engine\dependencies\include\glsurface.h(110): note: see reference to function template instantiation 'Graphics::GLSurface<int> *Graphics::LoadSurface<int>(SDL_Surface &)' being compiled
+  c:\users\benjamin.odom\documents\github\2d-opengl-engine\test project\player.cpp(91): note: see reference to function template instantiation 'Graphics::GLSurface<int> *Graphics::LoadSurface<int>(const char *)' being compiled
+c:\users\benjamin.odom\documents\github\2d-opengl-engine\dependencies\include\glsurface.h(126): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+  Test Project.vcxproj -> C:\Users\benjamin.odom\Documents\GitHub\2D-OpenGL-Engine\Debug\Test Project.exe

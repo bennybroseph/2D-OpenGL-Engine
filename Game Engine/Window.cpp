@@ -1,6 +1,43 @@
 #include "Window.h"
 
 
+namespace Graphics
+{
+	void NewWindow(
+		const System::Size2D<unsigned int>& ac_iResolution,
+		const bool							ac_bFullscreen,
+		const System::Size2D<unsigned int>& ac_iDimensions,
+		const char*							ac_szTitle,
+		const unsigned int					ac_uiMonitorIndex)
+	{
+		voWindows.push_back(new Window(
+			ac_iResolution,
+			ac_bFullscreen,
+			ac_iDimensions,
+			ac_szTitle,
+			ac_uiMonitorIndex,
+			sdlDisplayMode));
+
+		if (glContext == nullptr)
+		{
+			glContext = SDL_GL_CreateContext(voWindows[0]->GetWindow());
+
+			glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+
+			glEnable(GL_TEXTURE_2D);
+			glEnable(GL_BLEND);
+			glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+			SDL_GL_SetSwapInterval(-1);
+
+			glViewport(0, 0, ac_iDimensions.W, ac_iDimensions.H);
+			glMatrixMode(GL_PROJECTION);
+			glLoadIdentity();
+
+			glOrtho(-1.0f, ac_iResolution.W, ac_iResolution.H, 0.0f, 0.0f, 1.0f);
+		}
+	}
+}
 
 namespace Graphics
 {

@@ -1,7 +1,7 @@
 #include "GameLoop.h"
 
 const System::Point2D<int> Center = { 0, 0 };
-const unsigned int NUM_ENEMIES = 50;
+const unsigned int NUM_ENEMIES = 60;
 
 namespace LoopHandle
 {
@@ -36,6 +36,7 @@ namespace LoopHandle
 
 		sprintf_s(szBuffer, "(%d, %d)", m_oPlayer.GetIntPos().X, m_oPlayer.GetIntPos().Y);
 		Text::ReloadTextBlock(m_ttfTextBlock, false, szBuffer);
+		Text::ReloadTextBlock(m_ttfShadow, false, szBuffer);
 	}
 
 	void GameLoop::Draw()
@@ -61,12 +62,21 @@ namespace LoopHandle
 		}
 	}
 
+	void GameLoop::OnExit()
+	{
+		m_bRunning = false;
+	}
+
 	GameLoop::GameLoop() : Loop()
 	{
 		Graphics::NewCamera({ 0, 0 }, { 0, 0 }, m_oPlayer.GetIntPos(), { 100, 100 }, { 1, 1 }, 0, false, { 0, 0 }, 0, 0);
 		//Graphics::NewCamera({ 0, 0 }, { 0, 0 }, m_oPlayer.GetIntPos(), { 50, 50 }, { 1, 1 }, 0, false, { 0, 0 }, 0, 0);
 
 		Graphics::TileMap<int> TestMap("Tilemap/OriginalMap.txt", "Images/environment.png", { 128, 128 }, { 10, 7 }, { (-128 * 9) / 2, (-128 * 6) / 2 });
+
+		m_ttfShadow = Text::LoadTextBlock({ 0, 0 }, false, "0, 0");
+		m_ttfShadow->glSurface->Pos = { 103, 53 };
+		m_ttfShadow->glSurface->Color = { 0, 0, 0, 200 };
 
 		m_ttfTextBlock = Text::LoadTextBlock({ 0, 0 }, false, "0, 0");
 		m_ttfTextBlock->glSurface->Pos = { 100, 50 };

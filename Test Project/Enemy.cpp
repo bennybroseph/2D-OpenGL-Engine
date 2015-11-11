@@ -4,7 +4,7 @@
 
 void Enemy::Update()
 {
-	m_fVelocity = { float(-5 + rand() % 11), float(-5 + rand() % 11) };
+	
 }
 void Enemy::LateUpdate()
 {
@@ -22,6 +22,8 @@ Enemy::Enemy()
 	m_glSurface->Pos = { (int)m_fPos.X, (int)m_fPos.Y };
 	m_glSurface->Layer = Graphics::LayerType::FOREGROUND;
 	m_glSurface->OffsetD = { 20, 20 };
+
+	m_fVelocity = { float(-5 + rand() % 11), float(-5 + rand() % 11) };
 
 	m_bbBoundingBox = Collision::NewBoundingBox(this, m_fPos, { (float)m_glSurface->OffsetD.W, (float)m_glSurface->OffsetD.H }, false, true);
 }

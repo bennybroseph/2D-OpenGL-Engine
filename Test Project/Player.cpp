@@ -2,6 +2,11 @@
 
 const float SPEED = 5;
 
+const float SEGMENT_DIVISION = 25;
+const float SEGMENT_LENGTH = 15;
+
+const System::Point2D<float> GRAPH_ORIGIN = { 800, 450 };
+
 void Player::Update()
 {
 	if (m_bUp || m_bDown || m_bLeft || m_bRight)
@@ -37,23 +42,24 @@ void Player::LateUpdate()
 void Player::Draw()
 {
 	System::Point2D<float> Center = { 800, 450 };
+	System::Size2D<float> Test = (System::Size2D<float>)Center;
 
 	//Graphics::DrawLine(m_fPos + Center, (m_fPos + Center) + (50.0f * m_fVelocity), { 255, 255, 255, 255 });
+
+	Graphics::DrawLine({ GRAPH_ORIGIN.X, 0 }, { GRAPH_ORIGIN.X, 900 }, { 255, 255, 255, 255 });
+	Graphics::DrawLine({ 0, GRAPH_ORIGIN.Y }, { 1600, GRAPH_ORIGIN.Y }, { 255, 255, 255, 255 });
+
+	for (float i = 1; i < 1600 / SEGMENT_DIVISION; ++i)
+	{
+		Graphics::DrawLine({ GRAPH_ORIGIN.X + i * SEGMENT_DIVISION, GRAPH_ORIGIN.Y - SEGMENT_LENGTH }, { GRAPH_ORIGIN.X + i * SEGMENT_DIVISION, GRAPH_ORIGIN.Y + SEGMENT_LENGTH }, { 255, 255, 255, 255 });
+		Graphics::DrawLine({ GRAPH_ORIGIN.X - i * SEGMENT_DIVISION, GRAPH_ORIGIN.Y - SEGMENT_LENGTH }, { GRAPH_ORIGIN.X - i * SEGMENT_DIVISION, GRAPH_ORIGIN.Y + SEGMENT_LENGTH }, { 255, 255, 255, 255 });
+	}
+	for (float i = 1; i < 900 / SEGMENT_DIVISION; ++i)
+	{
+		Graphics::DrawLine({ GRAPH_ORIGIN.X - SEGMENT_LENGTH, GRAPH_ORIGIN.Y + i * SEGMENT_DIVISION }, { GRAPH_ORIGIN.X + SEGMENT_LENGTH, GRAPH_ORIGIN.Y + i * SEGMENT_DIVISION }, { 255, 255, 255, 255 });
+		Graphics::DrawLine({ GRAPH_ORIGIN.X - SEGMENT_LENGTH, GRAPH_ORIGIN.Y - i * SEGMENT_DIVISION }, { GRAPH_ORIGIN.X + SEGMENT_LENGTH, GRAPH_ORIGIN.Y - i * SEGMENT_DIVISION }, { 255, 255, 255, 255 });
+	}
 }
-
-//void Player::OnBoxCollision(Object& a_oOther)
-//{
-//
-//}
-
-//void Player::OnCircleCollision(Object& a_oOther)
-//{
-//	printf("Collision! ");
-//	/*auto i = atan2f(m_fPrevPos.Y - a_oOther.GetBC().fCenter.Y, m_fPrevPos.X - a_oOther.GetBC().fCenter.X);
-//	m_fPos = {
-//		a_oOther.GetBC().fCenter.X + ((m_bbBoundingBox->fSize.W/2 + a_oOther.GetBC().fRadius) * cos(i)),
-//		a_oOther.GetBC().fCenter.Y + ((m_bbBoundingBox->fSize.H/2 + a_oOther.GetBC().fRadius) * sin(i)) };*/
-//}
 
 void Player::OnKeyDown(const SDL_Keycode ac_sdlSym, const Uint16 ac_uiMod, const SDL_Scancode ac_sdlScancode)
 {

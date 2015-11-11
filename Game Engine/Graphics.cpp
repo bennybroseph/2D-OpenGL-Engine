@@ -12,12 +12,8 @@ namespace Graphics
 
 	std::vector<SurfaceUnion*> vglSurfaces;
 
-	//std::vector<GLSurface<boost::variant<int, float, double>>> vglSurfacessk;
-
 	bool Init()
 	{
-		
-
 		if (SDL_Init(SDL_INIT_VIDEO) < 0)
 		{
 			printf("SDL_Error: %s\n", SDL_GetError());
@@ -42,41 +38,6 @@ namespace Graphics
 		glContext = nullptr;
 
 		return 0;
-	}
-
-	void NewWindow(
-		const System::Size2D<unsigned int>& ac_iResolution,
-		const bool							ac_bFullscreen,
-		const System::Size2D<unsigned int>& ac_iDimensions,
-		const char*							ac_szTitle,
-		const unsigned int					ac_uiMonitorIndex)
-	{
-		voWindows.push_back(new Window(
-			ac_iResolution,
-			ac_bFullscreen,
-			ac_iDimensions,
-			ac_szTitle,
-			ac_uiMonitorIndex,
-			sdlDisplayMode));
-
-		if (glContext == nullptr)
-		{
-			glContext = SDL_GL_CreateContext(voWindows[0]->GetWindow());
-
-			glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
-
-			glEnable(GL_TEXTURE_2D);
-			glEnable(GL_BLEND);
-			glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
-			SDL_GL_SetSwapInterval(-1);
-
-			glViewport(0, 0, ac_iDimensions.W, ac_iDimensions.H);
-			glMatrixMode(GL_PROJECTION);
-			glLoadIdentity();
-
-			glOrtho(0.0f, ac_iResolution.W, ac_iResolution.H, 0.0f, -1.0f, 1.0f);
-		}
 	}
 
 	void Resize(
@@ -112,21 +73,6 @@ namespace Graphics
 		voWindows[ac_uiIndex]->ToggleFullscreen();
 	}
 
-	template <typename T>
-	void ResizeCameras(Camera<T>& a_Camera, const System::Size2D<unsigned int>& ac_uiDimensions, const unsigned int ac_uiIndex)
-	{
-		if (a_Camera.GetWindowIndex() == ac_uiIndex)
-		{
-			System::Size2D<T> Scale = {
-				((float)voWindows[a_Camera.GetWindowIndex()]->GetDimensions().W / (float)a_Camera.GetDimensions().W) * 100,
-				((float)voWindows[a_Camera.GetWindowIndex()]->GetDimensions().H / (float)a_Camera.GetDimensions().H) * 100 };
-
-			System::Size2D<T> SizeOffset = { Scale.W * (T)ac_uiDimensions.W / 100, Scale.H * (T)ac_uiDimensions.H / 100 };
-
-			a_Camera.Resize(SizeOffset);
-		}
-	}
-
 	void Draw()
 	{
 		for (unsigned int i = 0; i < voCameras.size(); ++i)
@@ -151,14 +97,14 @@ namespace Graphics
 			a_Camera.GetScreenPos().Y,
 			a_Camera.GetDimensions().W,
 			a_Camera.GetDimensions().H);
-		glMatrixMode(GL_PROJECTION);
-		glLoadIdentity();
+		glMatrixMode(GL_MODELVIEW);
 
 		glOrtho(
 			0.0f,
 			a_Camera.GetResolution().W,
 			a_Camera.GetResolution().H,
 			0.0f, -1.0f, 1.0f);
+		glLoadIdentity();
 
 		glPushMatrix(); // Save the current matrix.
 
@@ -178,7 +124,7 @@ namespace Graphics
 			{
 				if (vglSurfaces[i]->iGLSurface->bIsActive && a_Camera.GetWorldSpace() == vglSurfaces[i]->iGLSurface->uiWorldSpace)
 				{
-					DrawSurface(*vglSurfaces[i]->iGLSurface, a_Camera);
+					ManipulateSurface(*vglSurfaces[i]->iGLSurface);
 				}
 				break;
 			}
@@ -186,7 +132,7 @@ namespace Graphics
 			{
 				if (vglSurfaces[i]->fGLSurface->bIsActive && a_Camera.GetWorldSpace() == vglSurfaces[i]->fGLSurface->uiWorldSpace)
 				{
-					DrawSurface(*vglSurfaces[i]->fGLSurface, a_Camera);
+					ManipulateSurface(*vglSurfaces[i]->fGLSurface);
 				}
 				break;
 			}
@@ -194,85 +140,6 @@ namespace Graphics
 		}
 
 		glPopMatrix(); // Reset the current matrix to the one that was saved.
-	}
-
-	template <typename T, typename U>
-	void DrawSurface(const GLSurface<T>& ac_glSurface, Camera<U>& a_Camera)
-	{
-		GLfloat glMatrix[16];
-
-		if (ac_glSurface.Layer == LayerType::OVERLAY)
-		{
-			glGetFloatv(GL_PROJECTION_MATRIX, glMatrix);
-			glPopMatrix();
-		}
-		else
-			glPushMatrix(); // Save the current matrix.
-
-		glTranslatef(																	// Move the image back to its original position
-			ac_glSurface.Pos.X + (ac_glSurface.Center.X - ac_glSurface.OffsetD.W / 2),
-			ac_glSurface.Pos.Y + (ac_glSurface.Center.Y - ac_glSurface.OffsetD.H / 2),
-			0.0f);
-		glScalef(ac_glSurface.Scale.W, ac_glSurface.Scale.H, 0.0f);						// Scale the image
-		glRotatef(ac_glSurface.Rotation, 0.0f, 0.0f, 1.0f);								// Rotate the image
-		glTranslatef(																	// Move the image to (0,0) on the screen
-			-ac_glSurface.Pos.X - (ac_glSurface.Center.X - ac_glSurface.OffsetD.W / 2),
-			-ac_glSurface.Pos.Y - (ac_glSurface.Center.Y - ac_glSurface.OffsetD.H / 2), 0.0f);
-
-		DrawSurface(ac_glSurface);
-
-		if (ac_glSurface.Layer == LayerType::OVERLAY)
-		{
-			glLoadMatrixf(glMatrix);
-			glPushMatrix();
-		}
-		else
-			glPopMatrix(); // Reset the current matrix to the one that was saved.
-	}
-	template <typename T>
-	void DrawSurface(const GLSurface<T>& ac_glSurface)
-	{
-		GLfloat glVertices[] = {
-			(float)ac_glSurface.OffsetP.X / (float)ac_glSurface.Dimensions.W,
-			(float)ac_glSurface.OffsetP.Y / (float)ac_glSurface.Dimensions.H,
-
-			((float)ac_glSurface.OffsetP.X / (float)ac_glSurface.Dimensions.W) + ((float)ac_glSurface.OffsetD.W / (float)ac_glSurface.Dimensions.W),
-			(float)ac_glSurface.OffsetP.Y / (float)ac_glSurface.Dimensions.H,
-
-			((float)ac_glSurface.OffsetP.X / (float)ac_glSurface.Dimensions.W) + ((float)ac_glSurface.OffsetD.W / (float)ac_glSurface.Dimensions.W),
-			((float)ac_glSurface.OffsetP.Y / (float)ac_glSurface.Dimensions.H) + ((float)ac_glSurface.OffsetD.H / (float)ac_glSurface.Dimensions.H),
-
-			(float)ac_glSurface.OffsetP.X / (float)ac_glSurface.Dimensions.W,
-			((float)ac_glSurface.OffsetP.Y / (float)ac_glSurface.Dimensions.H) + ((float)ac_glSurface.OffsetD.H / (float)ac_glSurface.Dimensions.H)
-		};
-
-		GLfloat glPosition[] = {
-			ac_glSurface.Pos.X - (ac_glSurface.OffsetD.W / 2),
-			ac_glSurface.Pos.Y - (ac_glSurface.OffsetD.H / 2),
-
-			ac_glSurface.Pos.X + (ac_glSurface.OffsetD.W / 2),
-			ac_glSurface.Pos.Y - (ac_glSurface.OffsetD.H / 2),
-
-			ac_glSurface.Pos.X + (ac_glSurface.OffsetD.W / 2),
-			ac_glSurface.Pos.Y + (ac_glSurface.OffsetD.H / 2),
-
-			ac_glSurface.Pos.X - (ac_glSurface.OffsetD.W / 2),
-			ac_glSurface.Pos.Y + (ac_glSurface.OffsetD.H / 2)
-		};
-
-		glBindTexture(GL_TEXTURE_2D, ac_glSurface.Surface);
-		glColor4ub(ac_glSurface.Color.Red, ac_glSurface.Color.Green, ac_glSurface.Color.Blue, ac_glSurface.Color.Alpha);
-
-		glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-		glTexCoordPointer(2, GL_FLOAT, 0, glVertices);
-
-		glEnableClientState(GL_VERTEX_ARRAY);
-		glVertexPointer(2, GL_FLOAT, 0, glPosition);
-
-		glDrawArrays(GL_QUADS, 0, 4);
-
-		glDisableClientState(GL_TEXTURE_COORD_ARRAY);
-		glDisableClientState(GL_VERTEX_ARRAY);
 	}
 
 	void Sort()
@@ -350,44 +217,6 @@ namespace Graphics
 			break;
 		}
 		}
-	}
-
-	void PushSurface(GLSurface<int>* a_glSurface)
-	{
-		SurfaceUnion* newSurface = new SurfaceUnion;
-
-		newSurface->Tag = SurfaceUnion::INT;
-		newSurface->iGLSurface = a_glSurface;
-
-		vglSurfaces.push_back(newSurface);
-	}
-	void PushSurface(GLSurface<float>* a_glSurface)
-	{
-		SurfaceUnion* newSurface = new SurfaceUnion;
-
-		newSurface->Tag = SurfaceUnion::FLOAT;
-		newSurface->fGLSurface = a_glSurface;
-
-		vglSurfaces.push_back(newSurface);
-	}
-
-	void PushCamera(Camera<int>* a_Camera)
-	{
-		CameraUnion* newCameraUnion = new CameraUnion;
-
-		newCameraUnion->Tag = CameraUnion::INT;
-		newCameraUnion->iCamera = a_Camera;
-
-		voCameras.push_back(newCameraUnion);
-	}
-	void PushCamera(Camera<float>* a_Camera)
-	{
-		CameraUnion* newCameraUnion = new CameraUnion;
-
-		newCameraUnion->Tag = CameraUnion::FLOAT;
-		newCameraUnion->fCamera = a_Camera;
-
-		voCameras.push_back(newCameraUnion);
 	}
 
 	void Flip()

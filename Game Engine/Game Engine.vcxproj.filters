@@ -19,9 +19,6 @@
     <Filter Include="Source Files\Graphics\Window">
       <UniqueIdentifier>{b565f568-ac70-4bea-aa18-46451083ed46}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Graphics\Text">
-      <UniqueIdentifier>{79fea3ee-edf8-4b76-8807-157f54f70fbc}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\Graphics\TileMap">
       <UniqueIdentifier>{c404f019-b7e5-4c3b-afe6-af5b78b3e195}</UniqueIdentifier>
     </Filter>
@@ -40,8 +37,17 @@
     <Filter Include="Source Files\Loop">
       <UniqueIdentifier>{4f6e4715-80ae-4abe-87c2-9fb964d48c0c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Graphics\Window\Camera">
+    <Filter Include="Source Files\Graphics\Camera">
       <UniqueIdentifier>{35d6c332-d916-4800-8596-7255b9ea8107}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Text">
+      <UniqueIdentifier>{79fea3ee-edf8-4b76-8807-157f54f70fbc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Graphics\GLSurface">
+      <UniqueIdentifier>{71f84fbe-4c4a-4245-b117-5c3a6faae308}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\System\Structs">
+      <UniqueIdentifier>{a54972c8-392a-473f-aa30-cb145eeb2a16}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -49,7 +55,7 @@
       <Filter>Source Files\Graphics\Window</Filter>
     </ClCompile>
     <ClCompile Include="Text.cpp">
-      <Filter>Source Files\Graphics\Text</Filter>
+      <Filter>Source Files\Text</Filter>
     </ClCompile>
     <ClCompile Include="Graphics.cpp">
       <Filter>Source Files\Graphics</Filter>
@@ -67,12 +73,15 @@
       <Filter>Source Files\Loop</Filter>
     </ClCompile>
     <ClCompile Include="Camera.cpp">
-      <Filter>Source Files\Graphics\Window\Camera</Filter>
+      <Filter>Source Files\Graphics\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="GLSurface.cpp">
+      <Filter>Source Files\Graphics\GLSurface</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Dependencies\include\Camera.h">
-      <Filter>Source Files\Graphics\Window\Camera</Filter>
+      <Filter>Source Files\Graphics\Camera</Filter>
     </ClInclude>
     <ClInclude Include="..\Dependencies\include\Window.h">
       <Filter>Source Files\Graphics\Window</Filter>
@@ -96,16 +105,19 @@
       <Filter>Source Files\System</Filter>
     </ClInclude>
     <ClInclude Include="..\Dependencies\include\Text.h">
-      <Filter>Source Files\Graphics\Text</Filter>
+      <Filter>Source Files\Text</Filter>
     </ClInclude>
-    <ClInclude Include="..\Dependencies\include\Point2D.h">
-      <Filter>Source Files\System</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Dependencies\include\Size2D.h">
-      <Filter>Source Files\System</Filter>
+    <ClInclude Include="..\Dependencies\include\GLSurface.h">
+      <Filter>Source Files\Graphics\GLSurface</Filter>
     </ClInclude>
     <ClInclude Include="..\Dependencies\include\Velocity2D.h">
-      <Filter>Source Files\System</Filter>
+      <Filter>Source Files\System\Structs</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Dependencies\include\Size2D.h">
+      <Filter>Source Files\System\Structs</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Dependencies\include\Point2D.h">
+      <Filter>Source Files\System\Structs</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

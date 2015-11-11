@@ -23,14 +23,22 @@ namespace System
 		template <typename T, typename U>
 		friend const Point2D<T> operator/(const Point2D<T>& ac_PointA, const Point2D<U>& ac_PointB);
 
-		// Division of a 'Point2D' and an integer; ex: "HalfofA = PointA / 2;"
-		template <typename T, typename U>
-		friend const Point2D<T> operator/(const Point2D<T>& ac_PointA, const U ac_iNum);
-
 		template <typename T, typename U>
 		friend void operator+=(Point2D<T>& ac_PointA, const Point2D<U> ac_PointB);
-	};
+		template <typename T, typename U>
+		friend void operator-=(Point2D<T>& ac_PointA, const Point2D<U> ac_PointB);
 
+		template <typename T, typename U>
+		friend const Point2D<T>& operator*(const T ac_Num, const Point2D<U>& ac_PointA);
+
+		// Division of a 'Point2D' and an integer; ex: "HalfofA = PointA / 2;"
+		template <typename T, typename U>
+		friend const Point2D<T> operator/(const Point2D<T>& ac_PointA, const U ac_Num);
+	};
+}
+
+namespace System
+{
 	template <typename T, typename U>
 	const Point2D<T> operator+(const Point2D<T>& ac_PointA, const Point2D<U>& ac_PointB)
 	{
@@ -57,18 +65,32 @@ namespace System
 
 		return PointC;
 	}
-	template <typename T, typename U>
-	const Point2D<T> operator/(const Point2D<T>& ac_PointA, const U ac_iNum)
-	{
-		const Point2D<T> PointC = { ac_PointA.X / ac_iNum, ac_PointA.Y / ac_iNum };
-
-		return PointC;
-	}
 
 	template <typename T, typename U>
 	void operator+=(Point2D<T>& ac_PointA, const Point2D<U> ac_PointB)
 	{
 		ac_PointA = { ac_PointA.X + ac_PointB.X, ac_PointA.Y + ac_PointB.Y };
+	}
+	template <typename T, typename U>
+	void operator-=(Point2D<T>& ac_PointA, const Point2D<U> ac_PointB)
+	{
+		ac_PointA += -ac_PointB;
+	}
+
+	template <typename T, typename U>
+	const Point2D<T>& operator*(const T ac_Num, const Point2D<U>& ac_PointA)
+	{
+		const Point2D<T> PointC = { ac_Num * ac_PointA, ac_Num * ac_PointA };
+
+		return PointC;
+	}
+
+	template <typename T, typename U>
+	const Point2D<T> operator/(const Point2D<T>& ac_PointA, const U ac_Num)
+	{
+		const Point2D<T> PointC = { ac_PointA.X / ac_Num, ac_PointA.Y / ac_Num };
+
+		return PointC;
 	}
 }
 

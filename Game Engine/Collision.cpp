@@ -17,11 +17,11 @@ namespace Collision
 	}
 	void CheckBB()
 	{
-		for (int i = 0; i < voBoundingBoxes.size(); ++i)
+		for (unsigned int i = 0; i < voBoundingBoxes.size(); ++i)
 		{
 			if (voBoundingBoxes[i]->bCheckOthers && voBoundingBoxes[i]->bActive)
 			{
-				for (int j = 0; j < voBoundingBoxes.size(); ++j)
+				for (unsigned int j = 0; j < voBoundingBoxes.size(); ++j)
 				{
 					if (i != j)
 					{

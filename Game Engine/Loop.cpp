@@ -28,7 +28,7 @@ void Loop::Run()
 		Collision::CheckCollisions();
 		LateUpdate();
 
-		Graphics::Draw();
+		//Graphics::Draw();
 		Draw();
 		Graphics::Flip();
 	}
