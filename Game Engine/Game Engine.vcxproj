@@ -22,17 +22,20 @@
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Collision.cpp" />
     <ClCompile Include="EventHandler.cpp" />
+    <ClCompile Include="GLSprite.cpp" />
     <ClCompile Include="GLSurface.cpp" />
     <ClCompile Include="Graphics.cpp" />
     <ClCompile Include="Loop.cpp" />
     <ClCompile Include="Object.cpp" />
     <ClCompile Include="Text.cpp" />
+    <ClCompile Include="GameTime.cpp" />
     <ClCompile Include="Window.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Dependencies\include\Camera.h" />
     <ClInclude Include="..\Dependencies\include\Collision.h" />
     <ClInclude Include="..\Dependencies\include\EventHandler.h" />
+    <ClInclude Include="..\Dependencies\include\GLSprite.h" />
     <ClInclude Include="..\Dependencies\include\GLSurface.h" />
     <ClInclude Include="..\Dependencies\include\Graphics.h" />
     <ClInclude Include="..\Dependencies\include\Loop.h" />
@@ -41,6 +44,7 @@
     <ClInclude Include="..\Dependencies\include\System.h" />
     <ClInclude Include="..\Dependencies\include\Text.h" />
     <ClInclude Include="..\Dependencies\include\TileMap.h" />
+    <ClInclude Include="..\Dependencies\include\GameTime.h" />
     <ClInclude Include="..\Dependencies\include\Velocity2D.h" />
     <ClInclude Include="..\Dependencies\include\Window.h" />
   </ItemGroup>

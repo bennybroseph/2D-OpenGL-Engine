@@ -1,9 +1,7 @@
-﻿  Player.cpp
+﻿  Source.cpp
+  Player.cpp
+  LoopHandle.cpp
   GameLoop.cpp
   Enemy.cpp
-  Generating Code...
-  Compiling...
-  Source.cpp
-  LoopHandle.cpp
   Generating Code...
   Test Project.vcxproj -> C:\Users\benjamin.odom\Documents\GitHub\2D-OpenGL-Engine\Debug\Test Project.exe

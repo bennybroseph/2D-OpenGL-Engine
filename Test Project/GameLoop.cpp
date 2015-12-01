@@ -36,8 +36,8 @@ namespace LoopHandle
 			m_iFPS = NULL;
 		}
 
-		sprintf_s(szBuffer, "(%d, %d)", m_oPlayer.GetIntPos().X, m_oPlayer.GetIntPos().Y);
-		Text::ReloadTextBlock(m_ttfTextBlock, false, szBuffer);
+		sprintf_s(szBuffer, "(%d, %d) %f", m_oPlayer.GetIntPos().X, m_oPlayer.GetIntPos().Y, Time::fDeltaTime);
+		Text::ReloadTextBlock(m_ttfTextBlock, true, szBuffer);
 		Text::ReloadTextBlock(m_ttfShadow, false, szBuffer);
 	}
 

@@ -49,6 +49,12 @@
     <Filter Include="Source Files\System\Structs">
       <UniqueIdentifier>{a54972c8-392a-473f-aa30-cb145eeb2a16}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Animation">
+      <UniqueIdentifier>{f6e64fcc-7625-4bc8-a322-6d9a66766593}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Time">
+      <UniqueIdentifier>{984195a8-8f92-41f2-8653-ab1613f9936e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Window.cpp">
@@ -77,6 +83,12 @@
     </ClCompile>
     <ClCompile Include="GLSurface.cpp">
       <Filter>Source Files\Graphics\GLSurface</Filter>
+    </ClCompile>
+    <ClCompile Include="GLSprite.cpp">
+      <Filter>Source Files\Animation</Filter>
+    </ClCompile>
+    <ClCompile Include="GameTime.cpp">
+      <Filter>Source Files\Time</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -118,6 +130,12 @@
     </ClInclude>
     <ClInclude Include="..\Dependencies\include\Point2D.h">
       <Filter>Source Files\System\Structs</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Dependencies\include\GameTime.h">
+      <Filter>Source Files\Time</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Dependencies\include\GLSprite.h">
+      <Filter>Source Files\Animation</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

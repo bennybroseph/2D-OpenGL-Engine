@@ -12,6 +12,7 @@
 #include "Graphics.h"
 #include "EventHandler.h"
 #include "Collision.h"
+#include "GameTime.h"
 
 class Loop : protected EH
 {

@@ -2,6 +2,7 @@
 #define _COLLISION_H_
 
 #include "Graphics.h"
+#include "GameTime.h"
 
 namespace Collision
 {

@@ -9,7 +9,7 @@ namespace Collision
 		Update();
 
 		if (m_bUseGravity)
-			m_fVelocity.Y += 0.8f;
+			m_fVelocity.Y += 0.8f * Time::fDeltaTime;
 
 		if (m_bMove)
 		{
@@ -37,8 +37,8 @@ namespace Collision
 
 	void Object::Move()
 	{
-		m_fPos += m_fVelocity;
-		m_fPos += m_fAngularVel;
+		m_fPos += m_fVelocity * Time::fDeltaTime;
+		m_fPos += m_fAngularVel * Time::fDeltaTime;
 	}
 
 	void Object::OnCollision(Object& a_oOther)

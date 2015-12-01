@@ -5,7 +5,7 @@
 #include "Camera.h"
 #include "GLSurface.h"
 
-#include <algorithm>
+#include <algorithm> // std::sort
 
 namespace Graphics
 {
@@ -18,7 +18,7 @@ namespace Graphics
 		const unsigned int					ac_uiNewMonitorIndex,	// The monitor the Window should be placed on
 		const unsigned int					ac_uiIndex);			// Which window to change
 
-																	// - Toggles the window from it's current state of full screen
+	// - Toggles the window from it's current state of full screen
 	void ToggleFullscreen(const unsigned int ac_uiIndex);
 
 	// - Draws all surfaces currently in the 'vglSurfaces' vector

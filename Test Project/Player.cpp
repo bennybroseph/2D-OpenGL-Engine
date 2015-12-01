@@ -1,6 +1,6 @@
 #include "Player.h"
 
-const float SPEED = 5;
+const float SPEED = 200;
 
 const float SEGMENT_DIVISION = 25;
 const float SEGMENT_LENGTH = 15;

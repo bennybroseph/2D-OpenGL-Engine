@@ -58,8 +58,6 @@ namespace Text
 	// Defines the default font type, as one must exist to do anything else
 	bool Init(const char* ac_szFilename, const System::Color<int>& ac_iColor, const unsigned int ac_uiSize);
 
-	void Print(const System::Point2D<int>& ac_iPos, const bool ac_bAlign, const char* ac_szText);
-	
 	template <typename T = int>
 	TextBlock<T>* LoadTextBlock(const System::Point2D<T>& ac_iPos, const bool ac_bAlign, char* ac_szText);
 	template <typename T = int>
@@ -67,9 +65,8 @@ namespace Text
 	template <typename T = int>
 	void ReloadTextBlock(TextBlock<T>* a_ttfTextBlock, const bool ac_bAlign, char* ac_szText);
 
-	void DeleteTextBlock();
-
-	void Print(const FontData &ac_ttfFont, const System::Point2D<int>& ac_iPos, const bool ac_bAlign, const int ac_iText);
+	template <typename T = int>
+	void DeleteTextBlock(TextBlock<T>* a_ttfTextBlock);
 
 	FontData* LoadFont(const char* ac_szFilename, const System::Color<int>& ac_iColor, const unsigned int ac_uiSize);
 

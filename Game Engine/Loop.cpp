@@ -19,6 +19,8 @@ void Loop::Run()
 {
 	while (m_bRunning)
 	{
+		Time::Update();
+
 		while (SDL_PollEvent(&m_sdlEvent))
 		{
 			//Calls the redefined event function for the class

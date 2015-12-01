@@ -5,6 +5,7 @@
 #include "Enemy.h"
 
 #include <Loop.h>
+#include <Time.h>
 #include <Text.h>
 #include <TileMap.h>
 

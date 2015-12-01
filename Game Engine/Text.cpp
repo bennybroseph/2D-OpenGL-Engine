@@ -25,23 +25,6 @@ namespace Text
 		return 0;
 	}
 
-	void Print(const System::Point2D<int>& ac_iPos, const bool ac_bAlign, const char* ac_szText)
-	{
-		//Print(*voFontData[0], ac_iPos, ac_bAlign, ac_szText);
-	}
-	void Print(const FontData &ac_ttfFont, const System::Point2D<int>& ac_iPos, const bool ac_bAlign, const char* ac_szText)
-	{
-		
-	}
-
-	void Print(const FontData &ac_ttfFont, const System::Point2D<int>& ac_iPos, const bool ac_bAlign, const int ac_iText)
-	{
-		char szBuffer[256];
-
-		sprintf_s(szBuffer, "%d", ac_iText);
-		Print(ac_ttfFont, ac_iPos, ac_bAlign, szBuffer);
-	}
-
 	FontData* LoadFont(const char* ac_szFilename, const System::Color<int>& ac_iColor, const unsigned int ac_uiSize)
 	{
 		FontData* newFont = new FontData;

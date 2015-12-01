@@ -6,15 +6,18 @@
 #include "Velocity2D.h"
 
 namespace System
-{	
+{
 	// Defines a templated struct for angular velocity in 2D space
 	template <typename T>
 	struct AngularVel
 	{
 		T Speed;
 		T Angle;
+
+		template <typename T, typename U>
+		friend const AngularVel<T> operator*(const AngularVel<U>& ac_AngularVelA, const T ac_Num);
 	};
-	
+
 	// Defines a templated struct for color in the format rgba, which is the most useful for OpenGL
 	// Accepted value range is 0 - 255
 	template <typename T>
@@ -52,6 +55,17 @@ namespace System
 namespace System
 {
 	template <typename T, typename U>
+	const AngularVel<T> operator*(const AngularVel<U>& ac_AngularVelA, const T ac_Num)
+	{
+		const AngularVel<T> ac_AngularVelC = { ac_AngularVelA.Speed * ac_Num, ac_AngularVelA.Angle };
+
+		return ac_AngularVelC;
+	}
+}
+
+namespace System
+{
+	template <typename T, typename U>
 	const Point2D<T> operator+(const Point2D<T>& ac_PointA, const Size2D<U>& ac_SizeA)
 	{
 		const Point2D<T> PointC = { ac_PointA.X + ac_SizeA.W, ac_PointA.Y + ac_SizeA.H };
@@ -82,7 +96,7 @@ namespace System
 	template <typename T, typename U>
 	void operator+=(Point2D<T>& ac_PointA, const Velocity2D<U>& ac_VelocityA)
 	{
-		ac_PointA = { ac_PointA.X + ac_VelocityA.X, ac_PointA.Y + ac_VelocityA.Y};
+		ac_PointA = { ac_PointA.X + ac_VelocityA.X, ac_PointA.Y + ac_VelocityA.Y };
 	}
 	template <typename T, typename U>
 	void operator-=(Point2D<T>& ac_PointA, const Velocity2D<U>& ac_VelocityA)

@@ -14,9 +14,6 @@
 
 #include <vector>
 
-#include <iostream>   // std::cout
-#include <typeinfo>   // operator typeid
-
 namespace Graphics
 {
 	enum LayerType

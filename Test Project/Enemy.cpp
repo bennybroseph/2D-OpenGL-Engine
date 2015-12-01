@@ -23,7 +23,7 @@ Enemy::Enemy()
 	m_glSurface->Layer = Graphics::LayerType::FOREGROUND;
 	m_glSurface->OffsetSize = { 20, 20 };
 
-	m_fVelocity = { float(-5 + rand() % 11), float(-5 + rand() % 11) };
+	m_fVelocity = { float(-250 + rand() % 500), float(-250 + rand() % 500) };
 
 	m_bbBoundingBox = Collision::NewBoundingBox(this, m_fPos, { (float)m_glSurface->OffsetSize.W, (float)m_glSurface->OffsetSize.H }, false, true);
 }

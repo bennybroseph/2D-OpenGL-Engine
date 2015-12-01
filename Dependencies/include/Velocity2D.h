@@ -32,7 +32,7 @@ namespace System
 		friend const Velocity2D<T> operator-(const Velocity2D<T>& ac_VelocityA);
 
 		template <typename T, typename U>
-		friend const Velocity2D<T> operator*(const T ac_Num, const Velocity2D<U>& ac_VelocityA);
+		friend const Velocity2D<T> operator*(const Velocity2D<U>& ac_VelocityA, const T ac_Num);
 	};
 
 	template <typename T, typename U>
@@ -64,7 +64,7 @@ namespace System
 	}
 
 	template <typename T, typename U>
-	const Velocity2D<T> operator*(const T ac_Num, const Velocity2D<U>& ac_VelocityA)
+	const Velocity2D<T> operator*(const Velocity2D<U>& ac_VelocityA, const T ac_Num)
 	{
 		const Velocity2D<T> VelocityC = { ac_Num * ac_VelocityA.X, ac_Num * ac_VelocityA.Y };
 
