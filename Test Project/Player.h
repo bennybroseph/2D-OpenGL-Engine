@@ -2,7 +2,7 @@
 #define _PLAYER_H_
 
 #include <Collision.h>
-
+#include <GLSprite.h>
 
 class Player : public Collision::Object
 {
@@ -10,6 +10,9 @@ private:
 	bool m_bUp, m_bDown, m_bLeft, m_bRight;
 
 	Graphics::GLSurface<int>* m_glSurface;
+
+	GLSprite<int>* m_glPlayerSprite;
+
 	Object other;
 
 public:

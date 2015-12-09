@@ -2,8 +2,8 @@
 
 const float SPEED = 200;
 
-const float SEGMENT_DIVISION = 25;
-const float SEGMENT_LENGTH = 15;
+const float SEGMENT_DIVISION = 15;
+const float SEGMENT_LENGTH = 25;
 
 const System::Point2D<float> GRAPH_ORIGIN = { 800, 450 };
 
@@ -11,23 +11,41 @@ void Player::Update()
 {
 	if (m_bUp || m_bDown || m_bLeft || m_bRight)
 	{
+		m_glPlayerSprite->Resume();
 		m_fVelocity = { 0, 0 };
 		m_fVelocity.X = 0;
 
 		if (m_bUp)
+		{
+			/*m_glPlayerSprite->SetIndex({ m_glPlayerSprite->GetIndex().X, 2 });
+			m_glPlayerSprite->SetMaxIndex({ 3, 0 });*/
 			m_fVelocity.Y += -SPEED;
+		}
 		if (m_bDown)
+		{
+			/*m_glPlayerSprite->SetIndex({ m_glPlayerSprite->GetIndex().X, 3 });
+			m_glPlayerSprite->SetMaxIndex({ 3, 0 });*/
 			m_fVelocity.Y += SPEED;
+		}
 
 		if (m_bLeft)
+		{
+			/*m_glPlayerSprite->SetIndex({ m_glPlayerSprite->GetIndex().X, 0 });
+			m_glPlayerSprite->SetMaxIndex({ 1, 0 });*/
 			m_fVelocity.X += -SPEED;
+		}
 		if (m_bRight)
+		{
+			/*m_glPlayerSprite->SetIndex({ m_glPlayerSprite->GetIndex().X, 1 });
+			m_glPlayerSprite->SetMaxIndex({ 1, 0 });*/
 			m_fVelocity.X += SPEED;
+		}
 
 		System::ToAngular(m_fVelocity, SPEED);
 	}
 	else
 	{
+		//m_glPlayerSprite->Pause();
 		m_fVelocity = { 0, 0 };
 		m_fVelocity.X = 0;
 	}
@@ -35,30 +53,33 @@ void Player::Update()
 
 void Player::LateUpdate()
 {
-	m_glSurface->Pos = m_iPos;
+	//m_glSurface->Pos = m_iPos;
+	m_glPlayerSprite->SetPos(m_iPos);
 	other.UpdateBB();
 }
 
 void Player::Draw()
 {
-	System::Point2D<float> Center = { 800, 450 };
-	//System::Size2D<float> Test = (System::Size2D<float>)Center;
+	m_glPlayerSprite->Update();
 
-	//Graphics::DrawLine(m_fPos + Center, (m_fPos + Center) + (50.0f * m_fVelocity), { 255, 255, 255, 255 });
+	//System::Point2D<float> Center = { 800, 450 };
+	////System::Size2D<float> Test = (System::Size2D<float>)Center;
 
-	Graphics::DrawLine({ GRAPH_ORIGIN.X, 0 }, { GRAPH_ORIGIN.X, 900 }, { 255, 255, 255, 255 });
-	Graphics::DrawLine({ 0, GRAPH_ORIGIN.Y }, { 1600, GRAPH_ORIGIN.Y }, { 255, 255, 255, 255 });
+	////Graphics::DrawLine(m_fPos + Center, (m_fPos + Center) + (50.0f * m_fVelocity), { 255, 255, 255, 255 });
 
-	for (float i = 1; i < 1600 / SEGMENT_DIVISION; ++i)
-	{
-		Graphics::DrawLine({ GRAPH_ORIGIN.X + i * SEGMENT_DIVISION, GRAPH_ORIGIN.Y - SEGMENT_LENGTH }, { GRAPH_ORIGIN.X + i * SEGMENT_DIVISION, GRAPH_ORIGIN.Y + SEGMENT_LENGTH }, { 255, 255, 255, 255 });
-		Graphics::DrawLine({ GRAPH_ORIGIN.X - i * SEGMENT_DIVISION, GRAPH_ORIGIN.Y - SEGMENT_LENGTH }, { GRAPH_ORIGIN.X - i * SEGMENT_DIVISION, GRAPH_ORIGIN.Y + SEGMENT_LENGTH }, { 255, 255, 255, 255 });
-	}
-	for (float i = 1; i < 900 / SEGMENT_DIVISION; ++i)
-	{
-		Graphics::DrawLine({ GRAPH_ORIGIN.X - SEGMENT_LENGTH, GRAPH_ORIGIN.Y + i * SEGMENT_DIVISION }, { GRAPH_ORIGIN.X + SEGMENT_LENGTH, GRAPH_ORIGIN.Y + i * SEGMENT_DIVISION }, { 255, 255, 255, 255 });
-		Graphics::DrawLine({ GRAPH_ORIGIN.X - SEGMENT_LENGTH, GRAPH_ORIGIN.Y - i * SEGMENT_DIVISION }, { GRAPH_ORIGIN.X + SEGMENT_LENGTH, GRAPH_ORIGIN.Y - i * SEGMENT_DIVISION }, { 255, 255, 255, 255 });
-	}
+	//Graphics::DrawLine({ GRAPH_ORIGIN.X, 0 }, { GRAPH_ORIGIN.X, 900 }, { 255, 255, 255, 255 });
+	//Graphics::DrawLine({ 0, GRAPH_ORIGIN.Y }, { 1600, GRAPH_ORIGIN.Y }, { 255, 255, 255, 255 });
+
+	//for (float i = 1; i < 1600 / SEGMENT_DIVISION; ++i)
+	//{
+	//	Graphics::DrawLine({ GRAPH_ORIGIN.X + i * SEGMENT_DIVISION, GRAPH_ORIGIN.Y - SEGMENT_LENGTH }, { GRAPH_ORIGIN.X + i * SEGMENT_DIVISION, GRAPH_ORIGIN.Y + SEGMENT_LENGTH }, { 255, 255, 255, 255 });
+	//	Graphics::DrawLine({ GRAPH_ORIGIN.X - i * SEGMENT_DIVISION, GRAPH_ORIGIN.Y - SEGMENT_LENGTH }, { GRAPH_ORIGIN.X - i * SEGMENT_DIVISION, GRAPH_ORIGIN.Y + SEGMENT_LENGTH }, { 255, 255, 255, 255 });
+	//}
+	//for (float i = 1; i < 900 / SEGMENT_DIVISION; ++i)
+	//{
+	//	Graphics::DrawLine({ GRAPH_ORIGIN.X - SEGMENT_LENGTH, GRAPH_ORIGIN.Y + i * SEGMENT_DIVISION }, { GRAPH_ORIGIN.X + SEGMENT_LENGTH, GRAPH_ORIGIN.Y + i * SEGMENT_DIVISION }, { 255, 255, 255, 255 });
+	//	Graphics::DrawLine({ GRAPH_ORIGIN.X - SEGMENT_LENGTH, GRAPH_ORIGIN.Y - i * SEGMENT_DIVISION }, { GRAPH_ORIGIN.X + SEGMENT_LENGTH, GRAPH_ORIGIN.Y - i * SEGMENT_DIVISION }, { 255, 255, 255, 255 });
+	//}
 }
 
 void Player::OnKeyDown(const SDL_Keycode ac_sdlSym, const Uint16 ac_uiMod, const SDL_Scancode ac_sdlScancode)
@@ -105,6 +126,9 @@ Player::Player() : Object()
 	temp1->OffsetSize = { 1000, 100 };
 
 	other.m_bbBoundingBox = Collision::NewBoundingBox(&other, { 0, 0 }, { (float)temp1->OffsetSize.W, (float)temp1->OffsetSize.H }, false, false);
+
+	m_glPlayerSprite = new GLSprite<int>("Images/My-Eyes.png", { 300, 238 }, { 0, 0 }, { 31, 0 }, 0.03f);
+	m_glPlayerSprite->SetLayer(Graphics::LayerType::FOREGROUND);
 }
 Player::~Player()
 {

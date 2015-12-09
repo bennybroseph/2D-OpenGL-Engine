@@ -2,6 +2,7 @@
 #define _ENEMY_H_
 
 #include <Collision.h>
+#include <GLSprite.h>
 
 #include <time.h>
 #include <Windows.h>
@@ -9,7 +10,7 @@
 class Enemy : public Collision::Object
 {
 private:
-	Graphics::GLSurface<int>* m_glSurface;
+	GLSprite<int>* m_glPlayerSprite;
 
 public:
 	void Update();
