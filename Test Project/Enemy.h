@@ -11,6 +11,7 @@ class Enemy : public Collision::Object
 {
 private:
 	GLSprite<int>* m_glPlayerSprite;
+	Graphics::GLSurface<int>* m_glSurface;
 
 public:
 	void Update();

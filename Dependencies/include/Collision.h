@@ -15,7 +15,8 @@ namespace Collision
 		System::Point2D<float> m_fPos, m_fPrevPos;
 		System::Point2D<int>   m_iPos;
 
-			
+		Graphics::GLSurface<int>* m_glCollisionImage;
+		Graphics::GLSurface<int>* m_glCollisionImageShadow;
 
 		System::Velocity2D<float> m_fVelocity;
 		System::AngularVel<float> m_fAngularVel;

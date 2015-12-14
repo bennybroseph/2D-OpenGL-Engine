@@ -1,7 +1,7 @@
 #include "GameLoop.h"
 
 const System::Point2D<int> Center = { 0, 0 };
-const unsigned int NUM_ENEMIES = 60;
+const unsigned int NUM_ENEMIES = 0;
 
 namespace LoopHandle
 {
@@ -38,7 +38,7 @@ namespace LoopHandle
 
 		sprintf_s(szBuffer, "(%d, %d) %f", m_oPlayer.GetIntPos().X, m_oPlayer.GetIntPos().Y, Time::fDeltaTime);
 		Text::ReloadTextBlock(m_ttfTextBlock, true, szBuffer);
-		Text::ReloadTextBlock(m_ttfShadow, false, szBuffer);
+		Text::ReloadTextBlock(m_ttfShadow, true, szBuffer);
 	}
 
 	void GameLoop::Draw()

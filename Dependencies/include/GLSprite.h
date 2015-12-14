@@ -16,9 +16,9 @@ private:
 
 	float m_fAnimPerSec;
 
-	int m_iPrevTime;
-
 	bool m_bIsPaused;
+
+	int m_iCurrentTime, m_iPrevTime;
 
 public:
 	void SetPos(const System::Point2D<T>& ac_Pos);
@@ -28,6 +28,7 @@ public:
 
 	void SetLayer(const Graphics::LayerType ac_LayerIndex);
 
+	const Graphics::GLSurface<T>& GetSurface();
 	const System::Point2D<int>& GetIndex();
 
 	void Update();
@@ -68,6 +69,11 @@ void GLSprite<T>::SetLayer(const Graphics::LayerType ac_LayerIndex)
 	m_glSurface->Layer = ac_LayerIndex;
 }
 
+template <typename T>
+const Graphics::GLSurface<T>& GLSprite<T>::GetSurface()
+{
+	return *m_glSurface;
+}
 template <typename T>
 const System::Point2D<int>& GLSprite<T>::GetIndex()
 {

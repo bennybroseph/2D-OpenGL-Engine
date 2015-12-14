@@ -121,31 +121,78 @@ namespace Collision
 	}
 	void Object::OnBoxCollision(Object& a_oOther)
 	{
-		// Collision with left side of other object
-		if (m_fPrevPos.X - (m_bbBoundingBox->fSize.W / 2) > a_oOther.GetBB().fMax.X)
+
+		if(m_bbBoundingBox->fCenter.X > a_oOther.GetBB().fCenter.X && m_bbBoundingBox->fMax.Y < a_oOther.GetBB().fCenter.Y)
 		{
-			m_fPos.X = a_oOther.GetBB().fMax.X + (m_bbBoundingBox->fSize.W / 2);
-			//m_fVelocity.X = 0;
+			m_glCollisionImage->OffsetSize = { int(a_oOther.GetBB().fMax.X - m_bbBoundingBox->fMin.X), int(a_oOther.GetBB().fMin.Y - m_bbBoundingBox->fMax.Y) };
+			m_glCollisionImage->Pos = { int(a_oOther.GetBB().fMax.X - m_glCollisionImage->OffsetSize.W / 2), int(a_oOther.GetBB().fMin.Y - m_glCollisionImage->OffsetSize.H / 2) };
+
+			
+			m_glCollisionImageShadow->OffsetSize = { int(a_oOther.GetBB().fMax.X - m_bbBoundingBox->fMin.X), int(m_bbBoundingBox->fMax.Y - a_oOther.GetBB().fMin.Y) };
+			m_glCollisionImageShadow->Pos = { int(a_oOther.GetBB().fMax.X - m_glCollisionImageShadow->OffsetSize.W / 2), int(a_oOther.GetBB().fMin.Y + m_glCollisionImageShadow->OffsetSize.H / 2) };
 		}
-		else if (m_fPrevPos.Y - (m_bbBoundingBox->fSize.H / 2) > a_oOther.GetBB().fMax.Y)
+		if (m_bbBoundingBox->fCenter.X < a_oOther.GetBB().fCenter.X && m_bbBoundingBox->fMax.Y < a_oOther.GetBB().fCenter.Y)
 		{
-			m_fPos.Y = a_oOther.GetBB().fMax.Y + (m_bbBoundingBox->fSize.H / 2);
-			m_fVelocity.Y = 0;
+			m_glCollisionImage->OffsetSize = { int(m_bbBoundingBox->fMax.X - a_oOther.GetBB().fMin.X), int(a_oOther.GetBB().fMin.Y - m_bbBoundingBox->fMax.Y) };
+			m_glCollisionImage->Pos = { int(a_oOther.GetBB().fMin.X + m_glCollisionImage->OffsetSize.W / 2), int(a_oOther.GetBB().fMin.Y - m_glCollisionImage->OffsetSize.H / 2) };
+
+			m_glCollisionImageShadow->OffsetSize = { int(m_bbBoundingBox->fMax.X - a_oOther.GetBB().fMin.X), int(m_bbBoundingBox->fMax.Y - a_oOther.GetBB().fMin.Y) };
+			m_glCollisionImageShadow->Pos = { int(a_oOther.GetBB().fMin.X + m_glCollisionImageShadow->OffsetSize.W / 2), int(a_oOther.GetBB().fMin.Y + m_glCollisionImageShadow->OffsetSize.H / 2) };
 		}
 
-		// Collision with right side of other object
-		else if (m_fPrevPos.X + (m_bbBoundingBox->fSize.W / 2) < a_oOther.GetBB().fMin.X)
+		if (m_bbBoundingBox->fCenter.X > a_oOther.GetBB().fCenter.X && m_bbBoundingBox->fMax.Y > a_oOther.GetBB().fCenter.Y)
 		{
-			m_fPos.X = a_oOther.GetBB().fMin.X - (m_bbBoundingBox->fSize.W / 2);
-			//m_fVelocity.X = 0;
+			m_glCollisionImage->OffsetSize = { int(a_oOther.GetBB().fMax.X - m_bbBoundingBox->fMin.X), int(m_bbBoundingBox->fMin.Y - a_oOther.GetBB().fMax.Y) };
+			m_glCollisionImage->Pos = { int(a_oOther.GetBB().fMax.X - m_glCollisionImage->OffsetSize.W / 2), int(a_oOther.GetBB().fMax.Y + m_glCollisionImage->OffsetSize.H / 2) };
+
+			m_glCollisionImageShadow->OffsetSize = { int(a_oOther.GetBB().fMax.X - m_bbBoundingBox->fMin.X), int(a_oOther.GetBB().fMax.Y - m_bbBoundingBox->fMin.Y) };
+			m_glCollisionImageShadow->Pos = { int(a_oOther.GetBB().fMax.X - m_glCollisionImageShadow->OffsetSize.W / 2), int(a_oOther.GetBB().fMax.Y - m_glCollisionImageShadow->OffsetSize.H / 2) };
 		}
-		else if (m_fPrevPos.Y + (m_bbBoundingBox->fSize.H / 2) < a_oOther.GetBB().fMin.Y)
+		if (m_bbBoundingBox->fCenter.X < a_oOther.GetBB().fCenter.X && m_bbBoundingBox->fMax.Y > a_oOther.GetBB().fCenter.Y)
 		{
-			m_fPos.Y = a_oOther.GetBB().fMin.Y - (m_bbBoundingBox->fSize.H / 2);
-			m_fVelocity.Y = 0;
+			m_glCollisionImage->OffsetSize = { int(m_bbBoundingBox->fMax.X - a_oOther.GetBB().fMin.X), int(m_bbBoundingBox->fMin.Y - a_oOther.GetBB().fMax.Y) };
+			m_glCollisionImage->Pos = { int(a_oOther.GetBB().fMin.X + m_glCollisionImage->OffsetSize.W / 2), int(a_oOther.GetBB().fMax.Y + m_glCollisionImage->OffsetSize.H / 2) };
+
+			m_glCollisionImageShadow->OffsetSize = { int(m_bbBoundingBox->fMax.X - a_oOther.GetBB().fMin.X), int(a_oOther.GetBB().fMax.Y - m_bbBoundingBox->fMin.Y) };
+			m_glCollisionImageShadow->Pos = { int(a_oOther.GetBB().fMin.X + m_glCollisionImageShadow->OffsetSize.W / 2), int(a_oOther.GetBB().fMax.Y - m_glCollisionImageShadow->OffsetSize.H / 2) };
 		}
-		else
-			OnMovingCollision(a_oOther);
+
+		if (m_glCollisionImageShadow->OffsetSize.W > m_bbBoundingBox->fSize.W)
+		{
+			m_glCollisionImageShadow->OffsetSize.W = m_bbBoundingBox->fSize.W;
+			m_glCollisionImageShadow->Pos.X = m_bbBoundingBox->fCenter.X;
+		}
+		if (m_glCollisionImageShadow->OffsetSize.H > m_bbBoundingBox->fSize.H)
+		{
+			m_glCollisionImageShadow->OffsetSize.H = m_bbBoundingBox->fSize.H;
+			m_glCollisionImageShadow->Pos.Y = m_bbBoundingBox->fCenter.Y;
+		}
+		
+		//// Collision with left side of other object
+		//if (m_fPrevPos.X - (m_bbBoundingBox->fSize.W / 2) > a_oOther.GetBB().fMax.X)
+		//{		
+		//	m_fPos.X = a_oOther.GetBB().fMax.X + (m_bbBoundingBox->fSize.W / 2);
+		//	m_fVelocity.X = 0;
+		//}
+		//else if (m_fPrevPos.Y - (m_bbBoundingBox->fSize.H / 2) > a_oOther.GetBB().fMax.Y)
+		//{
+		//	m_fPos.Y = a_oOther.GetBB().fMax.Y + (m_bbBoundingBox->fSize.H / 2);
+		//	m_fVelocity.Y = 0;
+		//}
+
+		//// Collision with right side of other object
+		//else if (m_fPrevPos.X + (m_bbBoundingBox->fSize.W / 2) < a_oOther.GetBB().fMin.X)
+		//{
+		//	m_fPos.X = a_oOther.GetBB().fMin.X - (m_bbBoundingBox->fSize.W / 2);
+		//	m_fVelocity.X = 0;
+		//}
+		//else if (m_fPrevPos.Y + (m_bbBoundingBox->fSize.H / 2) < a_oOther.GetBB().fMin.Y)
+		//{
+		//	m_fPos.Y = a_oOther.GetBB().fMin.Y - (m_bbBoundingBox->fSize.H / 2);
+		//	m_fVelocity.Y = 0;
+		//}
+		//else
+		//	OnMovingCollision(a_oOther);
 
 		UpdateBB();
 	}
@@ -205,6 +252,8 @@ namespace Collision
 		{
 			m_bbBoundingBox->fMin = { m_fPos.X - m_bbBoundingBox->fSize.W / 2, m_fPos.Y - m_bbBoundingBox->fSize.H / 2 };
 			m_bbBoundingBox->fMax = { m_fPos.X + m_bbBoundingBox->fSize.W / 2, m_fPos.Y + m_bbBoundingBox->fSize.H / 2 };
+
+			m_bbBoundingBox->fCenter = m_fPos;
 		}
 	}
 
@@ -237,6 +286,13 @@ namespace Collision
 		m_bMove = false;
 
 		m_bbBoundingBox = nullptr;
+
+		m_glCollisionImage = Graphics::LoadSurface("Images/box1.png");
+		m_glCollisionImage->Color = { 0, 0, 0, 255 };
+		m_glCollisionImage->Layer = Graphics::LayerType::STRUCTURE;
+
+		m_glCollisionImageShadow = Graphics::LoadSurface("Images/box2.png");
+		m_glCollisionImageShadow->Layer = Graphics::LayerType::ALWAYS_TOP;
 	}
 	Object::~Object()
 	{

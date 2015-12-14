@@ -90,6 +90,9 @@
     <ClCompile Include="GameTime.cpp">
       <Filter>Source Files\Time</Filter>
     </ClCompile>
+    <ClCompile Include="GameTimer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Dependencies\include\Camera.h">
@@ -136,6 +139,9 @@
     </ClInclude>
     <ClInclude Include="..\Dependencies\include\GLSprite.h">
       <Filter>Source Files\Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="GameTimer.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

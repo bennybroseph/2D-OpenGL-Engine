@@ -22,6 +22,7 @@
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Collision.cpp" />
     <ClCompile Include="EventHandler.cpp" />
+    <ClCompile Include="GameTimer.cpp" />
     <ClCompile Include="GLSprite.cpp" />
     <ClCompile Include="GLSurface.cpp" />
     <ClCompile Include="Graphics.cpp" />
@@ -47,6 +48,7 @@
     <ClInclude Include="..\Dependencies\include\GameTime.h" />
     <ClInclude Include="..\Dependencies\include\Velocity2D.h" />
     <ClInclude Include="..\Dependencies\include\Window.h" />
+    <ClInclude Include="GameTimer.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{0AC4DEBE-94EF-4AE6-95F6-26395EAFFFD7}</ProjectGuid>

@@ -11,7 +11,7 @@ void Player::Update()
 {
 	if (m_bUp || m_bDown || m_bLeft || m_bRight)
 	{
-		m_glPlayerSprite->Resume();
+		//m_glPlayerSprite->Resume();
 		m_fVelocity = { 0, 0 };
 		m_fVelocity.X = 0;
 
@@ -53,14 +53,14 @@ void Player::Update()
 
 void Player::LateUpdate()
 {
-	//m_glSurface->Pos = m_iPos;
-	m_glPlayerSprite->SetPos(m_iPos);
+	m_glSurface->Pos = m_iPos;
+	//m_glPlayerSprite->SetPos(m_iPos);
 	other.UpdateBB();
 }
 
 void Player::Draw()
 {
-	m_glPlayerSprite->Update();
+	//m_glPlayerSprite->Update();
 
 	//System::Point2D<float> Center = { 800, 450 };
 	////System::Size2D<float> Test = (System::Size2D<float>)Center;
@@ -111,7 +111,7 @@ void Player::OnKeyUp(const SDL_Keycode ac_sdlSym, const Uint16 ac_uiMod, const S
 Player::Player() : Object()
 {
 	m_glSurface = Graphics::LoadSurface<int>("Images/box1.png");
-	m_glSurface->Layer = Graphics::LayerType::ALWAYS_TOP;
+	m_glSurface->Layer = Graphics::LayerType::FOREGROUND;
 
 	m_fPos = { 0, -175 };
 
@@ -123,12 +123,13 @@ Player::Player() : Object()
 	auto temp1 = Graphics::LoadSurface<int>("Images/box1.png");
 	temp1->Pos = { 0, 0 };
 	temp1->Layer = Graphics::LayerType::FOREGROUND;
-	temp1->OffsetSize = { 1000, 100 };
+	temp1->OffsetSize = { 450, 250 };
+	temp1->Color = { 200, 0, 0, 255 };
 
 	other.m_bbBoundingBox = Collision::NewBoundingBox(&other, { 0, 0 }, { (float)temp1->OffsetSize.W, (float)temp1->OffsetSize.H }, false, false);
 
-	m_glPlayerSprite = new GLSprite<int>("Images/My-Eyes.png", { 300, 238 }, { 0, 0 }, { 31, 0 }, 0.03f);
-	m_glPlayerSprite->SetLayer(Graphics::LayerType::FOREGROUND);
+	/*m_glPlayerSprite = new GLSprite<int>("Images/My-Eyes.png", { 300, 238 }, { 0, 0 }, { 31, 0 }, 0.03f);
+	m_glPlayerSprite->SetLayer(Graphics::LayerType::FOREGROUND);*/
 }
 Player::~Player()
 {
