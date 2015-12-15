@@ -53,14 +53,14 @@ void Player::Update()
 
 void Player::LateUpdate()
 {
-	m_glSurface->Pos = m_iPos;
-	//m_glPlayerSprite->SetPos(m_iPos);
+	//m_glSurface->Pos = m_iPos;
+	m_glPlayerSprite->SetPos(m_fPos);
 	other.UpdateBB();
 }
 
 void Player::Draw()
 {
-	//m_glPlayerSprite->Update();
+	m_glPlayerSprite->Update();
 
 	//System::Point2D<float> Center = { 800, 450 };
 	////System::Size2D<float> Test = (System::Size2D<float>)Center;
@@ -110,12 +110,12 @@ void Player::OnKeyUp(const SDL_Keycode ac_sdlSym, const Uint16 ac_uiMod, const S
 
 Player::Player() : Object()
 {
-	m_glSurface = Graphics::LoadSurface<int>("Images/box1.png");
-	m_glSurface->Layer = Graphics::LayerType::FOREGROUND;
+	//m_glSurface = Graphics::LoadSurface<int>("Images/box1.png");
+	//m_glSurface->Layer = Graphics::LayerType::FOREGROUND;
 
 	m_fPos = { 0, -175 };
 
-	m_bbBoundingBox = Collision::NewBoundingBox(this, m_fPos, { (float)m_glSurface->OffsetSize.W, (float)m_glSurface->OffsetSize.H }, false, true);
+	//m_bbBoundingBox = Collision::NewBoundingBox(this, m_fPos, { (float)m_glSurface->OffsetSize.W, (float)m_glSurface->OffsetSize.H }, false, true);
 
 	m_bMove = true;
 	m_bUseGravity = false;
@@ -128,8 +128,11 @@ Player::Player() : Object()
 
 	other.m_bbBoundingBox = Collision::NewBoundingBox(&other, { 0, 0 }, { (float)temp1->OffsetSize.W, (float)temp1->OffsetSize.H }, false, false);
 
-	/*m_glPlayerSprite = new GLSprite<int>("Images/My-Eyes.png", { 300, 238 }, { 0, 0 }, { 31, 0 }, 0.03f);
-	m_glPlayerSprite->SetLayer(Graphics::LayerType::FOREGROUND);*/
+	m_glPlayerSprite = new GLSprite<float>("Images/RainbowSiegeFrog.png", { 640, 480 }, { 0, 0 }, { 14, 0 }, 0.045f);
+	m_glPlayerSprite->SetLayer(Graphics::LayerType::FOREGROUND);
+	m_glPlayerSprite->SetScale({ 0.25f, 0.25f });
+
+	m_bbBoundingBox = Collision::NewBoundingBox(this, m_fPos, { (float)m_glPlayerSprite->GetSurface().OffsetSize.W/4, (float)m_glPlayerSprite->GetSurface().OffsetSize.H/4 }, false, true);
 }
 Player::~Player()
 {

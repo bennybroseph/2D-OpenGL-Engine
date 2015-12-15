@@ -122,7 +122,7 @@ namespace Collision
 	void Object::OnBoxCollision(Object& a_oOther)
 	{
 
-		if(m_bbBoundingBox->fCenter.X > a_oOther.GetBB().fCenter.X && m_bbBoundingBox->fMax.Y < a_oOther.GetBB().fCenter.Y)
+		/*if(m_bbBoundingBox->fCenter.X > a_oOther.GetBB().fCenter.X && m_bbBoundingBox->fMax.Y < a_oOther.GetBB().fCenter.Y)
 		{
 			m_glCollisionImage->OffsetSize = { int(a_oOther.GetBB().fMax.X - m_bbBoundingBox->fMin.X), int(a_oOther.GetBB().fMin.Y - m_bbBoundingBox->fMax.Y) };
 			m_glCollisionImage->Pos = { int(a_oOther.GetBB().fMax.X - m_glCollisionImage->OffsetSize.W / 2), int(a_oOther.GetBB().fMin.Y - m_glCollisionImage->OffsetSize.H / 2) };
@@ -166,33 +166,33 @@ namespace Collision
 		{
 			m_glCollisionImageShadow->OffsetSize.H = m_bbBoundingBox->fSize.H;
 			m_glCollisionImageShadow->Pos.Y = m_bbBoundingBox->fCenter.Y;
-		}
+		}*/
 		
 		//// Collision with left side of other object
-		//if (m_fPrevPos.X - (m_bbBoundingBox->fSize.W / 2) > a_oOther.GetBB().fMax.X)
-		//{		
-		//	m_fPos.X = a_oOther.GetBB().fMax.X + (m_bbBoundingBox->fSize.W / 2);
-		//	m_fVelocity.X = 0;
-		//}
-		//else if (m_fPrevPos.Y - (m_bbBoundingBox->fSize.H / 2) > a_oOther.GetBB().fMax.Y)
-		//{
-		//	m_fPos.Y = a_oOther.GetBB().fMax.Y + (m_bbBoundingBox->fSize.H / 2);
-		//	m_fVelocity.Y = 0;
-		//}
+		if (m_fPrevPos.X - (m_bbBoundingBox->fSize.W / 2) > a_oOther.GetBB().fMax.X)
+		{		
+			m_fPos.X = a_oOther.GetBB().fMax.X + (m_bbBoundingBox->fSize.W / 2);
+			m_fVelocity.X = 0;
+		}
+		else if (m_fPrevPos.Y - (m_bbBoundingBox->fSize.H / 2) > a_oOther.GetBB().fMax.Y)
+		{
+			m_fPos.Y = a_oOther.GetBB().fMax.Y + (m_bbBoundingBox->fSize.H / 2);
+			m_fVelocity.Y = 0;
+		}
 
 		//// Collision with right side of other object
-		//else if (m_fPrevPos.X + (m_bbBoundingBox->fSize.W / 2) < a_oOther.GetBB().fMin.X)
-		//{
-		//	m_fPos.X = a_oOther.GetBB().fMin.X - (m_bbBoundingBox->fSize.W / 2);
-		//	m_fVelocity.X = 0;
-		//}
-		//else if (m_fPrevPos.Y + (m_bbBoundingBox->fSize.H / 2) < a_oOther.GetBB().fMin.Y)
-		//{
-		//	m_fPos.Y = a_oOther.GetBB().fMin.Y - (m_bbBoundingBox->fSize.H / 2);
-		//	m_fVelocity.Y = 0;
-		//}
-		//else
-		//	OnMovingCollision(a_oOther);
+		else if (m_fPrevPos.X + (m_bbBoundingBox->fSize.W / 2) < a_oOther.GetBB().fMin.X)
+		{
+			m_fPos.X = a_oOther.GetBB().fMin.X - (m_bbBoundingBox->fSize.W / 2);
+			m_fVelocity.X = 0;
+		}
+		else if (m_fPrevPos.Y + (m_bbBoundingBox->fSize.H / 2) < a_oOther.GetBB().fMin.Y)
+		{
+			m_fPos.Y = a_oOther.GetBB().fMin.Y - (m_bbBoundingBox->fSize.H / 2);
+			m_fVelocity.Y = 0;
+		}
+		else
+			OnMovingCollision(a_oOther);
 
 		UpdateBB();
 	}

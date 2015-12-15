@@ -16,7 +16,7 @@ private:
 
 	float m_fAnimPerSec;
 
-	bool m_bIsPaused;
+	bool m_bIsPaused, m_bIsLooped, m_bReverse;
 
 	int m_iCurrentTime, m_iPrevTime;
 
@@ -27,6 +27,7 @@ public:
 	void SetMaxIndex(const System::Point2D<int>& ac_iMaxIndex);
 
 	void SetLayer(const Graphics::LayerType ac_LayerIndex);
+	void SetScale(const System::Size2D<T> ac_Scale);
 
 	const Graphics::GLSurface<T>& GetSurface();
 	const System::Point2D<int>& GetIndex();
@@ -41,7 +42,8 @@ public:
 		const System::Size2D<T>&	ac_Size,
 		const System::Point2D<int>& ac_iIndex,
 		const System::Point2D<int>& ac_iMaxIndex,
-		const float					ac_fAnimPerSec);
+		const float					ac_fAnimPerSec,
+		const bool					ac_bIsLooped = false);
 	GLSprite();
 	~GLSprite();
 };
@@ -68,6 +70,11 @@ void GLSprite<T>::SetLayer(const Graphics::LayerType ac_LayerIndex)
 {
 	m_glSurface->Layer = ac_LayerIndex;
 }
+template <typename T>
+void GLSprite<T>::SetScale(const System::Size2D<T> ac_Scale)
+{
+	m_glSurface->Scale = ac_Scale;
+}
 
 template <typename T>
 const Graphics::GLSurface<T>& GLSprite<T>::GetSurface()
@@ -85,15 +92,36 @@ void GLSprite<T>::Update()
 {
 	if (clock() - m_iPrevTime >= int(m_fAnimPerSec * 1000) && !m_bIsPaused)
 	{
-		m_iIndex.X += 1;
+		if (m_bIsLooped)
+		{
+			if (!m_bReverse)
+				m_iIndex.X += 1;
+			else
+				m_iIndex.X -= 1;
+		}
+		else
+			m_iIndex.X += 1;
 
 		m_iPrevTime = clock();
 	}
 
 	if (m_iIndex.X > m_iMaxIndex.X)
-		m_iIndex.X = 0;
+	{
+		if (m_bIsLooped)
+		{
+			m_iIndex.X = m_iMaxIndex.X;
+			m_bReverse = !m_bReverse;
+		}
+		else
+			m_iIndex.X = 0;
+	}
+	if (m_bIsLooped && m_iIndex.X < 0)
+	{
+			m_iIndex.X = 0;
+			m_bReverse = !m_bReverse;
+	}
 
-	m_glSurface->OffsetPos = m_iIndex * m_Size;
+	m_glSurface->OffsetPos = { T((m_iIndex * m_Size).X), T((m_iIndex * m_Size).Y) };
 }
 
 template <typename T>
@@ -115,7 +143,8 @@ GLSprite<T>::GLSprite(
 	const System::Size2D<T>&	ac_Size,
 	const System::Point2D<int>& ac_iIndex,
 	const System::Point2D<int>& ac_iMaxIndex,
-	const float					ac_fAnimPerSec)
+	const float					ac_fAnimPerSec,
+	const bool					ac_bIsLooped)
 {
 	m_glSurface = Graphics::LoadSurface<T>(ac_szFilename);
 	m_Size = ac_Size;
@@ -125,9 +154,11 @@ GLSprite<T>::GLSprite(
 
 	m_glSurface->Pos = { NULL, NULL };
 	m_glSurface->OffsetSize = m_Size;
-	m_glSurface->OffsetPos = m_iIndex * m_Size;
+	m_glSurface->OffsetPos = { T((m_iIndex * m_Size).X), T((m_iIndex * m_Size).Y) };
 	m_glSurface->Center = { (m_Size.W / 2), (m_Size.H / 2) };
-	//m_glSurface->Scale = { 3, 3 };
+	
+	m_bIsLooped = ac_bIsLooped;
+	m_bReverse = false;
 
 	m_iPrevTime = NULL;
 }

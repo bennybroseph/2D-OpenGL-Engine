@@ -1,7 +1,7 @@
 #include "GameLoop.h"
 
 const System::Point2D<int> Center = { 0, 0 };
-const unsigned int NUM_ENEMIES = 10;
+const unsigned int NUM_ENEMIES = 15;
 
 namespace LoopHandle
 {

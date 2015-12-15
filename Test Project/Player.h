@@ -11,7 +11,7 @@ private:
 
 	Graphics::GLSurface<int>* m_glSurface;
 
-	GLSprite<int>* m_glPlayerSprite;
+	GLSprite<float>* m_glPlayerSprite;
 
 	Object other;
 

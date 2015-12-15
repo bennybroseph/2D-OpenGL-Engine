@@ -1,3 +1,2 @@
-﻿  GameLoop.cpp
-c:\users\benjamin.odom\documents\github\2d-opengl-engine\test project\gameloop.cpp(64): warning C4065: switch statement contains 'default' but no 'case' labels
+﻿  Enemy.cpp
   Test Project.vcxproj -> C:\Users\benjamin.odom\Documents\GitHub\2D-OpenGL-Engine\Debug\Test Project.exe
